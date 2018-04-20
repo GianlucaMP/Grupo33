@@ -1,2 +1,8 @@
 # Grupo33
-De momento nada que decir
+
+Grupo de desarrollo de la materia "Ingenieria de Software 2" de la facultad de informatica UNLP
+
+* Desarrollador: Blanco, Braian
+* Desarrollador: Bolo, Camila
+* Desarrollador: Piriz, Gianluca
+* Owner: Longhi, Fabricio
