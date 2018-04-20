@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>610</x>
+      <y>0</y>
+      <w>550</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>TravelShare
+--
+--
+???algo para lo que haga la pagina apenas se abre???
+
+registrarUsuario(nickname, nombre, apellido, correo, descripcion:String; edad:Integer)
+listarViajes()
+listarViajes(usuario:Usuario)
+filtrarViajes()
+ordenarViajes()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>300</y>
+      <w>480</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Usuario
+--
+nickname: String
+nombre: String
+apellido:String
+edad: Integer
+-correo:String
+descripcion:String
+--
+iniciarSesion()
+cerrarSesion()
+crearViaje(vehiculo:Vehiculo; plazasYaOcupadas:Integer)
+buscarViaje(destino:String)
+buscarViaje(origen:String)
+buscarViaje(origen, destino:String)
+eliminarViaje(viaje:Viaje)
+visualizarViaje(viaje:Viaje)
+postularse(viaje:Viaje)
+elegirPostulantes(viaje:Viaje)
+pagarDeuda(viaje:Viaje)
+verPerfil(usuario:Usuario)
+calificar(usuario:Usuario)
+calcularReputacion():[1..5]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>380</y>
+      <w>260</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>Viaje
+-
+precioTotal: Real
+-
+calcularComision():Real
+calcularImporte():Real</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1390</x>
+      <y>380</y>
+      <w>200</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Calificacion
+--
+Comentario:String
+Puntaje: [1..5]
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1140</x>
+      <y>500</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+r1=reputacion
+r2=calificado</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>820</x>
+      <y>210</y>
+      <w>80</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=usuarios</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>130</y>
+      <w>330</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=viajes</panel_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0;310.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>140</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Direccion
+-
+Provincia: String
+ciudad: String
+calle: String
+entreCalle1:String
+entreCalle2:String
+-</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>220</x>
+      <y>250</y>
+      <w>70</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=destino</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>460</y>
+      <w>340</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..n
+r1=pasajerosAceptados
+r2=viajesAceptados</panel_attributes>
+    <additional_attributes>320.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>250</y>
+      <w>70</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=origen
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1140</x>
+      <y>440</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+r1=CalificacionesDadas
+r2=calificador</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>590</y>
+      <w>60</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=viajes</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>690</y>
+      <w>200</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Vehiculo
+--
+plazas: Integer
+modelo: String
+marca: String
+Color: String
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>410</y>
+      <w>340</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..n
+r1=pasajerosPostulados
+r2=viajesAConfirmar</panel_attributes>
+    <additional_attributes>320.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>510</y>
+      <w>340</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..n
+r1=pasajerosRechazados
+r2=viajesRechazados</panel_attributes>
+    <additional_attributes>320.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>720</y>
+      <w>300</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Pagos
+--
+--
+asignarTarjeta(tarjeta:Tarjeta)
+verificarDatosTarjeta()
+realizarPago()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>650</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1= - pagosRealizados</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>650</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1= - pagosPendientes</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1180</x>
+      <y>20</y>
+      <w>310</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Habria que definir metodos para la parte de
+la interfaz grafica?? y en ese caso, donde???</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>550</y>
+      <w>370</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=detallesDelViaje</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0;170.0;250.0;350.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>990</x>
+      <y>780</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..1
+r1=tarjeta
+</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1150</x>
+      <y>730</y>
+      <w>300</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Tarjeta
+--
+titular:String
+numero:String
+//quisiera poner algun tipo de dato que permita
+limitar las opciones a que se pongan solo numeros 
+validos
+codigodeSeguridad:[000..999]
+fechaDeVencimiento:Date
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
