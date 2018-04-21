@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>96</y>
+      <w>440</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>TravelShare
+--
+--
+registrarUsuario(correo,nombre, apellido, telefono, descripcion:String; edad:Integer)
+verPerfil(usuario:Usuario)
+listarViajes()
+listarViajes(usuario:Usuario)
+buscarViaje(destino:String)
+buscarViaje(origen:String)
+buscarViaje(origen, destino:String)
+visualizarViaje(viaje:Viaje)
+filtrarViajes()
+ordenarViajes()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>904</x>
+      <y>344</y>
+      <w>472</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>Usuario
+--
+nombre: String
+apellido:String
+edad: Integer
+-correo:String
+telefono:String
+descripcion:String
+--
+iniciarSesion()
+cerrarSesion()
+crearViaje(precio:Float; vehiculo:Vehiculo; origen,destino:Direccion; plazasOcupadas:Integer)
+eliminarViaje(viaje:Viaje)
+verDatosDeContacto()
+postularse(viaje:Viaje)
+elegirPostulantes(viaje:Viaje)
+pagarDeuda(viaje:Viaje)
+verPerfil(usuario:Usuario)
+verCalificacionesPendientes()
+calificar(usuario:Usuario)
+calificar(viaje:ViajeFinalizado) //para ver todas las calificaciones del viaje
+calcularReputacion():[1..5]
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>304</y>
+      <w>224</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>Viaje{abstract}
+-
+precioTotal: Real
+-
+getPrecio():Real
+calcularComision():Real
+calcularImporte():Real
+visulizarViaje()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1040</x>
+      <y>752</y>
+      <w>216</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Calificacion
+--
+comentario:String
+puntaje: [1..5]
+fecha:Date
+rol:String //pasajero o conductor
+--
+mostrarDetalles()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1184</x>
+      <y>632</y>
+      <w>72</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+r1=reputacion
+r2=calificado</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1128</x>
+      <y>264</y>
+      <w>64</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=usuarios</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>544</x>
+      <y>208</y>
+      <w>392</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=viajes</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0;470.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>136</y>
+      <w>152</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Direccion
+-
+Provincia: String
+ciudad: String
+calle1:String
+calle2:String
+-
+mostrarDetalles()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>224</y>
+      <w>56</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=destino</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>224</y>
+      <w>56</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=origen
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1064</x>
+      <y>632</y>
+      <w>120</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+r1=CalificacionesDadas
+r2=calificador</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>232</x>
+      <y>352</y>
+      <w>152</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=vehiculo</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>312</y>
+      <w>160</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Vehiculo
+--
+plazas: Integer
+modelo: String
+marca: String
+Color: String
+--
+mostrarDetalles()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>656</x>
+      <y>680</y>
+      <w>248</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Pagos
+--
+titular:String
+numero:String
+codigoDeSeguridad:[000..999]
+fechaDeVencimiento:Date
+--
+verificarDatosTarjeta()
+realizarPago()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>488</y>
+      <w>192</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1= - pagosRealizados</panel_attributes>
+    <additional_attributes>10.0;240.0;10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>536</y>
+      <w>112</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1= - pagosPendientes</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>440</y>
+      <w>136</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=detallesDelViaje</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0;150.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>608</y>
+      <w>208</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>ViajeFinalizado
+--
+--
+calificar(calificado,calificador:Usuario)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>104</x>
+      <y>608</y>
+      <w>200</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>ViajePendiente
+--
+--
+postularse()
+elegirPostulantes()
+verDatosDeContacto(usuario:Usuario)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>472</y>
+      <w>112</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;170.0;120.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>528</y>
+      <w>224</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0;260.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>360</y>
+      <w>336</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+r1=viajes
+m2=0..n
+r2=pasajeros</panel_attributes>
+    <additional_attributes>10.0;20.0;400.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>192</x>
+      <y>776</y>
+      <w>208</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Los viajes eliminados seran instancias 
+de la clase ViajeFinalizado</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>728</y>
+      <w>608</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+r1=calificaciones
+r2=viaje</panel_attributes>
+    <additional_attributes>740.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>408</y>
+      <w>336</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+r1=viajes
+m2=1
+r2=conductor</panel_attributes>
+    <additional_attributes>10.0;20.0;400.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1264</x>
+      <y>792</y>
+      <w>240</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Los metodos "mostrarDetalles()" concatenan
+varios atributos de un objeto</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
