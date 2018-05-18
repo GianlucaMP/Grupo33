@@ -10,14 +10,14 @@
 	<title>TS</title>
 	<style type="text/css">
 		body {
-			background-color: yellow;
+			background-color: lightgrey;
 			font-family: sans-serif;
 			text-align: center;
 			
 			
 		}
 		h1 {
-			background-color: blue;
+			background-color: black;
 			padding: 55px;
 			color: white;
 			/*animation: cambiaColor 3000ms infinite alternate;*/
@@ -25,7 +25,7 @@
 		}
 		@keyframes cambiaColor {
 			to {
-				background-color: yellow;
+				background-color: grey;
 				/*transform: translateY(100px);*/
 			}
 		}
@@ -41,7 +41,7 @@
 		<h3>Somos lo que estabas buscando</h3> 
 		<p>Travel Share, el servicio para compartir viajes mas completo del pais!!!</p>
 		<p>Te gustaria crear un viaje y compartirlo???<br/>
-			<a href="agregar.php">Create una</a></p>
+			<a href="crearviaje.php">Create una</a></p>
 	</div>
 	<div align="center" id=viajes>
 		<!-- En este div la idea es poner dos opciones

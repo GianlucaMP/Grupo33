@@ -1,25 +1,41 @@
-<?php 
+<?php
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
+	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio
+	$campos = array('preciototal','origen', 'destino', 'fecha', 'vehiculo',  'contacto');
+
+	foreach($campos AS $campo) {
+		print($_POST[$campo]);
+	  if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
+	    
+	    echo "$campo vacio";
+	    //header('Location: admin.php?error=1&accion=agregar');s
+	    die();
+	  }
+	}
+
+	// se valida que el año sea un Integer y no cualquier fruta
+	//if(!filter_var($_POST['fecha'], FILTER_VALIDATE_INT)){
+		//header('Location: admin.php?error=5&accion=agregar');
+		//die();
+	
+
+
+	// se envian los datos a la base de datos, si se sube te avisa y si no tambien.
+	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, contacto) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$_POST['contacto']."')");
+	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
+	echo "$sql";
+	if($sql) $mensaje = 'El viaje fue agregado con exito.';
+	else $mensaje = 'Hubo un error al agregar el viaje.';
+	echo "$mensaje";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>viaje creado?</title>
 </head>
 <body>
-	<h3>Agregar nuevo viaje</h3>
-		<form enctype="multipart/form-data" method="POST" >
-			<p>Origen: <input type="text" id="origen" name="origen"></p>
-			<p>Destino: <input type="text" id="destino" name="destino"></p>
-			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
-			<p>Vehiculo <input type="text" id="vehiculo" name="vehiculo"> </p>
-			<p>PrecioTotal <input type="double" name="numero" id="numero" min="0" max="100000"></p>
-			<p>Contacto:</p>
-			<textarea name="contacto" id="contacto" style="width: 450px; height: 200px;"></textarea>
-			
-			<input type="submit" class="botonregistro" onclick="return pelicula()" style="margin-bottom: 20px;" value="Crear viaje">
-		</form>
+	<p><a href="index.php">INICIO</a></p>
 </body>
 </html>
