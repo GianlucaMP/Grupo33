@@ -22,7 +22,19 @@
 			padding: 55px;
 			color: white;
 			/*animation: cambiaColor 3000ms infinite alternate;*/
-
+		}
+		#container{
+			width: 1000px;
+			margin-left: auto;
+			margin-right: auto;  
+		}
+		#bienvenide{
+			float: left;*/
+			width: 40%;
+		}
+		#reg{
+			float: right;
+			width: 59%;
 		}
 		@keyframes cambiaColor {
 			to {
@@ -41,10 +53,15 @@
 	</script>
 </head>
 <body>
-	<div>
-	<div align="center">
-		<h2>Bienvenid@ <i id='user'>visitante</i></h2>
+	<div id="container">
+	<div id="encabezado">
+		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>visitante</i></h2></div>
+		<div id="reg" align="right">
+			<p>¿No tenes cuenta?<br/>
+			<a href="registro.php">Create una</a></p>
+		</div>
 	</div>
+	<div style="clear: both;"></div>
 	<div align="center">
 		<h1>TravelShare</h1>
 		<h3>Somos lo que estabas buscando</h3> 

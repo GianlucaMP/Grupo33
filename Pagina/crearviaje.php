@@ -12,7 +12,7 @@
 <body>
 	<h3>Agregar nuevo viaje</h3>
 		<form enctype="multipart/form-data" method="POST" action="agregar.php" >
-			<p>PrecioTotal <input type="double" id="preciototal" name="preciototal" min="0" max="1000000"></p>
+			<p>PrecioTotal <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>
 			<p>Origen: <input type="text" id="origen" name="origen"></p>
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
 			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
