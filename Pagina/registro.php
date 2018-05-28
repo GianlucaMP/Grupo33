@@ -1,4 +1,4 @@
-<?php 
+<?php
 	// se chequea si llego el parametro get "error", si llego, se informa el error por su codigo segun reg.php
 	if (!empty($_GET['error'])) {
 		switch ($_GET['error']) {
@@ -33,7 +33,11 @@
 			case '8':
 				$error = 'Las claves no son iguales';
 				break;
-			
+
+			case '9':
+				$error = 'Debe ser mayor de edad para registrarse';
+				break;
+
 			default:
 				$error = 'Error desconocido.';
 				break;
@@ -51,7 +55,7 @@
 		body {
 			background-color: white;
 			font-family: sans-serif;
-			text-align: center;	
+			text-align: center;
 		}
 		h1 {
 			background-color: black;
@@ -62,7 +66,7 @@
 		#container{
 			width: 1000px;
 			margin-left: auto;
-			margin-right: auto;  
+			margin-right: auto;
 		}
 		#bienvenide{
 			float: left;*/
@@ -84,8 +88,8 @@
 		$(document).ready(function(){
 			$("#botonver").click(function(){
 			    $("#viajes").slideToggle();
-			}); 
-		}); 
+			});
+		});
 	</script>
 </head>
 <body>
@@ -100,12 +104,8 @@
 	<div style="clear: both;"></div>
 	<div align="center">
 		<h1>TravelShare</h1>
-		<h3>Somos lo que estabas buscando</h3> 
-		<p>TS el servicio para compartir viajes mas completo del pais!!!</p>
-		<p>Te gustaria crear un viaje y compartirlo???<br/>
-			<a href="crearviaje.php">Crear un viaje</a></p>
 	</div>
-	<div align="center" id=viajes> 
+	<div align="center" id=viajes>
 	<?php
 				session_start();
 				if(isset($_SESSION['usuario'])){
@@ -114,7 +114,7 @@
 			<?php }else{
 				?>
 				<form method="POST" action="reg.php" style="padding-bottom: 20px">
-					
+
 					<fieldset>
 						<legend>Crea tu cuenta</legend>
 						<input class="registroinput" id="user" type="text" name="user" placeholder="Nick"> <input class="registroinput" id="email" type="text" name="mail" placeholder="Tu e-mail"> <br/>
@@ -127,7 +127,7 @@
 				</form>
 				<?php
 			}
-				?>		
+				?>
 	</div>
 	</div>
 </body>
