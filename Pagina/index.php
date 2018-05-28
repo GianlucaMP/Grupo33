@@ -3,6 +3,10 @@
 	require('dbc.php');
 	$coneccion = conectar();
 	$viajes=mysqli_query($coneccion, "SELECT * FROM viajes");
+	// Se chequea si el usuario esta logeado y se deja en una variable
+	require('usuarioclass.php');
+	$sesion = new sesion;
+	$logeado = $sesion->logeado();
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,7 +33,7 @@
 			margin-right: auto;  
 		}
 		#bienvenide{
-			float: left;*/
+			float: left;
 			width: 40%;
 		}
 		#reg{
@@ -55,10 +59,12 @@
 <body>
 	<div id="container">
 	<div id="encabezado">
-		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>visitante</i></h2></div>
+		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>
+			<?php 
+			if (!$logeado) echo 'visitante';
+			else echo $_SESSION['usuario'] ; ?></i></h2></div>
 		<div id="reg" align="right">
-			<p>¿No tenes cuenta?<br/>
-			<a href="registro.php">Create una</a></p>
+			<?php include('partes/arriba.php'); ?>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -88,20 +94,12 @@
 
 		}
 		?>
-		<!-- En este div la idea es poner dos opciones
-			la primera seria "Crear viaje"
-			la segunda "Ver viajes disponibles"
-			o algo por el estilo
-		
-		<div class="viaje" align="center" style="box-shadow: 0px 0px 5px 5px white;">
-			Viaje 1 unico viaje
-		</div>-->
 	</div>
-	<script>
+	<!--<script>
 		let visitante = prompt('What is your name?');
 		let texto = document.getElementById('user');
 		texto.innerText = visitante;
-	</script>
+	</script>-->
 	</div>
 </body>
 </html>
