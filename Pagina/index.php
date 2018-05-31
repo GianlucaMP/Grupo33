@@ -60,6 +60,7 @@
 <body>
 	<div id="container">
 	<div id="encabezado">
+		<img src="partes\Logo.jpg" width="200" height="100" align="left"> </>
 		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>
 			<?php
 			if (!$logeado) echo 'visitante';
