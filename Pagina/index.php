@@ -7,6 +7,7 @@
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
+	//$user = $sesion->datosuser();
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,9 +83,9 @@
 	<div align="center" id=viajes>
 		<?php
 		while ($listarviajes=mysqli_fetch_array($viajes)) {
-			$fechaactual = Date("Y-m-d"); //
-			$fechaevento = $listarviajes['fecha'];//
-			if ($fechaactual <= $fechaevento) {//
+			$fechaactual = Date("Y-m-d"); 
+			$fechaevento = $listarviajes['fecha'];
+			if ($fechaactual <= $fechaevento) {
 				echo '<div class="viaje" align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">';
 				echo '<div>';
 				echo "Origen: ".$listarviajes['origen']."<br/>";

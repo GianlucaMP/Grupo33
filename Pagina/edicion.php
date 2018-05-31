@@ -64,11 +64,12 @@ if($sql){
 $user = $sesion->datosuser();
 // si todo salio bien en la query, se envia al user a la home, si no, se da aviso de un error desconocido.
 if(!$exito){
-	header('Location: registro.php?error=desc');
+	header('Location: index.php?error=desc');
 }else{
+	$_SESSION['usuario'] = $_POST['user'];
 	header('Location: index.php?res=3');
 }}
 else {
-header('Location: registro.php?error=9');
+header('Location: index.php?error=9');
 }
 ?>

@@ -9,24 +9,13 @@
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
 
+	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
 	}
 
-	//se hace la consulta de los datos del usuario
-
-
-	// la accion que se recibe define que se mostrara en la pagina, si no llega nada, accion se iguala a "asd", que puede ser cualquier cosa, para que el chequeo no de error de variable inexistente y simplemente muestre la pagina de bienvenida
-	/*if(!isset($_GET['accion'])){
-		$accion = 'asd';
-	}else{
-		$accion = $_GET['accion'];
-	}
-
-	if($accion == 'editar'){
-		$peliculas = mysqli_query($coneccion, "SELECT * FROM peliculas ORDER BY id");
-	}*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,11 +30,11 @@
 		}
 		#menucostado{
 			float: left;
-			width: 40%;
+			width: 20%;
 		}
 		#datos{
 			float: right;
-			width: 59%;
+			width: 79%;
 		}
 	</style>
 </head>
@@ -53,16 +42,33 @@
 	<div id='container'>
 	<h3>Mi perfil</h3>
 		<div id='menucostado'>
-			<p> <a href="editar.php">Editar Perfil</a> </p>
+			<p> <a href="editar.php">Editar Perfil</a></p>
+			<p> <a href="registrarvehiculo.php">Agregar vehiculo</a></p>
 			<p>Ver Listado de vehiculos</p>
 		</div>
 		<div id='datos'>
-			<ul>
-				<li><b>Nick: </b><?php echo " ".$user['nombreusuario']." "; ?></li>
-				<li><b>Nombre: </b><?php echo " ".$user['nombre']." "; ?></li>
-				<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>
-				<li><b>Fecha de nacimiento: </b><?php echo " ".$user['fecha']." "; ?></li>
-			</ul>
+			<div>
+				<ul>
+					<li><b>Nick: </b><?php echo " ".$user['nombreusuario']." "; ?></li>
+					<li><b>Nombre: </b><?php echo " ".$user['nombre']." "; ?></li>
+					<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>
+					<li><b>Fecha de nacimiento: </b><?php echo " ".$user['fecha']." "; ?></li>
+				</ul>
+			</div>
+			<div align="left">
+				<h4>Listado de Vehiculos</h4>
+				<?php
+				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
+					echo '<div class="viaje" align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">';
+					echo "Marca: ".$listarvehiculos['marca']."<br/>";
+					echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
+					echo "Color: ".$listarvehiculos['color']."<br/>";
+					echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
+					echo "Patente: ".$listarvehiculos['patente']."<br/>";
+					echo '</div>';
+				}
+				?>
+			</div>
 		</div>
 		<div style="clear: both;"></div>
 	</div>
