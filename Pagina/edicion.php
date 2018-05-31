@@ -61,7 +61,6 @@ if($sql){
 }else{
 	$exito = false;
 }
-$user = $sesion->datosuser();
 // si todo salio bien en la query, se envia al user a la home, si no, se da aviso de un error desconocido.
 if(!$exito){
 	header('Location: index.php?error=desc');
