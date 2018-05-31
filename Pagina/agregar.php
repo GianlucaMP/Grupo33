@@ -13,11 +13,7 @@
 //	    die();
 //	  }
 //	}
-	// se valida que el año sea un Integer y no cualquier fruta
-	//if(!filter_var($_POST['fecha'], FILTER_VALIDATE_INT)){
-		//header('Location: admin.php?error=5&accion=agregar');
-		//die();
-		$fechaactual = Date("Y-m-d");
+$fechaactual = Date("Y-m-d");
 $fechaevento = $_POST['fecha'];
 if ($fechaactual <= $fechaevento) {
 	// se envian los datos a la base de datos, si se sube te avisa y si no tambien.

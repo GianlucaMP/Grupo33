@@ -53,8 +53,7 @@
 	<div id='container'>
 	<h3>Mi perfil</h3>
 		<div id='menucostado'>
-			<p> <a href="editar.php">Editar Perfil</a> </p>
-			<p>Ver Listado de vehiculos</p>
+			<p> <a href="miperfil.php">Volver</a></p>
 		</div>
 		<div id='datos'>
 			<h4>Editando perfil: <?php echo $user['nombre']; ?></h3>

@@ -44,7 +44,7 @@
 		<div id='menucostado'>
 			<p> <a href="editar.php">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php">Agregar vehiculo</a></p>
-			<p>Ver Listado de vehiculos</p>
+			<p> <a href="index.php">INICIO</a></p>
 		</div>
 		<div id='datos'>
 			<div>
@@ -65,6 +65,7 @@
 					echo "Color: ".$listarvehiculos['color']."<br/>";
 					echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
 					echo "Patente: ".$listarvehiculos['patente']."<br/>";
+					echo '<a href="modificarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a>';
 					echo '</div>';
 				}
 				?>
