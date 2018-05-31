@@ -3,7 +3,7 @@
 				if(!$logeado){
 			?>
 				<form method="post" action="logeo.php">
-					<h3>Logeate</h3>
+					<h3>Logueate</h3>
 					<?php
 						// ?res es una variable get que entra cuando hay que mostrar un mensaje sobre el formulario de login
 						if(!empty($_GET['res'])){
@@ -37,5 +37,6 @@
 			?>
 				<h3>Sesión Actual</h3>
 				<p>Usuario: <?php echo $_SESSION['usuario'] ?></p>
+				<p><a href="miperfil.php">Mi Perfil</a></p>
 				<p><a href="salir.php">Cerrar Sesión</a></p>
 			<?php }?>

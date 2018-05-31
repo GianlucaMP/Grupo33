@@ -35,5 +35,13 @@
 				return false;
 			}
 		}
+		function datosuser() {
+			// se crea una nueva conexion sql porque es necesario en esta funcion, el require no la pasa por alguna razón
+			$coneccion = conectar();
+			$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE nombreusuario='".$_SESSION['usuario']."'");
+			if($datosuser = mysqli_fetch_array($sql)){
+				return $datosuser;  
+			}
+		}
 	}
 ?>

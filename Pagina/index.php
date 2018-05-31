@@ -28,7 +28,7 @@
 			/*animation: cambiaColor 3000ms infinite alternate;*/
 		}
 		#container{
-			width: 1000px;
+			width: 1200px;
 			margin-left: auto;
 			margin-right: auto;
 		}
@@ -66,14 +66,18 @@
 		<div id="reg" align="right">
 			<?php include('partes/arriba.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 	</div>
-	<div style="clear: both;"></div>
+	
 	<div align="center">
 		<h1>TravelShare</h1>
 		<h3>Somos lo que estabas buscando</h3>
 		<p>TS el servicio para compartir viajes mas completo del pais!!!</p>
 		<p>¿Te gustaria crear un viaje y compartirlo?<br/>
-		<a href="crearviaje.php">Crear un viaje</a></p>
+			<?php if($logeado) { ?> 
+				<a href="crearviaje.php">Crear un viaje</a> <?php }
+				else echo "Debes estar logeado para crear un viaje"; ?> 
+			</p>
 	</div>
 	<div align="center" id=viajes>
 		<?php
@@ -89,9 +93,6 @@
 				echo'</div>';
 				echo '<div>';
 				echo '...<a style="color: gray;" href="viaje.php?id='.$listarviajes['id'].'">Ver Mas</a>';
-				//echo "Precio: ".$listarviajes['preciototal']."<br/>";
-				//echo "Vehiculo: ".$listarviajes['vehiculo']."<br/>";
-				//echo "Contacto: ".$listarviajes['contacto']."<br/>";
 				echo '</div>';
 				echo '</div>';
 			}//

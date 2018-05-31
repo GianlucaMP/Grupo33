@@ -2,6 +2,16 @@
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
+
+	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
+	require('usuarioclass.php');
+	$sesion = new sesion;
+	$logeado = $sesion->logeado();
+	
+	// si esta logeado, se verifica que sea admin, si no lo esta, se da aviso al usuario y se bloquea el acceso.
+	if(!$logeado){
+		header('Location: index.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
