@@ -1,5 +1,4 @@
 <?php
-	<?php
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
@@ -24,7 +23,12 @@
 	    	die();
 	  	}
 	}
-	$sql = mysqli_query($coneccion, "INSERT INTO vehiculos (plazas, marca, modelo, color, patente  	) VALUES ('".$_POST['plazas']."', '".$_POST['marca']."', '".$_POST['modelo']."', '".$_POST['color']."','".$_POST['patente']."')");
+	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
+	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente
+        header('Location: registrarvehiculo.php?error=1');
+				exit();
+        }
+	$sql = mysqli_query($coneccion, "INSERT INTO vehiculos (plazas, marca, modelo, color, patente,usuarios_id) VALUES ('".$_POST['plazas']."', '".$_POST['marca']."', '".$_POST['modelo']."', '".$_POST['color']."','".$_POST['patente']."','".$_SESSION['id']."')");
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	//echo "$sql";
 	if($sql) $mensaje = 'El vehiculo fue agregado con exito.';

@@ -20,8 +20,10 @@
 	}
 	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
 	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente
-        header('Location: modificarvehiculo.php?error=1');///////////////////////////////////////////////////////////////
-				die();
+		$comp=mysqli_fetch_array($chequeo); 
+		if ($_GET['id']!=$comp['id']){//verifico si se trata del vehiculo que quiero cambiar
+        header('Location: modificarvehiculo.php?error=1');
+				exit();}
         }
 
 	$sql = mysqli_query($coneccion, "UPDATE vehiculos SET plazas='".$_POST['plazas']."', marca='".$_POST['marca']."', modelo='".$_POST['modelo']."', color='".$_POST['color']."', patente='".$_POST['patente']."' WHERE id=".$_GET['id']);

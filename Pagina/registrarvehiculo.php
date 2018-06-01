@@ -13,6 +13,13 @@
 	if(!$logeado){
 		header('Location: index.php');
 	}
+	if (!empty($_GET['error'])) {//////////////////////////////////
+		switch ($_GET['error']) {/////////////////////////
+			 case '1'://///////////////////////////
+				$error = 'La patente que ingreso ya esta registrada';////////////////////////////
+				break;}}else{////////////////////////////////
+					$error = '&nbsp;';/////////////////////
+				}/////////////////////
 
 ?>
 <!DOCTYPE html>
@@ -53,6 +60,7 @@
 				<!--<p>Descrpcion:</p>
 				<textarea name="sinopsis" id="sinopsis" style="width: 450px; height: 200px;"><?php /*echo $datopelicula['sinopsis']; */?></textarea>-->
 			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
+			<p id="error" style="color: red;"><?php echo $error?></p>///////////////////////////////////////////////////////
 			</form>
 		</div>
 		<div style="clear: both;"></div>

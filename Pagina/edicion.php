@@ -29,11 +29,10 @@ if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
 	header('Location: editar.php?error=5');
 	die();
 }
-// se valida el tamaño del user
-//if(strlen($user) > 16 || strlen($user) < 6){ ////////////////////////////////////////
-	//header('Location: editar.php?error=2');///////////////////////////////////////////////
-	//die();/////////////////////////////////////////
-//}////////////////////////////////////////////////////////
+// se valida el tamaño del nick del usuario
+if(strlen($user) > 16 || strlen($user) < 6){ 
+	header('Location: editar.php?error=2');die();}
+	
 // chequea que el email y el user no hayan sido registrados, para ello se pide el usuario que cumpla con tal mail o tal user, si el numero de resultads es 0, se asume que no lo hay y se continua
 $chequeo = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE nombreusuario='".$user."'");
 	if(mysqli_num_rows($chequeo) > 0) {

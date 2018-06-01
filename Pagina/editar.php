@@ -101,7 +101,7 @@
 			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
 			<p id="error" style="color: red;"><?php echo $error?></p>
 			<p style="color: gray;"><small>El nick no puede tener mas de 16 caracteres</small></p>
-			<p style="color: gray;"><small>La clave debe tener al menos una mayuscula, una minuscula, y un numero o simbolo</small></p>
+			<p style="color: gray;"><small>La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
 			</form>
 		</div>
 		<div style="clear: both;"></div>
