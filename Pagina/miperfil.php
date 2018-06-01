@@ -65,7 +65,7 @@
 					echo "Color: ".$listarvehiculos['color']."<br/>";
 					echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
 					echo "Patente: ".$listarvehiculos['patente']."<br/>";
-					echo '<a href="modificarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a>';
+					echo '<a href="modificarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
 					echo '</div>';
 				}
 				?>
@@ -73,5 +73,5 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-</body>
+</body>	
 </html>

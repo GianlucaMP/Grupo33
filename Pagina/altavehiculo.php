@@ -1,7 +1,22 @@
 <?php
+	<?php
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
+
+	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
+	require('usuarioclass.php');
+	$sesion = new sesion;
+	$logeado = $sesion->logeado();
+	//$user = $sesion->datosuser();
+
+	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+
+	// si el usuario no esta logeado se redirecciona automaticamente al inicio
+	if(!$logeado){
+		header('Location: index.php');
+	}
+
 	$campos = array('marca','modelo', 'plazas', 'color','patente');
 	foreach($campos AS $campo) {
 	  	if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
