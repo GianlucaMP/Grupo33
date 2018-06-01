@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2018 a las 02:52:14
+-- Tiempo de generación: 01-06-2018 a las 05:02:05
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -42,7 +42,30 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombreusuario`, `email`, `password`, `nombre`, `fecha`) VALUES
-(2, 'RCarlos', 'q@q.com', '25491a7c7420a7386bb45a3fb1b289af', 'Roberto Carlos Gardel', '1992-12-01');
+(2, 'Roberto', 'q@w.com', '25491a7c7420a7386bb45a3fb1b289af', 'Roberto Carlos Gardel', '1992-11-30');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehiculos`
+--
+
+CREATE TABLE `vehiculos` (
+  `id` int(11) NOT NULL,
+  `plazas` int(11) NOT NULL,
+  `marca` varchar(20) NOT NULL,
+  `modelo` varchar(20) NOT NULL,
+  `color` varchar(20) NOT NULL,
+  `patente` varchar(7) NOT NULL,
+  `usuarios_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `vehiculos`
+--
+
+INSERT INTO `vehiculos` (`id`, `plazas`, `marca`, `modelo`, `color`, `patente`, `usuarios_id`) VALUES
+(2, 4, 'Chevrolet', 'Corsa', 'Blanco', 'asd124', 2);
 
 -- --------------------------------------------------------
 
@@ -65,7 +88,7 @@ CREATE TABLE `viajes` (
 --
 
 INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `vehiculo`, `contacto`) VALUES
-(1, 120, 'La Plata', 'Tandil', '2018-05-30', 'Toyota Corolla', 'Sr Pedro\r\nNro: 221 3445677'),
+(1, 120, 'La Plata', 'Tandil', '2018-05-28', 'Toyota Corolla', 'Sr Pedro\r\nNro: 221 3445677'),
 (2, 350, 'Abasto', 'Centro', '2018-07-22', 'Honda 110 Biz', 'Sr John\r\n221 2334678'),
 (3, 555, 'CABA', 'Cordoba', '2018-06-02', 'Peugeot 206', 'Sr Titor\r\n011 32412398');
 
@@ -77,6 +100,12 @@ INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `vehicu
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `vehiculos`
+--
+ALTER TABLE `vehiculos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -93,6 +122,12 @@ ALTER TABLE `viajes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `vehiculos`
+--
+ALTER TABLE `vehiculos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
