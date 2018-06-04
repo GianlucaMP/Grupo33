@@ -95,15 +95,10 @@
 <body>
 	<div id="container">
 	<div id="encabezado">
-		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>visitante</i></h2></div>
-		<div id="reg" align="right">
-			<p>¿No tenes cuenta?<br/>
-			<a href="registro.php">Create una</a></p>
-		</div>
-	</div>
+		<div id="bienvenide" align="center"><h2>Bienvenido <i id='user'>visitante</i></h2></div>	</div>
 	<div style="clear: both;"></div>
 	<div align="center">
-		<h1>TravelShare</h1>
+		<h1>AVENTON</h1>
 	</div>
 	<div align="center" id=viajes>
 	<?php
@@ -123,7 +118,7 @@
 					</fieldset>
 					<p id="error" style="color: red;"><?php echo $error?></p>
 					<p style="color: gray;"><small>El nick no puede tener mas de 16 caracteres</small></p>
-					<p style="color: gray;"><small>La clave debe tener al menos una mayuscula, una minuscula, y un numero o simbolo</small></p>
+					<p style="color: gray;"><small>La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
 				</form>
 				<?php
 			}

@@ -61,7 +61,7 @@
 	<div id="container">
 	<div id="encabezado">
 		<img src="partes\Logo.jpg" width="200" height="100" align="left"> </>
-		<div id="bienvenide" align="center"><h2>Welcome <i id='user'>
+		<div id="bienvenide" align="center"><h2>Bienvenido <i id='user'>
 			<?php
 			if (!$logeado) echo 'visitante';
 			else echo $_SESSION['usuario'] ; ?></i></h2></div>
@@ -72,7 +72,7 @@
 	</div>
 	
 	<div align="center">
-		<h1>TravelShare</h1>
+		<h1>AVENTON</h1>
 		<h3>Somos lo que estabas buscando</h3>
 		<p>TS el servicio para compartir viajes mas completo del pais!!!</p>
 		<p>¿Te gustaria crear un viaje y compartirlo?<br/>

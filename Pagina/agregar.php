@@ -4,6 +4,12 @@
 	$coneccion = conectar();
 	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio
 	$campos = array('preciototal','origen', 'destino', 'fecha', 'vehiculo',  'contacto');
+	foreach($campos AS $campo) {
+  if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
+    header('Location: crearviaje.php?error=1');
+    die();
+  }
+}
 //	foreach($campos AS $campo) {
 //		print($_POST[$campo]);
 //	  if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
@@ -23,7 +29,9 @@ if ($fechaactual <= $fechaevento) {
 	if($sql) $mensaje = 'El viaje fue agregado con exito.';
 	else $mensaje = 'Hubo un error al agregar el viaje.';
 	echo "$mensaje";}
-	else{echo "Ha ingresado una fecha invalida";}
+	else{
+		header('Location: crearviaje.php?error=2');
+		die();}
 ?>
 <!DOCTYPE html>
 <html>

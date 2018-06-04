@@ -54,10 +54,10 @@
 <body>
 	<div>
 	<div align="center">
-		<h2>Bienvenid@ <i id='user'>visitante</i></h2>
+		<h2>Bienvenido <i id='user'>visitante</i></h2>
 	</div>
 	<div align="center">
-		<h1>TravelShare</h1>
+		<h1>AVENTON</h1>
 		<h3></h3> 
 		<p>
 			<b> Somos el servicio para compartir viajes mas completo del pais!!!</b><br/>

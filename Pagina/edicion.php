@@ -30,19 +30,24 @@ if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
 	die();
 }
 // se valida el tamaño del nick del usuario
-if(strlen($user) > 16 || strlen($user) < 6){ 
+if(strlen($nick) > 16 || strlen($nick) < 6){ 
 	header('Location: editar.php?error=2');die();}
 	
 // chequea que el email y el user no hayan sido registrados, para ello se pide el usuario que cumpla con tal mail o tal user, si el numero de resultads es 0, se asume que no lo hay y se continua
-$chequeo = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE nombreusuario='".$user."'");
+$chequeo = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE nombreusuario='".$nick."'");
 	if(mysqli_num_rows($chequeo) > 0) {
+        $comp=mysqli_fetch_array($chequeo); 
+		if ($user['id']!=$comp['id']){//verifico si se trata del vehiculo que quiero cambiar
         header('Location: editar.php?error=6');
-        exit;
+        exit;}
+        
     }
 $chequeo2 = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE email='".$email."'");
-	if(mysqli_num_rows($chequeo2) > 1) {
+	if(mysqli_num_rows($chequeo2) > 0) {
+		$comp=mysqli_fetch_array($chequeo2);
+		if ($user['id']!=$comp['id']){//verifico si se trata del vehiculo que quiero cambiar
         header('Location: editar.php?error=7');
-        exit;
+        exit;}
     }
 $f1 = new DateTime($_POST["date"]);
 $f2 = new DateTime("now");

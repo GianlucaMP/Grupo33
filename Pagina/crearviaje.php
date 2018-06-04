@@ -1,4 +1,16 @@
-<?php 
+<?php
+if (!empty($_GET['error'])) {
+		switch ($_GET['error']) {
+			case '1':
+				$error = 'Uno o mas campos estan en blanco.';
+				break;
+
+			case '2':
+				$error = 'Ha ingresado una fecha invalida';
+				break;}}
+else{
+		$error = '&nbsp;';
+	}
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
@@ -17,7 +29,7 @@
 <html>
 <head>
 	<title></title>
-	<script type="text/javascript" src="js/js_viajes.js"></script>
+	<!--<script type="text/javascript" src="js/js_viajes.js"></script>-->
 </head>
 <body>
 	<h3>Agregar nuevo viaje</h3>
@@ -31,6 +43,7 @@
 			<textarea name="contacto" id="contacto" style="width: 450px; height: 200px;"></textarea>
 			
 			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
+			<p id="error" style="color: red;"><?php echo $error?></p>
 		</form>
 </body>
 </html>
