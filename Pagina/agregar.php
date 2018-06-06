@@ -26,9 +26,8 @@ if ($fechaactual <= $fechaevento) {
 	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, contacto) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$_POST['contacto']."')");
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	echo "$sql";
-	if($sql) $mensaje = 'El viaje fue agregado con exito.';
-	else $mensaje = 'Hubo un error al agregar el viaje.';
-	echo "$mensaje";}
+	if($sql) header('Location: index.php?result=1');////////////////////////////
+	else header('Location: index.php?result=3');}//////////////////
 	else{
 		header('Location: crearviaje.php?error=2');
 		die();}

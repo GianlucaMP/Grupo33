@@ -8,6 +8,21 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	//$user = $sesion->datosuser();
+	if(!empty($_GET['result'])){///////////////////
+		switch ($_GET['result']) {//////////////
+			case '1'://////////////
+				$result='Viaje creado con exito';///////////////////////
+				$color= "green";/////////////////////////////////
+				break;//////////////////////
+			case '2'://////////////////////////////
+					$result=	'Error al crear el viaje';////////////////////
+					$color="red";///////////////////////
+				break;//////////////////////
+			default:///////////////
+					$result='Error desconocido.';///////////////////
+					$color="red";}}////////////////////////////
+		else{//////////////////////////
+			$result = '&nbsp;';		}///////////////////////////
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,8 +34,6 @@
 			background-color: white;
 			font-family: sans-serif;
 			text-align: center;
-
-
 		}
 		h1 {
 			background-color: black;
@@ -70,21 +83,22 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-	
+
 	<div align="center">
 		<h1>AVENTON</h1>
 		<h3>Somos lo que estabas buscando</h3>
 		<p>TS el servicio para compartir viajes mas completo del pais!!!</p>
 		<p>¿Te gustaria crear un viaje y compartirlo?<br/>
-			<?php if($logeado) { ?> 
+			<?php if($logeado) { ?>
 				<a href="crearviaje.php">Crear un viaje</a> <?php }
-				else echo "Debes estar logeado para crear un viaje"; ?> 
+				else echo "Debes estar logeado para crear un viaje"; ?>
+				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p><!-- //////////////////// -->
 			</p>
 	</div>
 	<div align="center" id=viajes>
 		<?php
 		while ($listarviajes=mysqli_fetch_array($viajes)) {
-			$fechaactual = Date("Y-m-d"); 
+			$fechaactual = Date("Y-m-d");
 			$fechaevento = $listarviajes['fecha'];
 			if ($fechaactual <= $fechaevento) {
 				echo '<div class="viaje" align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">';
