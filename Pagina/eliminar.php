@@ -2,13 +2,11 @@
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
-
 	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	//$user = $sesion->datosuser();
-
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
@@ -19,11 +17,11 @@
 	}else{
 		// se elimina la pelicula con la respectiva query, si no la hay, o si otra cosa sale mal, se avisa.
 		$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
-		if($sql) $mensaje = 'El vehiculo fue eliminada con exito.';
-		else $mensaje = 'Hubo un error al eliminar el vehiculo.';
+		if($sql) header('Location: miperfil.php?result=3');////////////////////////////
+		else header('Location: miperfil.php?result=4');//////////////////
 	}
 ?>
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 <head>
 	<title></title>
@@ -44,16 +42,17 @@
 		}
 	</style>
 </head>
-<body> 
+<body>
 	<div id="container">
 	<h3>Mi perfil</h3>
 		<div id="menucostado">
 			<p><a href="miperfil.php">Volver</a></p>
 		</div>
 		<div id="datos">
-			<p><?php echo $mensaje ?></p>
+			<p> <?php// echo $mensaje ?>
+		</p>
 		</div>
 		<div style="clear: both;"></div>
 	</div>
 </body>
-</html>
+</html>-->
