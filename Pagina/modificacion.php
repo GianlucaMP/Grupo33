@@ -20,17 +20,14 @@
 	}
 	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
 	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente
-		$comp=mysqli_fetch_array($chequeo); 
-		if ($_GET['id']!=$comp['id']){//verifico si se trata del vehiculo que quiero cambiar
-        header('Location: modificarvehiculo.php?error=1');
-				exit();}
+        header('Location: modificarvehiculo.php?error=1');///////////////////////////////////////////////////////////////
+				die();
         }
 
 	$sql = mysqli_query($coneccion, "UPDATE vehiculos SET plazas='".$_POST['plazas']."', marca='".$_POST['marca']."', modelo='".$_POST['modelo']."', color='".$_POST['color']."', patente='".$_POST['patente']."' WHERE id=".$_GET['id']);
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	//echo "$sql";
-	if($sql) $mensaje = 'El vehiculo fue modificado con exito.';
-	else $mensaje = 'Hubo un error al modificar el vehiculo.';
-	echo "$mensaje";
+	if($sql) header('Location: miperfil.php?result=5');////////////////////////////
+	else header('Location: miperfil.php?result=6');//////////////////
 ?>
 <a href="miperfil.php">volver</a>
