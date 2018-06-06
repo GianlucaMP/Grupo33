@@ -27,7 +27,7 @@ if ($fechaactual <= $fechaevento) {
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	echo "$sql";
 	if($sql) header('Location: index.php?result=1');////////////////////////////
-	else header('Location: index.php?result=3');}//////////////////
+	else header('Location: index.php?result=2');}//////////////////
 	else{
 		header('Location: crearviaje.php?error=2');
 		die();}
