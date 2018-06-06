@@ -9,21 +9,30 @@
 						if(!empty($_GET['res'])){
 							switch ($_GET['res']) {
 								case '1':
-									echo 'Uno o mas campos estan en blanco.';
+									$fallo='Uno o mas campos estan en blanco.';
+									$color= "red";/////////////////////////////////
+		//							echo 'Uno o mas campos estan en blanco.';
 									break;
-
 								case '2':
-									echo 'Contraseña incorrecta o el usuario no esta registrado.';
+										$fallo=	'Contraseña incorrecta o el usuario no esta registrado.';////////////////////
+										$color="red";///////////////////////
+							//		echo 'Contraseña incorrecta o el usuario no esta registrado.';
+									break;
+								case '3':
+										$fallo='Usuario registrado con exito.';///////////////////
+										$color= "green";/////////////////////
+								//	echo 'Usuario registrado con exito.';
 									break;
 
-								case '3':
-									echo 'Usuario registrado con exito.';
-									break;
-								
 								default:
-									echo 'Error desconocido.';
+									$fallo='Error desconocido.';
+									$color="red";
+	//								echo 'Error desconocido.';
 									break;
 							}
+						}
+						else{
+							$fallo = '&nbsp;';
 						}
 					?>
 					<input type="text" id="usern" class="inputregistro" name="user" placeholder="Nombre de usuario">
@@ -32,7 +41,8 @@
 				</form>
 				<p>¿No tenes cuenta?<br/>
 				<a href="registro.php">Create una</a></p>
-			<?php 
+				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $fallo?></p> <!-- //////////////////// -->
+			<?php
 			}else{
 			?>
 				<h3>Sesión Actual</h3>
