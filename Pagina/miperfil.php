@@ -2,20 +2,31 @@
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
-
 	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
-
 	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
-
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
 	}
-
+	if(!empty($_GET['result'])){///////////////////
+		switch ($_GET['result']) {//////////////
+			case '1'://////////////
+				$result='Vehiculo agregado con exito';///////////////////////
+				$color= "green";/////////////////////////////////
+				break;//////////////////////
+			case '2'://////////////////////////////
+					$result=	'Error al agregar el vehiculo';////////////////////
+					$color="red";///////////////////////
+				break;//////////////////////
+			default:///////////////
+					$result='Error desconocido.';///////////////////
+					$color="red";}}////////////////////////////
+		else{//////////////////////////
+			$result = '&nbsp;';		}///////////////////////////
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,7 +49,7 @@
 		}
 	</style>
 </head>
-<body> 
+<body>
 	<div id='container'>
 	<h3>Mi perfil</h3>
 		<div id='menucostado'>
@@ -56,6 +67,7 @@
 				</ul>
 			</div>
 			<div align="left">
+				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p><!-- //////////////////// -->
 				<h4>Listado de Vehiculos</h4>
 				<?php
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
@@ -73,5 +85,5 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-</body>	
+</body>
 </html>
