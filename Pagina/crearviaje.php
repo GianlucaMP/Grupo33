@@ -19,11 +19,13 @@ else{
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
+	$user= $sesion->datosuser();
 	
 	// si esta logeado, se verifica que sea admin, si no lo esta, se da aviso al usuario y se bloquea el acceso.
 	if(!$logeado){
 		header('Location: index.php');
 	}
+	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,14 +36,18 @@ else{
 <body>
 	<h3>Agregar nuevo viaje</h3>
 		<form enctype="multipart/form-data" method="POST" action="agregar.php" >
-			<p>PrecioTotal <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>
+			<p>Precio<input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>
 			<p>Origen: <input type="text" id="origen" name="origen"></p>
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
 			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
-			<p>Vehiculo <input type="text" id="vehiculo" name="vehiculo"> </p>
-			<p>Contacto:</p>
-			<textarea name="contacto" id="contacto" style="width: 450px; height: 200px;"></textarea>
-			
+			<p>Vehiculo <select id="vehiculo" name="vehiculo">
+				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
+					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].' | '.$listarvehiculos['plazas'].' plazas</option>';
+				} ?>
+			</select></p>
+			<p>Contacto: <?php echo 	$user['email']; ?></p>
+			<input type="hidden" name="contacto" value="<?php echo ''.$user['email'].'' ?>">
+			<!--<textarea name="contacto" id="contacto" style="width: 450px; height: 200px;"></textarea>-->
 			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
 			<p id="error" style="color: red;"><?php echo $error?></p>
 		</form>
