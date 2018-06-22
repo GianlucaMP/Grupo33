@@ -44,11 +44,18 @@ else{
 		<form enctype="multipart/form-data" method="POST" action="agregar.php" >
 			<p>PrecioTotal:<input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>
 			<p>Origen: <input type="text" id="origen" name="origen"></p>
-			<!--DEBE SER MODIFICADO POR ORIGNES Y DESTINOS MAS COMPLETOS (CON CALLES Y TODO)-->
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
-			<p>Este viaje se realizara periodicamente <input type=checkbox id="periodico" name="periodico"> </p> 
-			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
+			<p>Este viaje se realizara periodicamente <input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico()> </p> 
+			
+			<div id="formularioOcasional">
 			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
+			</div>
+			<div id="formularioPeriodico" style="display:none">
+			<p> IMAGINATE QUE SOY UN CALENDARIO</p>
+			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
+			</div>
+			
+			
 			<p> Hora: </p> <!-- ????AGREGAR LA HORA??? -->
 			<p> Duracion Estimada: </p>  <!-- ????AGREGAR LA DURACION??? -->
 			
@@ -84,7 +91,23 @@ else{
 </body>
 </html>
 
+<script>
+
+function intercambiarOcasionalPeriodico() {
+    var x = document.getElementById("formularioOcasional");
+    var y = document.getElementById("formularioPeriodico");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+		y.style.display = "none";
+    } else {
+        x.style.display = "none";
+		y.style.display = "block";
+    }
+}
+</script>
+
 
 <!-- IMPORTANTE!!!!
-FALTAN HACER TODOS LOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP-->
 
+FALTAN HACER TODOS LOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP
+FALTA AGREGAR EL CALENDARIO PARA VIAJES PERIODICOS-->
