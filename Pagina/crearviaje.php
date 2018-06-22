@@ -26,6 +26,11 @@ else{
 	if(!$logeado){
 		header('Location: index.php');
 	}
+	//si esta logeado cargo varios datos del usuario en la variable $datosUsuario ???puede que ya halla una variable para esto, en ese caso modificarlo???
+	else {
+		$datosUsuario = $sesion->datosuser();
+	}
+	
 	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 ?>
 <!DOCTYPE html>
@@ -52,6 +57,7 @@ else{
 
 			<p>Vehiculo <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
+					//???Sugiero mostrar solo marca modelo y patente del vehiculo en la version final. Aunque en la version de prueba dejarlo asi, ver si se puede hacer una compilacion condiccional???
 					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].' | '.$listarvehiculos['plazas'].' plazas</option>';
 				} ?>
 			</select></p>
@@ -65,7 +71,7 @@ else{
 			</fieldset>	
 			
 						
-			<p>Email de Contacto <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
+			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=> </p> 
 			<!-- 
 			REGISTRAR TELEFONOS DE USER EN LA DB PARA PODER ASIGNARLO AUTOMATICAMENTE CON LA SIGUIENTE LINEA>
