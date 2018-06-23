@@ -37,18 +37,31 @@ else{
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="stylesheets.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<title></title>
 	<!--<script type="text/javascript" src="js/js_viajes.js"></script>-->
 </head>
+<style>					
+
+input { 			/*se busca definir que todos los elementos de los formularios tengan tamano/forma similar para que queden parejos*/
+    width: 200px;
+    margin: auto 0;
+}
+
+.chiquito{ 			/*para definir un tamano chico y uniforme de los campos para ingresar horas o numeros de pocas cifras. Tambien para que una casilla quede pegada al texto que la describe*/
+	width: 40px;
+}
+
+
+</style>
 <body>
 	<h3>Agregar nuevo viaje</h3>
-		<form enctype="multipart/form-data" method="POST" action="agregar.php" >
-			<p>PrecioTotal:<input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>
-			<p>Origen: <input type="text" id="origen" name="origen"></p>
+		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
+		<form enctype="multipart/form-data" method="POST" action="agregar.php" align="justify" >
+			<fieldset>
+			<p>Precio Total: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
+			<p>Origen: <input type="text" id="origen" name="origen"></p>	
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
-			<p>Este viaje se realizara periodicamente <input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico()> </p> 
-			
+			<p>Este viaje se realizara periodicamente <input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito"> </p>	
 			<div id="formularioOcasional">
 			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
 			</div>
@@ -56,32 +69,29 @@ else{
 			<p> IMAGINATE QUE SOY UN CALENDARIO</p>
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
-			
-			
-			<p> Hora: </p> <!-- ????AGREGAR LA HORA??? -->
-			<p> Duracion Estimada: </p>  <!-- ????AGREGAR LA DURACION??? -->
-			
+						
+			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>
+			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>
+						
 			
 			<fieldset>
-
 			<p>Vehiculo <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
 					//???Sugiero mostrar solo marca modelo y patente del vehiculo en la version final. Aunque en la version de prueba dejarlo asi, ver si se puede hacer una compilacion condiccional???
 					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].' | '.$listarvehiculos['plazas'].' plazas</option>';
 				} ?>
 			</select></p>
-			
+			<hr style="height:1px;border-top:1px solid #000" / <!--Muestra una linea separadora-->
 			<p> Plazas: <input type="number" id="plazas" name="plazas"> </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
 			<p> Modelo:<input type="text" id="modelo" name="modelo"> </p>		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
 			<p> Marca:<input type="text" id="marca" name="marca"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
 			<p> Color:<input type="text" id="color" name="color"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
 			<p> Patente:<input type="text" id="patente" name="patente"> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
-
 			</fieldset>	
 			
 						
 			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=> </p> 
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono"> </p> 
 			<!-- 
 			REGISTRAR TELEFONOS DE USER EN LA DB PARA PODER ASIGNARLO AUTOMATICAMENTE CON LA SIGUIENTE LINEA>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?>> </p> 
@@ -89,7 +99,9 @@ else{
 						
 			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
 			<p id="error" style="color: red;"><?php echo $error?></p>
+			</fieldset>
 		</form>
+		</div>
 </body>
 </html>
 
