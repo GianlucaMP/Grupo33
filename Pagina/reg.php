@@ -2,7 +2,7 @@
 require('dbc.php');
 $coneccion = conectar();
 //chequea que no haya campos vacios
-$campos = array('user', 'pass', 'name', 'date', 'mail');
+$campos = array('user', 'pass', 'name', 'date', 'mail', 'telefono');
 foreach($campos AS $campo) {
   if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
     header('Location: registro.php?error=1');
@@ -14,7 +14,7 @@ if ($_POST['pass'] != $_POST['passconf']) {
 	header('Location: registro.php?error=8');
     die();
 }
-//chequea que la clave cumpla con los pedidos del TP
+//chequea que la clave cumpla con los pedidos del TP ???hay que modificar este comment???
 if(!preg_match("/[a-z]/i",$_POST['pass'])){
 	header('Location: registro.php?error=3');
 	die();
@@ -35,12 +35,35 @@ if(!$numsin){
 	header('Location: registro.php?error=3');
 	die();
 }
+
+
+
 // se vuelcan los post a variables normales para trabajar mejor con ellas
 $email =  $_POST['mail'];
 $nombre =  $_POST['name'];
 $pass =  md5($_POST['pass']);
 $date = $_POST['date'];
 $user =  $_POST['user'];
+$telefono = $_POST['telefono'];
+
+
+//se remueven todos los caracteres no numericos que son aceptables de encontrar en un campo de ingreso de un telefono: "("; ")"; " "; y "-" 
+$caracteresAEliminar = array( '-' , '(' , ')', " " ); 
+$telefono = str_replace($caracteresAEliminar,"", $telefono);
+
+//se chequea que el telefono tenga un tamano razonable
+if (strlen($telefono) < 6 || strlen($telefono) > 20) {		
+	header('Location: registro.php?error=11');
+}
+
+
+//Se chequea que NO hallan quedado caracteres NO numericos
+if (!ctype_digit($telefono)) {  
+	header('Location: registro.php?error=10');
+}
+
+echo "SOY UN DEBUG, EL TELOFONO ES: $telefono"; //???BORRAR EN CUANTO SE CHEQUEE QUE EL TELEFONO LLEGA SANO Y SALVO???
+
 // se valida que el mail sea correcto
 if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
 	header('Location: registro.php?error=5');
@@ -63,20 +86,23 @@ $chequeo2 = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE email='".$ema
         exit;
     }
 
+	
+	
 $f1 = new DateTime($_POST["date"]);
 $f2 = new DateTime("now");
 $diferencia =  $f1->diff($f2);
 if ($diferencia->format("%y") > 18) {
   // se envia el usuario a la DB
-  $registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."')");
+  $registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."')");
 if($registrar){
-	$exito = true;
+	$exito = true;	//esto de pasar $registrar a $exito esta de mas. aunque por el momento por las dudas lo dejo
 }else{
 	$exito = false;
 }
-// si todo salio bien en la query, se envia al user a la home, si no, se da aviso de un error desconocido.
+//si todo salio bien en la query, se envia al user a la home, si no, se da aviso de error
 if(!$exito){
-	header('Location: registro.php?error=desc');
+	header('Location: registro.php?error=12'); //???por debug prefiero aclarar cuando sucede este error. Si parece mejor cambiarlo por mostrar "error desconocido" (siguiente linea)???
+	//header('Location: registro.php?error=desc');  
 }else{
 	header('Location: index.php?res=3');
 }}

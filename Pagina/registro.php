@@ -38,7 +38,17 @@
 			case '9':
 				$error = 'Debe ser mayor de edad para registrarse';
 				break;
-
+				
+			case '10':
+				$error = 'El numero de telefono contiene caracteres invalidos';
+				break;		
+			
+			case '11':
+				$error = 'El numero de telefono no es valido';
+				break;
+			case '12':
+				$error = 'Error al realizar la operacion en la base de datos';	
+				break;
 			default:
 				$error = 'Error desconocido.';
 				break;
@@ -64,6 +74,10 @@
 			color: white;
 			/*animation: cambiaColor 3000ms infinite alternate;*/
 		}
+		input{
+			width:200px;
+		}
+		
 		#container{
 			width: 1000px;
 			margin-left: auto;
@@ -113,13 +127,18 @@
 
 					<fieldset>
 						<legend>Crea tu cuenta</legend>
-						<input class="registroinput" id="user" type="text" name="user" placeholder="Nick"> <input class="registroinput" id="email" type="text" name="mail" placeholder="Tu e-mail"> <br/>
-						<input id="clave" class="registroinput" type="password" name="pass" placeholder="Clave"> <input id="claveconf" class="registroinput" type="password" name="passconf" placeholder="Ingresa la clave de nuevo"> <br/>
-						<input id="name" class="registroinput" type="text" name="name" placeholder="Nombre"> <input id="date" class="registroinput" type="date" name="date" placeholder="Fecha de nacimiento"> <br/> <input class="botonregistro" style="margin: 10px" type="submit" onclick="return registrovacio()" value="Registrate">
+						<input class="registroinput" id="user" type="text" name="user" placeholder="Nick">
+						<input class="registroinput" id="email" type="text" name="mail" placeholder="Tu e-mail"> <br/>
+						<input id="clave" class="registroinput" type="password" name="pass" placeholder="Clave">
+						<input id="claveconf" class="registroinput" type="password" name="passconf" placeholder="Ingresa la clave de nuevo"> <br/>
+						<input id="name" class="registroinput" type="text" name="name" placeholder="Nombre">
+						<input id="date" class="registroinput" type="date" name="date" placeholder="Fecha de nacimiento"> <br/>  <!--???el placeholder nunca se muestra, deberiamos ponerlo de otra manera-->
+						<input class="registroinput" id="telefono" type="text" name="telefono" placeholder="Telefono"> <br>
+						<input class="botonregistro" style="margin: 10px" type="submit" onclick="return registrovacio()" value="Registrate">
 					</fieldset>
 					<p id="error" style="color: red;"><?php echo $error?></p>
-					<p style="color: gray;"><small>El nick no puede tener mas de 16 caracteres</small></p>
-					<p style="color: gray;"><small>La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
+					<p style="color: gray;"><small>*El nick no puede tener mas de 16 caracteres</small></p>
+					<p style="color: gray;"><small>**La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
 				</form>
 				<?php
 			}

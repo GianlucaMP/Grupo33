@@ -42,9 +42,9 @@ else{
 </head>
 <style>					
 
-input { 			/*se busca definir que todos los elementos de los formularios tengan tamano/forma similar para que queden parejos*/
+input, select { 			/*se busca definir que todos los elementos de los formularios tengan tamano/forma similar para que queden parejos*/
     width: 200px;
-    margin: auto 0;
+	margin: auto 0;
 }
 
 .chiquito{ 			/*para definir un tamano chico y uniforme de los campos para ingresar horas o numeros de pocas cifras. Tambien para que una casilla quede pegada al texto que la describe*/
@@ -75,28 +75,25 @@ input { 			/*se busca definir que todos los elementos de los formularios tengan 
 						
 			
 			<fieldset>
-			<p>Vehiculo <select id="vehiculo" name="vehiculo">
+			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
 					//???Sugiero mostrar solo marca modelo y patente del vehiculo en la version final. Aunque en la version de prueba dejarlo asi, ver si se puede hacer una compilacion condiccional???
 					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].' | '.$listarvehiculos['plazas'].' plazas</option>';
 				} ?>
 			</select></p>
-			<hr style="height:1px;border-top:1px solid #000" / <!--Muestra una linea separadora-->
 			<p> Plazas: <input type="number" id="plazas" name="plazas"> </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
-			<p> Modelo:<input type="text" id="modelo" name="modelo"> </p>		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
-			<p> Marca:<input type="text" id="marca" name="marca"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
-			<p> Color:<input type="text" id="color" name="color"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
-			<p> Patente:<input type="text" id="patente" name="patente"> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR??? -->
+			<p> Modelo:<input type="text" id="modelo" name="modelo"> </p>		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Marca:<input type="text" id="marca" name="marca"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Color:<input type="text" id="color" name="color"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Patente:<input type="text" id="patente" name="patente"> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
 			</fieldset>	
 			
 						
 			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono"> </p> 
-			<!-- 
-			REGISTRAR TELEFONOS DE USER EN LA DB PARA PODER ASIGNARLO AUTOMATICAMENTE CON LA SIGUIENTE LINEA>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?>> </p> 
-			-->
-						
+			
+			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
+			
 			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
 			<p id="error" style="color: red;"><?php echo $error?></p>
 			</fieldset>
