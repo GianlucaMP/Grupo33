@@ -4,21 +4,30 @@
 	$coneccion = conectar();
 	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio
 	$campos = array('preciototal','origen', 'destino', 'fecha', 'vehiculo',  'contacto');
+	
+	//se chequean los datos no esten vacios y y a su vez se copian al array $_SESSION[];
+	$error= false;
 	foreach($campos AS $campo) {
-  if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
-    header('Location: crearviaje.php?error=1');
-    die();
-  }
-}
+		if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
+			$error = true;
+		}
+		$_SESSION["formularioTemp$campo"] = $_POST[$campo]; //chequear que este bien el indice cosa de que copie
+	}
+	if ($error) {
+		header('Location: crearviaje.php?error=1');
+		die();
+	}
+	
 //	foreach($campos AS $campo) {
 //		print($_POST[$campo]);
-//	  if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
-//
-//	    echo "$campo vacio";
-	    //header('Location: admin.php?error=1&accion=agregar');s
-//	    die();
-//	  }
-//	}
+//	    if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
+//	    	echo "$campo vacio";
+//			header('Location: admin.php?error=1&accion=agregar');s
+//	    	die();
+//	   }
+//  }
+
+
 $fechaactual = Date("Y-m-d");
 $fechaevento = $_POST['fecha'];
 if ($fechaactual <= $fechaevento) {

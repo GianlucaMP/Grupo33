@@ -15,7 +15,7 @@
 	if(!isset($_GET['id'])){
 		$err = true;
 	}else{
-		// se elimina la pelicula con la respectiva query, si no la hay, o si otra cosa sale mal, se avisa.
+		// se elimina la pelicula con la respectiva query, si no la hay, o si otra cosa sale mal, se avisa. ???cambiar este comment???
 		$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
 		if($sql) header('Location: miperfil.php?result=3');////////////////////////////
 		else header('Location: miperfil.php?result=4');//////////////////

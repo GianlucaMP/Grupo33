@@ -25,6 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<title></title>
 	<script type="text/javascript" src="js/js_viajes.js"></script>
 	<style type="text/css">
@@ -45,22 +46,21 @@
 </head>
 <body> 
 	<div id='container'>
-	<h3>Mi perfil</h3>
+	<h2>Mi perfil</h2>
 		<div id='menucostado'>
-			<p> <a href="miperfil.php">Volver</a></p>
+			<h2> <a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
 		</div>
 		<div id='datos'>
-			<h4>Registrando auto</h3>
+			<h3>Registrando auto</h3>
 			<form enctype="multipart/form-data" method="POST" action="altavehiculo.php">
 				<p>Marca: <input type="text" id="marca" name="marca" ></p>
 				<p>Modelo: <input type="text" id="modelo" name="modelo" ></p>
 				<p>Color: <input type="text" id="color" name="color" ></p>
 				<p>Plazas: <input type="number" id="plazas" name="plazas" ></p>
+				<p style="font-size:small"> *Ingresa la cantidad total de plazas que posee el vehiculo (contando tambien la plaza que sera ocupada por el conductor)</p>
 				<p>Patente: <input type="text" id="patente" name="patente" length="7"></p>
-				<!--<p>Descrpcion:</p>
-				<textarea name="sinopsis" id="sinopsis" style="width: 450px; height: 200px;"><?php /*echo $datopelicula['sinopsis']; */?></textarea>-->
 			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
-			<p id="error" style="color: red;"><?php echo $error?></p>///////////////////////////////////////////////////////
+			<p id="error" style="color: red;"><?php echo $error?></p>
 			</form>
 		</div>
 		<div style="clear: both;"></div>

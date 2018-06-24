@@ -60,19 +60,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<meta charset="utf-8">
 	<title>TS</title>
 	<style type="text/css">
 		body {
-			background-color: white;
 			font-family: sans-serif;
 			text-align: center;
 		}
 		h1 {
-			background-color: black;
 			padding: 55px;
-			color: white;
-			/*animation: cambiaColor 3000ms infinite alternate;*/
 		}
 		input{
 			width:200px;
@@ -91,12 +88,12 @@
 			float: right;
 			width: 59%;
 		}
-		@keyframes cambiaColor {
+		/*@keyframes cambiaColor {
 			to {
 				background-color: grey;
 				/*transform: translateY(100px);*/
 			}
-		}
+		}*/
 	</style>
 	<script src="jquery.min.js"></script>
 	<script>								//???QUE HACE ESTE SCRIPT????
@@ -137,8 +134,7 @@
 						<input class="botonregistro" style="margin: 10px" type="submit" onclick="return registrovacio()" value="Registrate">
 					</fieldset>
 					<p id="error" style="color: red;"><?php echo $error?></p>
-					<p style="color: gray;"><small>*El nick no puede tener mas de 16 caracteres</small></p>
-					<p style="color: gray;"><small>**La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
+					<p style="font-size:small">*El nick no puede tener mas de 16 caracteres</p>
 				</form>
 				<?php
 			}

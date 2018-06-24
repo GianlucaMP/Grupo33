@@ -54,7 +54,7 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 
 </style>
 <body>
-	<h3>Agregar nuevo viaje</h3>
+	<h2>Agregar nuevo viaje</h2>
 		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
 		<form enctype="multipart/form-data" method="POST" action="agregar.php" align="justify" >
 			<fieldset>
@@ -62,7 +62,8 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 			<p>Precio Total: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
 			<p>Origen: <input type="text" id="origen" name="origen"></p>	
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
-			<p>Este viaje se realizara periodicamente <input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito"> </p>	
+			<p>Este viaje se realizara periodicamente
+			<input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito" title="si el viaje se realizara periodicamente debes marcar esta casilla"> </p>	
 			<div id="formularioOcasional">
 			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
 			</div>
@@ -77,23 +78,29 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 			
 			
 			<fieldset>
+			<!--USAR SEGURAMENTE EVENTO HTML onChange() para llamar script que llene los valores de los campos del auto
+			cParece que no se puede invocar a PHP con eventos, por lo que capaz que tenga que por PHP cargar en la pagina todos los datos del auto de una, y luego con javascript tomar la variable en cuestion de PHP e ir llenando los campos-->
 			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
 					//???Sugiero mostrar solo marca modelo y patente del vehiculo en la version final. Aunque en la version de prueba dejarlo asi, ver si se puede hacer una compilacion condiccional???
 					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].' | '.$listarvehiculos['plazas'].' plazas</option>';
 				} ?>
 			</select></p>
-			<p> Plazas: <input type="number" id="plazas" name="plazas"> </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
-			<p> Modelo:<input type="text" id="modelo" name="modelo"> </p>		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<p> Marca:<input type="text" id="marca" name="marca"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<p> Color:<input type="text" id="color" name="color"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<p> Patente:<input type="text" id="patente" name="patente"> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Plazas disponibles para pasajeros: <input type="number" id="plazas" name="plazas" class="chiquito">  </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
+			<p style="font-size:small"> *De todas las plazas que posee el vehiculo, una de ellas sera ocupada por el conductor. Ingresa aqui la cantidad de plazas restantes que pueden ser ocupadas por pasajeros </p>
+			<p> Modelo:<input type="text" id="modelo" name="modelo" readonly> </p>		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Marca:<input type="text" id="marca" name="marca" readonly> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Color:<input type="text" id="color" name="color" readonly> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
+			<p> Patente:<input type="text" id="patente" name="patente" readonly> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
 			</fieldset>	<p> </p>
 			
 			
-			<fieldset>			
-			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?>> </p> 
+			<fieldset>
+			<!--por el momento los datos de contacto son readonly para que el user sepa que se envian. pero en realidad se toman siempre de los datos de contacto cargados en su perfil
+			Para cambiar esto. hay que sacar el readoly, que en la BD se creen viajes con email y contacto "personalizados" (y no sacados de la tabla users)-->
+			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p> 
+			<!-- ????en cuanto los datos de contacto dejen de ser readonly hay que verificarlos???-->
 			</fieldset> <p> </p>
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->

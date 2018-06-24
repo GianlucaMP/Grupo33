@@ -57,7 +57,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
+	<title>
+	</title>
 	<script type="text/javascript" src="js/js_viajes.js"></script>
 	<style type="text/css">
 		#container{
@@ -77,11 +79,11 @@
 </head>
 <body>
 	<div id='container'>
-	<h3>Mi perfil</h3>
+	<h2>Mi perfil</h2>
 		<div id='menucostado'>
-			<p> <a href="editar.php">Editar Perfil</a></p>
-			<p> <a href="registrarvehiculo.php">Agregar vehiculo</a></p>
-			<p> <a href="index.php">INICIO</a></p>
+			<p> <a href="editar.php" style="text-decoration:none">Editar Perfil</a></p>
+			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
+			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
 			<div>
@@ -97,7 +99,7 @@
 				<h4>Listado de Vehiculos</h4>
 				<?php
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
-					echo '<div class="viaje" align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">';
+					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
 					echo "Marca: ".$listarvehiculos['marca']."<br/>";
 					echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
 					echo "Color: ".$listarvehiculos['color']."<br/>";

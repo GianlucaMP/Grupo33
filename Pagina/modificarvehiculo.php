@@ -24,6 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<title></title>
 	<script type="text/javascript" src="js/js_viajes.js"></script>
 	<style type="text/css">
@@ -44,12 +45,12 @@
 </head>
 <body>
 	<div id="container">
-	<h3>Mi perfil</h3>
+	<h2>Mi perfil</h2>
 		<div id="menucostado">
-			<p><a href="miperfil.php">Volver</a></p>
+			<h2> <a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
 		</div>
 		<div id="datos">
-			<h4>Modificar Vehiculo</h3>
+			<h3>Modificar Vehiculo</h3>
 			<form enctype="multipart/form-data" method="POST" action="modificacion.php?id=<?php echo $_GET['id'];?>">
 				<p>Marca: <input type="text" id="marca" name="marca" value="<?php echo $vehiculo['marca']; ?>"></p>
 				<p>Modelo: <input type="text" id="modelo" name="modelo" value="<?php echo $vehiculo['modelo']; ?>"></p>
@@ -57,7 +58,7 @@
 				<p>Plazas: <input type="number" id="plazas" name="plazas" value="<?php echo $vehiculo['plazas']; ?>"></p>
 				<p>Patente: <input type="text" id="patente" name="patente" length="7" value="<?php echo $vehiculo['patente']; ?>"></p>
 			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
-			<p id="error" style="color: red;"><?php echo $error?></p>///////////////////////////////////////////////////////
+			<p id="error" style="color: red;"><?php echo $error?></p>	
 			</form>
 		</div>
 		<div style="clear: both;"></div>

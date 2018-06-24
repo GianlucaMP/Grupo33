@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-06-2018 a las 05:02:05
+-- Tiempo de generación: 24-06-2018 a las 08:44:04
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -34,15 +34,19 @@ CREATE TABLE `usuarios` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `fecha` date NOT NULL
+  `fecha` date NOT NULL,
+  `telefono` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombreusuario`, `email`, `password`, `nombre`, `fecha`) VALUES
-(2, 'Roberto', 'q@w.com', '25491a7c7420a7386bb45a3fb1b289af', 'Roberto Carlos Gardel', '1992-11-30');
+INSERT INTO `usuarios` (`id`, `nombreusuario`, `email`, `password`, `nombre`, `fecha`, `telefono`) VALUES
+(2, 'Roberto', 'q@w.com', '25491a7c7420a7386bb45a3fb1b289af', 'Roberto Carlos Gardel', '1992-11-30', '2214579988'),
+(3, 'Andres', 'andres@gmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Andrecito', '1995-04-24', '21345547898'),
+(4, 'BigBossTheSnake', 'brai_ladoce@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'braian', '1995-04-23', '2214549898'),
+(12, 'alfredo', 'alfredo@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'alfredo', '1995-02-21', '2214401211');
 
 -- --------------------------------------------------------
 
@@ -65,7 +69,9 @@ CREATE TABLE `vehiculos` (
 --
 
 INSERT INTO `vehiculos` (`id`, `plazas`, `marca`, `modelo`, `color`, `patente`, `usuarios_id`) VALUES
-(2, 4, 'Chevrolet', 'Corsa', 'Blanco', 'asd124', 2);
+(2, 4, 'Chevrolet', 'Corsa', 'Blanco', 'asd124', 2),
+(4, 4, 'Toyota', 'Etios', 'Beige Angola', 'ada', 3),
+(5, 20, 'fiat', '600', 'rojo', 'abc123', 4);
 
 -- --------------------------------------------------------
 
@@ -122,13 +128,13 @@ ALTER TABLE `viajes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `viajes`

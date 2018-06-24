@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<title></title>
 	<script type="text/javascript" src="js/js_viajes.js"></script>
 	<style type="text/css">
@@ -37,15 +38,15 @@
 </head>
 <body>
 	<div id="container">
-	<h3>Mi perfil</h3>
+	<h2>Mi perfil</h2>
 		<div id="menucostado">
-			<p><a href="miperfil.php">Volver</a></p>
+			<h2><a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
 		</div>
 		<div id="datos">
 			<h3>Eliminar Vehiculo</h3>
-			<p>¿Seguro que desea eliminar el vehiculo con patente:  <?php echo $vehiculo['patente']; ?> ?</p>  	<!-- //////////////////// -->
-			<p>Esta acción es permanente</p>
-			<p><a style="color:green" href="eliminar.php?id=<?php echo $vehiculo['id']; ?>">Si, Eliminar</a> | <a style="color: red;" href="miperfil.php">No, volver</a></p>
+			<h3>¿Seguro que desea eliminar el vehiculo con patente:  <?php echo $vehiculo['patente']; ?>?</h3	> <nobr>
+			<h3>Esta acción es permanente<h3>	<!--???POR ALGUN MOTIVO EL TAG H1 ESPECIFICADO ACA, SE APLICA TAMBIEN SOBRE EL SIGUIENTE PARRAFO (COMO SI TAMBIEN FUERA UN H1, TENERLO EN CUENTA EN CASO DE ALGUN BUG???-->
+			<p><a style="text-decoration:none" href="eliminar.php?id=<?php echo $vehiculo['id']; ?>">Si, Eliminar</a>  | <a style="text-decoration:none" href="miperfil.php">No, cancelar	</a></p>
 		</div>
 		<div style="clear: both;"></div>
 	</div>

@@ -18,29 +18,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<meta charset="utf-8">
 	<title>Compartir</title>
 	<style type="text/css">
 		body {
-			background-color: white;
 			font-family: sans-serif;
-			text-align: center;
-			
-			
+			text-align: center;			
 		}
 		h1 {
 			background-color: black;
 			padding: 55px;
-			color: white;
-			/*animation: cambiaColor 3000ms infinite alternate;*/
-
 		}
-		@keyframes cambiaColor {
+		/*@keyframes cambiaColor {
 			to {
 				background-color: grey;
 				/*transform: translateY(100px);*/
 			}
-		}
+		}*/
 	</style>
 	<script src="jquery.min.js"></script>
 	<script>
@@ -63,12 +58,9 @@
 			<b> Somos el servicio para compartir viajes mas completo del pais!!!</b><br/>
 			Animate a viajar
 		</p>
-		<!--<p>Te gustaria crear un viaje y compartirlo???<br/>
-			<a href="crearviaje.php">Creae un viaje</a></p>
-		-->
 	</div>
 	<div align="center" id=viajes > 
-		<div align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">
+		<div align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">
 			<p>
 				<?php echo "Origen: ".$datoviaje['origen'];?><br/>
 				<?php echo "Destino: ".$datoviaje['destino'];?><br/> 
@@ -79,13 +71,6 @@
 			</p>
 		</div>
 	</div>
-	<!--
-	<script>
-		let visitante = prompt('What is your name?');
-		let texto = document.getElementById('user');
-		texto.innerText = visitante;
-	</script>
-	-->
 	</div>
 </body>
 </html>

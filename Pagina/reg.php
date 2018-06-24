@@ -54,15 +54,15 @@ $telefono = str_replace($caracteresAEliminar,"", $telefono);
 //se chequea que el telefono tenga un tamano razonable
 if (strlen($telefono) < 6 || strlen($telefono) > 20) {		
 	header('Location: registro.php?error=11');
+	exit;
 }
 
 
 //Se chequea que NO hallan quedado caracteres NO numericos
 if (!ctype_digit($telefono)) {  
 	header('Location: registro.php?error=10');
+	exit; 
 }
-
-echo "SOY UN DEBUG, EL TELOFONO ES: $telefono"; //???BORRAR EN CUANTO SE CHEQUEE QUE EL TELEFONO LLEGA SANO Y SALVO???
 
 // se valida que el mail sea correcto
 if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
@@ -95,7 +95,7 @@ if ($diferencia->format("%y") > 18) {
   // se envia el usuario a la DB
   $registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."')");
 if($registrar){
-	$exito = true;	//esto de pasar $registrar a $exito esta de mas. aunque por el momento por las dudas lo dejo
+	$exito = true;	//esto de pasar $registrar a $exito me parece esta de mas. aunque por el momento por las dudas lo dejo
 }else{
 	$exito = false;
 }
@@ -103,10 +103,11 @@ if($registrar){
 if(!$exito){
 	header('Location: registro.php?error=12'); //???por debug prefiero aclarar cuando sucede este error. Si parece mejor cambiarlo por mostrar "error desconocido" (siguiente linea)???
 	//header('Location: registro.php?error=desc');  
-}else{
+}
+else{
 	header('Location: index.php?res=3');
-}}
+}
 else {
-header('Location: registro.php?error=9');
+	header('Location: registro.php?error=9');
 }
 ?>

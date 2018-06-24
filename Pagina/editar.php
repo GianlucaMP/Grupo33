@@ -65,6 +65,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<title></title>
 	<script type="text/javascript" src="js/js_viajes.js"></script>
 	<style type="text/css">
@@ -85,9 +86,9 @@
 </head>
 <body>
 	<div id='container'>
-	<h3>Mi perfil</h3>
+	<h2>Mi perfil</h2>
 		<div id='menucostado'>
-			<p> <a href="miperfil.php">Volver</a></p>
+			<h2> <a style="text-decoration:none" href="miperfil.php">Volver</h2	></p>
 		</div>
 		<div id='datos'>
 			<h4>Editando perfil: <?php echo $user['nombre']; ?></h3>
@@ -96,12 +97,10 @@
 				<p>Nombre: <input type="text" id="name" name="name" value="<?php echo $user['nombre']; ?>"></p>
 				<p>Email: <input type="text" id="email" name="mail" value="<?php echo $user['email']; ?>"></p>
 				<p>Fecha: <input type="date" id="date" name="date" value="<?php echo $user['fecha']; ?>"></p>
-				<!--<p>Descrpcion:</p>
-				<textarea name="sinopsis" id="sinopsis" style="width: 450px; height: 200px;"><?php /*echo $datopelicula['sinopsis']; */?></textarea>-->
 			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
 			<p id="error" style="color: red;"><?php echo $error?></p>
-			<p style="color: gray;"><small>El nick no puede tener mas de 16 caracteres</small></p>
-			<p style="color: gray;"><small>La clave debe tener al menos una mayuscula y un numero o simbolo</small></p>
+			<p style>*El nick no puede tener mas de 16 caracteres</p>
+			<p style>*La clave debe tener al menos una mayuscula y un numero o simbolo</p>
 			</form>
 		</div>
 		<div style="clear: both;"></div>
