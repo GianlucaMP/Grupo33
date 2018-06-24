@@ -58,6 +58,7 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
 		<form enctype="multipart/form-data" method="POST" action="agregar.php" align="justify" >
 			<fieldset>
+			<fieldset>
 			<p>Precio Total: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
 			<p>Origen: <input type="text" id="origen" name="origen"></p>	
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
@@ -72,7 +73,8 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 						
 			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>
 			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>
-						
+			</fieldset>	<p> </p>		
+			
 			
 			<fieldset>
 			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
@@ -86,17 +88,19 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 			<p> Marca:<input type="text" id="marca" name="marca"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
 			<p> Color:<input type="text" id="color" name="color"> </p>			<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
 			<p> Patente:<input type="text" id="patente" name="patente"> </p>	<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			</fieldset>	
+			</fieldset>	<p> </p>
 			
-						
+			
+			<fieldset>			
 			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?>> </p>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?>> </p> 
+			</fieldset> <p> </p>
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
 			
 			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
 			<p id="error" style="color: red;"><?php echo $error?></p>
-			</fieldset>
+			</fieldset> 
 		</form>
 		</div>
 </body>
