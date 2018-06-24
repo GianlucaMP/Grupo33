@@ -3,7 +3,7 @@
 	require('dbc.php');
 	$coneccion = conectar();
 	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio
-	$campos = array('preciototal','origen', 'destino', 'fecha', 'vehiculo',  'contacto');
+	$campos = array('preciototal','origen', 'destino', 'fecha', 'plazas','vehiculo',  'contacto','creador');
 	foreach($campos AS $campo) {
   if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
     header('Location: crearviaje.php?error=1');
@@ -23,7 +23,7 @@ $fechaactual = Date("Y-m-d");
 $fechaevento = $_POST['fecha'];
 if ($fechaactual <= $fechaevento) {
 	// se envian los datos a la base de datos, si se sube te avisa y si no tambien.
-	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, contacto) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$_POST['contacto']."')");
+	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, contacto,usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['contacto']."','".$_POST['creador']."')");
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	echo "$sql";
 	if($sql) header('Location: index.php?result=1');////////////////////////////

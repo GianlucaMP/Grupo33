@@ -7,7 +7,12 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
-	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+
+	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+	
+	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE el campo de enlace y de vehiculo son iguales.  Explicacion incompleta. 
+	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
@@ -96,6 +101,7 @@
 				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p><!-- //////////////////// -->
 				<h4>Listado de Vehiculos</h4>
 				<?php
+				if(mysqli_num_rows($vehiculos) < 1) {echo "No posee vehiculos registrados";}
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
 					echo '<div class="viaje" align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey; width: 800px; margin-bottom:15px;">';
 					echo "Marca: ".$listarvehiculos['marca']."<br/>";

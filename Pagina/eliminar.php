@@ -15,9 +15,16 @@
 	if(!isset($_GET['id'])){
 		$err = true;
 	}else{
-		// se elimina la pelicula con la respectiva query, si no la hay, o si otra cosa sale mal, se avisa.
-		$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
-		if($sql) header('Location: miperfil.php?result=3');////////////////////////////
+		// se elimina el vehiculo con la respectiva query, si no la hay, o si otra cosa sale mal, se avisa.
+		$mienlace = mysqli_query($coneccion,"DELETE FROM enlace WHERE usuarios_id='".$_SESSION['id']."' AND vehiculos_id='".$_GET['id']."' ");
+		if(!$mienlace) header('Location: miperfil.php?result=default');
+
+		$enlaces = mysqli_query($coneccion,"SELECT * FROM enlace WHERE vehiculos_id=".$_GET['id']);
+		if (mysqli_num_rows($enlaces) < 1) {
+			$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
+		}
+		//$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
+		if($mienlace||$sql) header('Location: miperfil.php?result=3');////////////////////////////
 		else header('Location: miperfil.php?result=4');//////////////////
 	}
 ?>
