@@ -5,7 +5,12 @@ function viaje() {
 	var fecha = document.getElementById("fecha").value;
 	var vehiculo = document.getElementById("vehiculo").value;
 	var preciototal = document.getElementById("preciototal").value;
-	var contacto = document.getElementById("contacto").value;
+	var horario = document.getElementById("horario").value;
+	var duracion = document.getElementById("duracion").value;
+	var plazas = document.getElementById("plazas").value;
+	
+	 
+		
 	// se chequean vacios
 	if (origen === "") {
 		alert("Falta el origen.");
@@ -16,7 +21,7 @@ function viaje() {
 		return false;
 	}
 	if (fecha === "") {
-		alert("Falta la fecha.");
+		alert("Falta la fecha.");	//esto en viajes periodicos capaz no va tan asi
 		return false;
 	}
 	if (vehiculo === "") {
@@ -24,11 +29,19 @@ function viaje() {
 		return false;
 	}
 	if (preciototal === "") {
-		alert("Falta el preciototal.");
+		alert("Falta el precio total.");
 		return false;
 	}
-	if (contacto === "") {
-		alert("Falta el contacto.");
+	if (duracion === "") {
+		alert("Falta la duracion.");
 		return false;
 	}
+	if (plazas === "") {
+		alert("Falta especificar las plazas disponibles.");
+		return false;
+	}
+	
+	
 }	
+
+//falta agregar chequeo por todos los demas campos????
