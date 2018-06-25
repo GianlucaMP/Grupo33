@@ -20,10 +20,13 @@
 									break;
 								case '3':
 										$fallo='Usuario registrado con exito.';///////////////////
-										$color= "green";/////////////////////
+										$color= "lightgreen";/////////////////////
 								//	echo 'Usuario registrado con exito.';
 									break;
-
+								case '4':
+									$fallo='parece que no estas logueado, intentalo de nuevo';
+									$color="red";
+									break;
 								default:
 									$fallo='Error desconocido.';
 									$color="red";
@@ -41,7 +44,7 @@
 				</form>
 				<p>¿No tenes cuenta?<br/>
 				<a href="registro.php">Create una</a></p>
-				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $fallo?></p> <!-- //////////////////// -->
+				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $fallo?></p> 
 			<?php
 			}else{
 			?>
