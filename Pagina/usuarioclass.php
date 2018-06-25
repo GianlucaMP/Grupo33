@@ -43,6 +43,9 @@
 			if($datosuser = mysqli_fetch_array($sql)){
 				return $datosuser;  
 			}
+			else {
+				return null; //???creo que faltaba un retorno nulo. Si falla, cualquier cosa sacarlo???
+			}
 		}
 	}
 ?>

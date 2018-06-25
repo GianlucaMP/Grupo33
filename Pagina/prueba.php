@@ -1,13 +1,43 @@
 
 <?php
 
-$caracteresAEliminar = array( '-' , '(' , ')', " " ); 
-$telefono = "(221) 440-1212";
-echo "telefono vale: $telefono <br>";
+$a = array(
+  'blue'   => 'nice',
+  'car'    => 'fast',
+  'number' => 'none'
+);
 
-//$telefono = preg_replace($caracteresAEliminar, "", $telefono);
-$telefono = str_replace($caracteresAEliminar,"", $telefono);
+foreach($a AS $campo) {
+	echo "el elemento es: $campo <br>";
+}
+$b= 'hola';
 
-echo "telefono ahora vale: $telefono";
+
+
+
+$indiceNumerico = array_search("car",array_keys($a));
+echo ($indiceNumerico==null?"nulo":$indiceNumerico);
 
 ?>
+
+<HTML>
+
+<HEAD>
+
+<BODY>
+
+<form>
+
+<input type="checkbox" name="aca"> aca
+
+<input type="submit">
+
+</form>
+
+
+</BODY>
+
+</HEAD>
+
+
+</HTML>

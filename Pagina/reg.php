@@ -91,23 +91,24 @@ $chequeo2 = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE email='".$ema
 $f1 = new DateTime($_POST["date"]);
 $f2 = new DateTime("now");
 $diferencia =  $f1->diff($f2);
+
+
+//se modifico esta porcion de codigo que sigue, ya que fallaba en algunos casos, debe ser testeada????
+
 if ($diferencia->format("%y") > 18) {
-  // se envia el usuario a la DB
-  $registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."')");
-if($registrar){
-	$exito = true;	//esto de pasar $registrar a $exito me parece esta de mas. aunque por el momento por las dudas lo dejo
-}else{
-	$exito = false;
+	// se envia el usuario a la DB
+	$registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."')");
+	if($registrar){//si la ooperacion de la BD salio bien -> $registar deberia evaluar a true ??casi seguro???. y lo envia a la home
+		header('Location: index.php?res=3');
+		die();	
+	}
+	else { //si llega aca, seguramente sea un error con la BD
+		header('Location: registro.php?error=12');  
+		die();
+	}
 }
-//si todo salio bien en la query, se envia al user a la home, si no, se da aviso de error
-if(!$exito){
-	header('Location: registro.php?error=12'); //???por debug prefiero aclarar cuando sucede este error. Si parece mejor cambiarlo por mostrar "error desconocido" (siguiente linea)???
-	//header('Location: registro.php?error=desc');  
-}
-else{
-	header('Location: index.php?res=3');
-}
-else {
+else{ //es menor de edad -> no se puede registrar
 	header('Location: registro.php?error=9');
+	die();
 }
 ?>

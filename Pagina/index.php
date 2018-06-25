@@ -11,11 +11,11 @@
 	if(!empty($_GET['result'])){//
 		switch ($_GET['result']) {//
 		case '1'://
-			$result='Viaje creado con exito';//
-			$color= "green";//
+			$result='Viaje creado con exito!';//
+			$color= "lightgreen";//
 			break;//
 		case '2'://
-			$result='Error al crear el viaje';//
+			$result='Error al crear el viaje :(';//
 			$color="red";//
 			break;//
 		default: //
@@ -93,7 +93,7 @@
 			<?php if($logeado) { ?>
 				<a href="crearviaje.php">Crear un viaje</a> <?php }
 				else echo "Debes estar logeado para crear un viaje"; ?>
-				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p><!-- //////////////////// -->
+				<p id="error" style="color: <?php echo $color; ?>;font-size:25px"><?php echo $result?></p><!-- //////////////////// -->
 			</p>
 	</div>
 	<div align="center" id=viajes>

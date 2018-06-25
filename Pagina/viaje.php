@@ -67,7 +67,8 @@
 				<?php echo "Fecha: ".$datoviaje['fecha'];?><br/>
 				<?php echo "Precio: ".$datoviaje['preciototal'];?><br/>
 				<?php echo "Vehiculo: ".$datoviaje['vehiculo'];?><br/>
-				<?php echo "Contacto: ".$datoviaje['contacto'];?><br/>
+				<?php echo "Contacto: ".$datoviaje['contacto'];?><br/> <!--sacar esta linea en cuanto se registre el conductor del viaje en la BD -->
+				<?php echo "Conductor: (COMPLETAR)" ?> <!--Mostrar aca el conductor, (hay que agregarlo a la tabla de viajes), y a su vez, al mostrarlo que este sea un link al pefil del mismo -->
 			</p>
 		</div>
 	</div>

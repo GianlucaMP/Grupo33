@@ -34,9 +34,6 @@
 			float: right;
 			width: 59%;
 		}
-		.corrido{
-			margin-left: 40px;
-		}
 		
 	</style>
 </head>
