@@ -34,6 +34,10 @@
 			float: right;
 			width: 59%;
 		}
+		.corrido{
+			margin-left: 40px;
+		}
+		
 	</style>
 </head>
 <body>
@@ -44,9 +48,10 @@
 		</div>
 		<div id="datos">
 			<h3>Eliminar Vehiculo</h3>
-			<h3>¿Seguro que desea eliminar el vehiculo con patente:  <?php echo $vehiculo['patente']; ?>?</h3	> <nobr>
-			<h3>Esta acción es permanente<h3>	<!--???POR ALGUN MOTIVO EL TAG H1 ESPECIFICADO ACA, SE APLICA TAMBIEN SOBRE EL SIGUIENTE PARRAFO (COMO SI TAMBIEN FUERA UN H1, TENERLO EN CUENTA EN CASO DE ALGUN BUG???-->
-			<p><a style="text-decoration:none" href="eliminar.php?id=<?php echo $vehiculo['id']; ?>">Si, Eliminar</a>  | <a style="text-decoration:none" href="miperfil.php">No, cancelar	</a></p>
+			<h3>¿Seguro que desea eliminar el vehiculo con patente:  <?php echo $vehiculo['patente']; ?>?  </h3> 
+			<h3 style="font-size:22px"> Esta accion sera permanente! </h3>
+			<!--???POR ALGUN MOTIVO EL TAG H3 ESPECIFICADO ACA, SE APLICA TAMBIEN SOBRE EL SIGUIENTE PARRAFO (COMO SI TAMBIEN FUERA UN H1, TENERLO EN CUENTA EN CASO DE ALGUN BUG???-->
+			<p style="font-size:25px"><a style="text-decoration:none; color:red" href="eliminar.php?id=<?php echo $vehiculo['id']; ?>">Si, Eliminar</a>  <a style="margin-left:25px;text-decoration:none; color:lightgreen" href="miperfil.php">No, cancelar</a></p>
 		</div>
 		<div style="clear: both;"></div>
 	</div>

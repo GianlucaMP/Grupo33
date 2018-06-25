@@ -51,7 +51,7 @@
 			<h2> <a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
 		</div>
 		<div id='datos'>
-			<h3>Registrando auto</h3>
+			<h3>Registrar Vehiculo</h3>
 			<form enctype="multipart/form-data" method="POST" action="altavehiculo.php">
 				<p>Marca: <input type="text" id="marca" name="marca" ></p>
 				<p>Modelo: <input type="text" id="modelo" name="modelo" ></p>

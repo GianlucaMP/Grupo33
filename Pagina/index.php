@@ -31,7 +31,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="stylesheets.css">
 	<meta charset="utf-8">
-	<title>TS</title>
+	<title>Aventon: Somos lo que estabas buscando</title>
 	<style type="text/css"> 
 		body {
 			font-family: sans-serif;

@@ -100,6 +100,8 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 			Para cambiar esto. hay que sacar el readoly, que en la BD se creen viajes con email y contacto "personalizados" (y no sacados de la tabla users)-->
 			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p> 
+			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
+			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editar.php"> Editar Perfil </a> </p>
 			<!-- ????en cuanto los datos de contacto dejen de ser readonly hay que verificarlos???-->
 			</fieldset> <p> </p>
 			
