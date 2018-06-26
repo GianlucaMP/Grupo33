@@ -124,11 +124,11 @@
 
 					<fieldset>
 						<legend>Crea tu cuenta</legend>
-						<input class="registroinput" id="user" type="text" name="user" placeholder="Nick">
+						<input class="registroinput" id="user" type="text" name="user" placeholder="Nick"> <!--sugiero remover el nick, y manejarse solo con el nombre y listo --> 
 						<input class="registroinput" id="email" type="text" name="mail" placeholder="Tu e-mail"> <br/>
 						<input id="clave" class="registroinput" type="password" name="pass" placeholder="Clave">
 						<input id="claveconf" class="registroinput" type="password" name="passconf" placeholder="Ingresa la clave de nuevo"> <br/>
-						<input id="name" class="registroinput" type="text" name="name" placeholder="Nombre">
+						<input id="name" class="registroinput" type="text" name="name" placeholder="Nombre y apellido">
 						<input id="date" class="registroinput" type="date" name="date" placeholder="Fecha de nacimiento"> <br/>  <!--???el placeholder nunca se muestra, deberiamos ponerlo de otra manera-->
 						<input class="registroinput" id="telefono" type="text" name="telefono" placeholder="Telefono"> <br>
 						<input class="botonregistro" style="margin: 10px" type="submit" onclick="return registrovacio()" value="Registrate">

@@ -14,6 +14,25 @@
 
     // se colocan los datos de la viaje en un array
     $datoviaje = mysqli_fetch_array($viaje);
+	
+	//por facilidad de escritura de codigo (por tema de escape de comillas, etc)
+	$idConductor = $datoviaje['conductor'];
+	
+	
+	
+			
+	//necesito obtener el nombre del conductor
+	$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id='".$idConductor."'");
+	if($datosConductor = mysqli_fetch_array($sql)){
+		$nombreConductor = $datosConductor['nombre'];
+	}
+	else {
+		echo "error inesperado. No se encuentra el conductor en la Base de Datos"; //ver bien como tratar este error. si es posbile que se de y  si se puede hacer algo mejor
+		die();
+	}
+
+	
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,8 +86,8 @@
 				<?php echo "Fecha: ".$datoviaje['fecha'];?><br/>
 				<?php echo "Precio: ".$datoviaje['preciototal'];?><br/>
 				<?php echo "Vehiculo: ".$datoviaje['vehiculo'];?><br/>
-				<?php echo "Contacto: ".$datoviaje['contacto'];?><br/> <!--sacar esta linea en cuanto se registre el conductor del viaje en la BD -->
-				<?php echo "Conductor: (COMPLETAR)" ?> <!--Mostrar aca el conductor, (hay que agregarlo a la tabla de viajes), y a su vez, al mostrarlo que este sea un link al pefil del mismo -->
+				<p style="font-size:20px; float:right"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php/?id=$idConductor\">" ?>  <?php echo "Conductor: ".$nombreConductor;?>  </p>
+				 <br/> 
 			</p>
 		</div>
 	</div>

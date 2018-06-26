@@ -5,8 +5,13 @@ require('dbc.php');
 $conexion = conectar();
 
 
-$usuarios=mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id = '".$_GET['id']."'"); //esto deberia funcionar
-$conductor=mysqli_fetch_array($conductor);
+$sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id = '".$_GET['id']."'"); 
+
+if (!$datosConductor = mysqli_fetch_array($sql)) {
+	echo"Error inesperado. No se puede acceder al conductor en la BD"; //hacer un manejo de este error mas copado
+	exit;
+}
+//si llegue hasta aca todo bien, ya tengo los datos del conductor
 
 
 ?>
@@ -14,16 +19,14 @@ $conductor=mysqli_fetch_array($conductor);
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="stylesheets.css">
-	<title></title>
-	</style>
+	<title> Ver Perfil </title>
 </head>
 <body>
 
-<div> mostrar datos de contacto </div> <!-- convertir esto en boton-->
+<p> mostrar datos de contacto </p> <!-- convertir esto en boton-->
 
 </body>
-<html>
+</html>
 
 
-<!--PENDIENTE:
-En la pagina de un viaje, agregar boton para ir al perfil del tipo en cuestion (el cual es un link a esta pagina, que manda por GET, el id del chabon)-->
+
