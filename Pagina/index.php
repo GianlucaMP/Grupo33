@@ -109,7 +109,7 @@
 				echo "Fecha: ".$listarviajes['fecha']."<br/>";
 				echo'</div>';
 				echo '<div>';
-				echo '...<a style="color: white;" href="viaje.php?id='.$listarviajes['id'].'">Ver Mas</a>';
+				echo '...<a style="color: white;" href="verviaje.php?id='.$listarviajes['id'].'">Ver Mas</a>';
 				echo '</div>';
 				echo '</div>';
 			}//

@@ -137,7 +137,7 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p> 
 			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
-			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editar.php"> Editar Perfil </a> </p>
+			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
 			</fieldset> <p> </p>
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->

@@ -81,7 +81,7 @@
 	<div id='container'>
 	<h2>Mi perfil</h2>
 		<div id='menucostado'>
-			<p> <a href="editar.php" style="text-decoration:none">Editar Perfil</a></p>
+			<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
@@ -105,7 +105,7 @@
 					echo "Color: ".$listarvehiculos['color']."<br/>";
 					echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
 					echo "Patente: ".$listarvehiculos['patente']."<br/>";
-					echo '<a href="modificarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
+					echo '<a href="editarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
 					echo '</div>';
 				}
 				?>

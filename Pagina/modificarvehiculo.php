@@ -6,62 +6,28 @@
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
-	//$user = $sesion->datosuser();
-	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE id=".$_GET['id']." ORDER BY id");
-	$vehiculo=mysqli_fetch_array($vehiculos);
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
-		header('Location: index.php');
+	header('Location: index.php');
 	}
-	if (!empty($_GET['error'])) {//////////////////////////////////
-		switch ($_GET['error']) {/////////////////////////
-			 case '1'://///////////////////////////
-				$error = 'La patente que ingreso ya esta registrada';////////////////////////////
-				break;}}else{////////////////////////////////
-					$error = '&nbsp;';/////////////////////
-				}/////////////////////
+	//chequea que no haya campos vacios
+	$campos = array('marca','modelo', 'plazas', 'color','patente');
+	foreach($campos AS $campo) {
+	  	if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
+	    	echo "$campo vacio";
+	    	die();
+	  	}
+	}
+	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
+	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente
+        header('Location: editarvehiculo.php?error=1');
+				die();
+        }
+
+	$sql = mysqli_query($coneccion, "UPDATE vehiculos SET plazas='".$_POST['plazas']."', marca='".$_POST['marca']."', modelo='".$_POST['modelo']."', color='".$_POST['color']."', patente='".$_POST['patente']."' WHERE id=".$_GET['id']);
+	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
+	//echo "$sql";
+	if($sql) header('Location: miperfil.php?result=5');
+	else header('Location: miperfil.php?result=6');
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="stylesheets.css">
-	<title></title>
-	<script type="text/javascript" src="js/js_viajes.js"></script>
-	<style type="text/css">
-		#container{
-			width: 1200px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		#menucostado{
-			float: left;
-			width: 40%;
-		}
-		#datos{
-			float: right;
-			width: 59%;
-		}
-	</style>
-</head>
-<body>
-	<div id="container">
-	<h2>Mi perfil</h2>
-		<div id="menucostado">
-			<h2> <a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
-		</div>
-		<div id="datos">
-			<h3>Modificar Vehiculo</h3>
-			<form enctype="multipart/form-data" method="POST" action="modificacion.php?id=<?php echo $_GET['id'];?>">
-				<p>Marca: <input type="text" id="marca" name="marca" value="<?php echo $vehiculo['marca']; ?>"></p>
-				<p>Modelo: <input type="text" id="modelo" name="modelo" value="<?php echo $vehiculo['modelo']; ?>"></p>
-				<p>Color: <input type="text" id="color" name="color" value="<?php echo $vehiculo['color']; ?>"></p>
-				<p>Plazas: <input type="number" id="plazas" name="plazas" value="<?php echo $vehiculo['plazas']; ?>"></p>
-				<p>Patente: <input type="text" id="patente" name="patente" length="7" value="<?php echo $vehiculo['patente']; ?>"></p>
-			<input type="submit" class="botonregistro" style="margin: 10px;" onclick="return registrovacio()" style="margin-bottom: 20px;" value="Listo!">
-			<p id="error" style="color: red;"><?php echo $error?></p>	
-			</form>
-		</div>
-		<div style="clear: both;"></div>
-	</div>
-</body>
-</html>
+<a href="miperfil.php">volver</a>
