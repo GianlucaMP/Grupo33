@@ -112,7 +112,7 @@
 	
 	
 	//fecha valida se envian los datos a la base de datos, si se sube te avisa y si no tambien.
-	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, contacto, conductor) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$_POST['contacto']."','".$datosUsuario['id']."')"); //se le agrego el envio del ID del conductor ???chequearlo???
+	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, conductor) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$datosUsuario['id']."')"); //se le agrego el envio del ID del conductor ???chequearlo???
 	if($sql) {//transaccion valida, viaje creado
 		 header('Location: index.php?result=1');
 	}
