@@ -43,7 +43,7 @@
 					<input type="submit" class="botonregistro" onclick="return loginvacio()" value="Logeate!">
 				</form>
 				<p>¿No tenes cuenta?<br/>
-				<a href="registro.php">Create una</a></p>
+				<a href="registrarusuario.php">Create una</a></p>
 				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $fallo?></p> 
 			<?php
 			}else{
