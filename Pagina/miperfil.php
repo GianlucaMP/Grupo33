@@ -8,51 +8,45 @@
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
 	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
-	// si el usuario no esta logeado se redirecciona automaticamente al inicio
+	//si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
 	}
-	if(!empty($_GET['result'])){///////////////////
-		switch ($_GET['result']) {//////////////
-			case '1'://////////////
-				$result='Vehiculo agregado con exito';///////////////////////
-				$color= "green";/////////////////////////////////
-				break;//////////////////////
-
-			case '2'://////////////////////////////
-					$result=	'Hubo un error al agregar el vehiculo';////////////////////
-					$color="red";///////////////////////
-				break;//////////////////////
-
-				case '3'://////////////
-					$result='Vehiculo eliminado con exito';///////////////////////
-					$color= "green";/////////////////////////////////
-					break;//////////////////////
-
-				case '4'://////////////////////////////
-						$result=	'Hubo un error al eliminar el vehiculo';////////////////////
-						$color="red";///////////////////////
-					break;//////////////////////
-
-					case '5'://////////////
-						$result='Vehiculo modificado con exito';///////////////////////
-						$color= "green";/////////////////////////////////
-						break;//////////////////////
-
-					case '6'://////////////////////////////
-							$result=	'Hubo un error al modificar el vehiculo';////////////////////
-							$color="red";///////////////////////
-						break;//////////////////////
-
-						case '7'://////////////////////////////
-								$result=	'Perfil editado con exito';////////////////////
-								$color="green";///////////////////////
-							break;//////////////////////
-			default:///////////////
-					$result='Error desconocido.';///////////////////
-					$color="red";}}////////////////////////////
-		else{//////////////////////////
-			$result = '&nbsp;';		}///////////////////////////
+	if(!empty($_GET['result'])){
+		switch ($_GET['result']) {
+			case '1':
+				$result='Vehiculo agregado con exito';
+				$color= "lightgreen";
+				break;
+			case '2':
+				$result=	'Hubo un error al agregar el vehiculo';
+				$color="red";
+				break;
+			case '3':
+				$result='Vehiculo eliminado con exito';
+				$color= "lightgreen";
+				break;
+			case '4':
+				$result='Hubo un error al eliminar el vehiculo';
+				$color="red";
+				break;
+			case '5':
+				$result='Vehiculo modificado con exito';
+				$color= "lightgreen";
+				break;
+			case '6':
+				$result='Hubo un error al modificar el vehiculo';
+				$color="red";
+				break;
+			case '7':
+				$result='Perfil editado con exito';
+				$color="lightgreen";
+				break;
+			default:
+				$result='Error desconocido.';
+				$color="red";}
+	}else{
+			$result = '&nbsp;';}
 ?>
 <!DOCTYPE html>
 <html>
@@ -95,7 +89,7 @@
 				</ul>
 			</div>
 			<div align="left">
-				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p><!-- //////////////////// -->
+				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p>
 				<h4>Listado de Vehiculos</h4>
 				<?php
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {

@@ -18,11 +18,15 @@
 	    	die();
 	  	}
 	}
+	
+	//este chequeo es para evitar que queden 2 autos en la BD con una misma patente despues de una edicion???
+	//???hay un bug por este chequeo, q salta si modifica algo y se deja la patente igual. Ya que no comtempla ese caso???
+	//seguramente haya que ver esto solo si se cambia la patente, ahora si se deja igual salteamos este chequeo
 	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
-	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente
+	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente  
         header('Location: editarvehiculo.php?error=1');
-				die();
-        }
+		die();
+    }
 
 	$sql = mysqli_query($coneccion, "UPDATE vehiculos SET plazas='".$_POST['plazas']."', marca='".$_POST['marca']."', modelo='".$_POST['modelo']."', color='".$_POST['color']."', patente='".$_POST['patente']."' WHERE id=".$_GET['id']);
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));

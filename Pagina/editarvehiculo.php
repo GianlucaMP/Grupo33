@@ -7,8 +7,8 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	//$user = $sesion->datosuser();
-	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE id=".$_GET['id']." ORDER BY id");
-	$vehiculo=mysqli_fetch_array($vehiculos);
+	$vehiculos = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE id=".$_GET['id']." ORDER BY id");
+	$vehiculo = mysqli_fetch_array($vehiculos);
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');

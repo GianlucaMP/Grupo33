@@ -19,7 +19,7 @@
 		$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
 		if($sql) header('Location: miperfil.php?result=3');
 		else header('Location: miperfil.php?result=4');
-
+	}
 ?>
 <!--<!DOCTYPE html>
 <html>

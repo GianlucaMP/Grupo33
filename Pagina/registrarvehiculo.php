@@ -13,13 +13,13 @@
 	if(!$logeado){
 		header('Location: index.php');
 	}
-	if (!empty($_GET['error'])) {//////////////////////////////////
-		switch ($_GET['error']) {/////////////////////////
-			 case '1'://///////////////////////////
-				$error = 'La patente que ingreso ya esta registrada';////////////////////////////
-				break;}}else{////////////////////////////////
-					$error = '&nbsp;';/////////////////////
-				}/////////////////////
+	if (!empty($_GET['error'])) {
+		switch ($_GET['error']) {
+			 case '1':
+				$error = 'La patente que ingreso ya esta registrada';
+				break;}}else{
+					$error = '&nbsp;';
+				}
 
 ?>
 <!DOCTYPE html>
