@@ -15,8 +15,8 @@
     // se colocan los datos de la viaje en un array
     $datoviaje = mysqli_fetch_array($viaje);
 
-        //se busca el vehiculo del viaje por su id
-    $vehiculo=mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id='".$datoviaje['vehiculos_id']."'");
+    //se busca el vehiculo del viaje por su id
+    $vehiculo = mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id='".$datoviaje['vehiculos_id']."'");
     // se colocan los datos del vehiculo en un array
     $datovehiculo = mysqli_fetch_array($vehiculo);
 	
@@ -36,6 +36,24 @@
 		die();
 	}
 
+	$colorMensaje = "lightgreen";
+	$mensaje = "&nbsp";
+	
+	if (!empty($_GET['result'])) {
+		switch ($_GET['result']){
+			case '1': 
+				$mensaje = "Postulacion exitosa. Chequea \"Mis Postulaciones\" para saber cuando te acepten";
+				break;
+			case '2':
+				$mensaje = "La postulacion no pudo realizarse"; //explayar mas despues los posibles casos
+				$colorMensaje = "red";
+				break;
+			defualt:
+				$mensaje = "error desconocido";		
+		}		
+	}
+	
+	
 	
 	
 ?>
@@ -54,12 +72,7 @@
 			background-color: black;
 			padding: 55px;
 		}
-		/*@keyframes cambiaColor {
-			to {
-				background-color: grey;
-				/*transform: translateY(100px);*/
-			}
-		}
+		
 	</style>
 	<script src="jquery.min.js"></script>
 	<script>
@@ -83,6 +96,10 @@
 			Animate a viajar
 		</p>
 	</div>
+	<div>
+	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p>
+	
+	</div>	
 	<div align="center" id=viajes > 
 		<div align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">
 			<p>
@@ -92,8 +109,10 @@
 				<?php echo "Precio: ".$datoviaje['preciototal'];?><br/>
 				
 				<?php echo "Vehiculo: ".$datovehiculo['marca']."  ".$datovehiculo['modelo']."" ;?><br/>
-
-				<p style="font-size:20px; float:right"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php/?id=$idConductor\">" ?>  <?php echo "Conductor: ".$nombreConductor;?>  </p>
+				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')">
+					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:lightblue; color:white; border: 2px solid white">
+				</form>
+				<p style="font-size:20px; float:right;"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php/?id=$idConductor\">" ?>  <?php echo "&nbsp"; echo "Conductor: ".$nombreConductor; echo " (ver perfil) &nbsp";?>  </p>
 				 <br/> 
 			</p>
 		</div>
