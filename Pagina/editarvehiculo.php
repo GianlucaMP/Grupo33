@@ -16,7 +16,7 @@
 	if (!empty($_GET['error'])) {
 		switch ($_GET['error']) {
 			 case '1':
-				$error = 'La patente que ingreso ya esta registrada';
+				$error = 'La patente que ingreso ya esta registrada en su lista de vaehiculos';
 				break;}}else{
 					$error = '&nbsp;';
 				}

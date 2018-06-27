@@ -15,9 +15,18 @@
 	if(!isset($_GET['id'])){
 		$err = true;
 	}else{
-		// se elimina el vehiculo en cuestion.
-		$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
-		if($sql) header('Location: miperfil.php?result=3');
+		#Primero se elimina el enlace entre el usuario y el vehiculo
+		$mienlace = mysqli_query($coneccion,"DELETE FROM enlace WHERE usuarios_id='".$_SESSION['id']."' AND vehiculos_id='".$_GET['id']."' ");
+		#Se verifica que la query haya sido exitosa, CC error desconocido
+		if(!$mienlace) header('Location: miperfil.php?result=default');
+		#Se verifica la cantidad de enlaces restantes del vehiculo. 
+		$enlaces = mysqli_query($coneccion,"SELECT * FROM enlace WHERE vehiculos_id=".$_GET['id']);
+		if (mysqli_num_rows($enlaces) < 1) { #Si enlaces del vehiculo es menor a 1, el vehiculo no tiene mas dueños
+			#En ese caso se lo elimina definitivamente de la BD
+			$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
+		}
+		//$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
+		if($mienlace||$sql) header('Location: miperfil.php?result=3');
 		else header('Location: miperfil.php?result=4');
 	}
 ?>

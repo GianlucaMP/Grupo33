@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2018 a las 10:47:08
+-- Tiempo de generación: 27-06-2018 a las 05:26:28
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -25,6 +25,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `enlace`
+--
+
+CREATE TABLE `enlace` (
+  `id` int(11) NOT NULL,
+  `usuarios_id` int(11) NOT NULL,
+  `vehiculos_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `enlace`
+--
+
+INSERT INTO `enlace` (`id`, `usuarios_id`, `vehiculos_id`) VALUES
+(27, 3, 37),
+(29, 2, 38),
+(30, 2, 37);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -35,7 +56,7 @@ CREATE TABLE `usuarios` (
   `password` varchar(50) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `fecha` date NOT NULL,
-  `telefono` varchar(20) NOT NULL
+  `telefono` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -43,12 +64,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombreusuario`, `email`, `password`, `nombre`, `fecha`, `telefono`) VALUES
-(2, 'Roberto', 'q@w.com', '25491a7c7420a7386bb45a3fb1b289af', 'Roberto Carlos Gardel', '1992-11-30', '2214579988'),
-(3, 'Andres', 'andres@gmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Andrecito', '1995-04-24', '21345547898'),
-(4, 'BigBossTheSnake', 'brai_ladoce@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'braian', '1995-04-23', '2214549898'),
-(12, 'alfredo', 'alfredo@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'alfredo', '1995-02-21', '2214401211'),
-(13, 'anibal', 'anibal@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'anibal', '1995-09-12', '2215193'),
-(14, 'Carlitos', 'carlitos@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Carlitos', '1995-10-24', '444022324');
+(2, 'glucap', 'lucap@hotmail.com', '25491a7c7420a7386bb45a3fb1b289af', 'Gianluca Piriz', '1992-11-30', '222'),
+(3, 'camilab', 'camilab@hotmail.com', '25491a7c7420a7386bb45a3fb1b289af', 'Camila Bolo', '1998-05-30', '222'),
+(4, 'brianb', 'brianb@hotmail.com', '25491a7c7420a7386bb45a3fb1b289af', 'Brian Blanco', '1994-05-31', '222'),
+(5, 'BigBossTheSnake', 'brai_ladoce@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'bigboss', '1995-04-24', '222'),
+(6, 'Robertooo', 'qwe@qwe.com', 'd5538651cfc90611853eb0d45dcf102b', 'nadaaaaaa', '1992-06-16', '222');
 
 -- --------------------------------------------------------
 
@@ -62,18 +82,16 @@ CREATE TABLE `vehiculos` (
   `marca` varchar(20) NOT NULL,
   `modelo` varchar(20) NOT NULL,
   `color` varchar(20) NOT NULL,
-  `patente` varchar(7) NOT NULL,
-  `usuarios_id` int(11) NOT NULL
+  `patente` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `vehiculos`
 --
 
-INSERT INTO `vehiculos` (`id`, `plazas`, `marca`, `modelo`, `color`, `patente`, `usuarios_id`) VALUES
-(2, 4, 'Chevrolet', 'Corsa', 'Blanco', 'asd124', 2),
-(4, 4, 'Toyota', 'Etios', 'Beige Angola', 'ada153', 3),
-(6, 5, 'toyota', 'supra', 'blanco', 'abc124', 4);
+INSERT INTO `vehiculos` (`id`, `plazas`, `marca`, `modelo`, `color`, `patente`) VALUES
+(37, 4, 'Chevrolet', 'Corsa', 'Azul', 'asd123'),
+(38, 2, 'Ford', 'F100', 'Verde', 'aca123');
 
 -- --------------------------------------------------------
 
@@ -87,22 +105,32 @@ CREATE TABLE `viajes` (
   `origen` varchar(100) NOT NULL,
   `destino` varchar(100) NOT NULL,
   `fecha` date NOT NULL,
-  `vehiculo` varchar(100) NOT NULL,
-  `conductor` int(11) NOT NULL,
-  `plazas` int(11) NOT NULL
+  `duracion` time NOT NULL,
+  `plazas` int(11) NOT NULL,
+  `vehiculos_id` int(11) NOT NULL,
+  `contacto` varchar(100) NOT NULL,
+  `usuarios_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `viajes`
 --
 
-INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `vehiculo`, `conductor`, `plazas`) VALUES
-(5, 1240, 'Avellaneda', 'Villa 31', '2099-12-20', '6', 4, 0),
-(7, 12, 'Palermo', 'La quiaca', '2020-12-12', '6', 4, 0);
+INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `duracion`, `plazas`, `vehiculos_id`, `contacto`, `usuarios_id`) VALUES
+(6, 120, 'Posadas', 'Corrientes', '2018-08-29', '03:00:00', 4, 37, 'camilab@hotmail.com', 3),
+(7, 123, 'La Plata', 'CABA', '2018-07-06', '01:00:00', 4, 37, 'lucap@hotmail.com', 2),
+(10, 123, 'La Plata', 'Corrientes', '2018-07-07', '03:00:00', 3, 37, 'lucap@hotmail.com', 2),
+(11, 123, 'asd', 'asd', '2018-06-29', '22:22:00', 3, 37, 'lucap@hotmail.com', 2);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `enlace`
+--
+ALTER TABLE `enlace`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -127,22 +155,28 @@ ALTER TABLE `viajes`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `enlace`
+--
+ALTER TABLE `enlace`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

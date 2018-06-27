@@ -3,7 +3,7 @@
 if (!empty($_GET['error'])) {
 		switch ($_GET['error']) {
 			case '1':
-				$error = 'El campo precio Total esta en blanco';
+				$error = 'El campo precio esta en blanco';
 				break;
 			case '2':
 				$error = 'El campo origen esta en blanco';
@@ -56,7 +56,11 @@ else{
 		$datosUsuario = $sesion->datosuser();
 	}
 	
-	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+	#este es la consulta vieja cuando los vehiculos tenian el campo unico de id de usuario
+
+	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
+	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,7 +101,7 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 		<form method="POST" enctype="multipart/form-data" action="agregarviaje.php" align="justify">		
 			<fieldset>
 			<fieldset>
-			<p>Precio Total: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
+			<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
 			<p>Origen: <input type="text" id="origen" name="origen"></p>	
 			<p>Destino: <input type="text" id="destino" name="destino"></p>
 			<p>Este viaje se realizara periodicamente
@@ -109,9 +113,10 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			<p> IMAGINATE QUE SOY UN CALENDARIO</p> 
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
-						
+			<!--			
 			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>
-			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>
+			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>-->
+			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px"> horas </p>
 			</fieldset>	<p> </p>		
 			
 			
@@ -134,8 +139,9 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			
 			<fieldset>
 			<!--Los datos de contacto son readonly para que el user sepa que se envian. pero en realidad se toman siempre de los datos de contacto cargados en su perfil)-->
-			<p>Email de Contacto: <input type="text" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p> 
+			<p>Email de Contacto: <input type="text" id="contacto" name="contacto" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
+			<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
 			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
 			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
 			</fieldset> <p> </p>

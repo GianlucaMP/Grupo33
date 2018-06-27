@@ -7,7 +7,12 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
-	$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+	
+	#$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
+
+	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
+	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+
 	//si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');

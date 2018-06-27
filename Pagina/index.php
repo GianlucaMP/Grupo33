@@ -102,7 +102,7 @@
 			$fechaactual = Date("Y-m-d");
 			$fechaevento = $listarviajes['fecha'];
 			if ($fechaactual <= $fechaevento) {
-				echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
+				echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 800px; margin-bottom:15px;">';
 				echo '<div>';
 				echo "Origen: ".$listarviajes['origen']."<br/>";
 				echo "Destino: ".$listarviajes['destino']."<br/>";

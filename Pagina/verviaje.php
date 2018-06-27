@@ -14,9 +14,14 @@
 
     // se colocan los datos de la viaje en un array
     $datoviaje = mysqli_fetch_array($viaje);
+
+        //se busca el vehiculo del viaje por su id
+    $vehiculo=mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id='".$datoviaje['vehiculos_id']."'");
+    // se colocan los datos del vehiculo en un array
+    $datovehiculo = mysqli_fetch_array($vehiculo);
 	
 	//por facilidad de escritura de codigo (por tema de escape de comillas, etc)
-	$idConductor = $datoviaje['conductor'];
+	$idConductor = $datoviaje['usuarios_id'];
 	
 	
 	
@@ -54,7 +59,7 @@
 				background-color: grey;
 				/*transform: translateY(100px);*/
 			}
-		}*/
+		}
 	</style>
 	<script src="jquery.min.js"></script>
 	<script>
@@ -85,7 +90,9 @@
 				<?php echo "Destino: ".$datoviaje['destino'];?><br/> 
 				<?php echo "Fecha: ".$datoviaje['fecha'];?><br/>
 				<?php echo "Precio: ".$datoviaje['preciototal'];?><br/>
-				<?php echo "Vehiculo: ".$datoviaje['vehiculo'];?><br/>
+				
+				<?php echo "Vehiculo: ".$datovehiculo['marca']."  ".$datovehiculo['modelo']."" ;?><br/>
+
 				<p style="font-size:20px; float:right"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php/?id=$idConductor\">" ?>  <?php echo "Conductor: ".$nombreConductor;?>  </p>
 				 <br/> 
 			</p>
