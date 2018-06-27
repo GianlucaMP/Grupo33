@@ -61,7 +61,11 @@ else{
 
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
 	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+
+	
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +84,12 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 	width: 40px;
 }
 
+.grande {
+	font-size: 25px;
+	text-align:center;
+	margin: 0;
+}
+
 
 <!-- IMPORTANTE!!!!
 
@@ -87,8 +97,6 @@ FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (
 
 FALTA AGREGAR EL CALENDARIO PARA VIAJES PERIODICOS
 
-IMPORATNTE, SI NO TIENE NINGUN AUTO, QUE TE AVISE DE ESO  Y TE MANDE A REGISTAR UNO, HAY QUE HACER CHEQUEO POR ESO, Y PONER UN LINK A LA PAGINA DE REGISTRO DE AUTOS. ADEMAS OCULTAR TODO LO DEMAS???
-	
 IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto del formu opuesto) SI SE MARCA, SE LLENA MAL EL FORMU Y SE VUELVE PARA ATRAS... CORREGIR -->
 	
 
@@ -96,6 +104,15 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 <body>
 	<h2>Agregar nuevo viaje</h2>
 	
+	
+		<!-- si no tiene vehiculos-->
+		<?php if(mysqli_num_rows($vehiculos) == 0) { ?> 
+		
+			<p class="grande" style="color:gold;">Aviso: No tenes ningun vehiculo registrado. </p
+			>
+			<p class="grande">Antes de crear un viaje vas a necesitar <a href="registrarvehiculo.php"> registrar un vehiculo </a> </p>
+		
+		<?php } else { ?>
 			
 		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
 		<form method="POST" enctype="multipart/form-data" action="agregarviaje.php" align="justify">		
@@ -153,6 +170,8 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			</fieldset> 
 		</form>
 		</div>
+		
+		<?php }  ?>
 </body>
 </html>
 
