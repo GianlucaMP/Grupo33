@@ -11,8 +11,15 @@
 	#$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
-	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+	$vehiculos = mysqli_query ($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
 
+	
+	//chequeo si falla la consulta
+	if (!$vehiculos) {
+		echo "Error en la operacion con la Base de datos";
+		exit;
+	}
+	
 	//si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
@@ -97,7 +104,9 @@
 				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p>
 				<h4>Listado de Vehiculos</h4>
 				<?php
+				$tieneVehiculos = false;
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
+					$tieneVehiculos = true; //no es muy lindo el codigo pero se entiende y sirve
 					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
 					echo "Marca: ".$listarvehiculos['marca']."<br/>";
 					echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
@@ -106,6 +115,12 @@
 					echo "Patente: ".$listarvehiculos['patente']."<br/>";
 					echo '<a href="editarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
 					echo '</div>';
+				}
+				if (!$tieneVehiculos){ 
+					?>  <div align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;"> 
+						<p style="font-size:25px	"> No tenes ningun vehiculo registrado :( </p>
+						<a href="registrarvehiculo.php" style="font-size:17px"> Registra tu vehiculo</a> para poder crear un viaje y compartirlo con otros usuarios </a>
+					</div><?php
 				}
 				?>
 			</div>
