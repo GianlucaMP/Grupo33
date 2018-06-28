@@ -4,7 +4,38 @@
 	$coneccion = conectar();
 	
 	
-	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio (el array a usar depende el tipo de viaje) ???por el momento se implemetno de otra manera???
+	//antes que nada guardo los datos recibidos en variables de sesion para poder conservarlos en caso de error
+	$_SESSION['preciototal'] = $_POST['preciototal'];
+	$_SESSION['origen'] = $_POST['origen'];
+	$_SESSION['destino'] = $_POST['destino'];
+	$_SESSION['fecha'] = $_POST['fecha'];
+	//$_SESSION['horario'] = $_POST['horario'];
+	$_SESSION['duracion'] = $_POST['duracion'];
+	$_SESSION['vehiculo'] = $_POST['vehiculo'];
+	$_SESSION['plazas'] = $_POST['plazas'];
+	$_SESSION['telefono'] = $_POST['telefono'];
+	$_SESSION['email'] = $_POST['email'];
+
+	
+	//DEBUGGING
+	echo "_SESSION EN precio vale: $_SESSION[preciototal]<br>";
+	echo "_SESSION EN origen vale: $_SESSION[origen]<br>";
+	echo "_SESSION EN destino vale: $_SESSION[destino]<br>";
+	echo "_SESSION EN fecha vale: $_SESSION[fecha]<br>";
+	//echo "_SESSION EN horario vale: $_SESSION[horario]<br>";
+	echo "_SESSION EN duracion vale: $_SESSION[duracion]<br>";
+	echo "_SESSION EN vehiculo vale: $_SESSION[vehiculo]<br>";
+	echo "_SESSION EN plazas vale: $_SESSION[plazas]<br>";
+	echo "_SESSION EN telefono vale: $_SESSION[telefono]<br>";
+	echo "_SESSION EN email vale: $_SESSION[email]<br>";
+	exit; 
+	
+
+	
+	
+	
+	
+	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio (el array a usar depende el tipo de viaje)
 	//$datosOcasional = array('preciototal', 'origen', 'destino', 'fecha', 'horario', 'duracion', 'vehiculo', 'plazas');
 	//$datosPeriodico = array('preciototal', 'origen', 'destino', 'fecha', 'horario', 'duracion', 'vehiculo', 'plazas'); //capaz se maneje un array distinto en un futuro para periodicos. Pero la idea es algo asi
 	#By LC. Que el array a usar dependa del tipo de viaje.
@@ -84,27 +115,6 @@
 	}else { //si esta logeado cargo varios datos del usuario en la variable $datosUsuario
 		$datosUsuario = $sesion->datosuser();
 	}
-	
-	$_SESSION['preciototal'] = $_POST['preciototal'];
-	$_SESSION['origen'] = $_POST['origen'];
-	$_SESSION['destino'] = $_POST['destino'];
-	$_SESSION['fecha'] = $_POST['fecha'];
-	//$_SESSION['horario'] = $_POST['horario'];
-	$_SESSION['duracion'] = $_POST['duracion'];
-	$_SESSION['vehiculo'] = $_POST['vehiculo'];
-	$_SESSION['plazas'] = $_POST['plazas'];
-	
-
-	
-	//DEBUGGING
-	echo "_SESSION EN precio vale: $_SESSION[preciototal]<br>";
-	echo "_SESSION EN origen vale: $_SESSION[origen]<br>";
-	echo "_SESSION EN destino vale: $_SESSION[destino]<br>";
-	echo "_SESSION EN fecha vale: $_SESSION[fecha]<br>";
-	//echo "_SESSION EN horario vale: $_SESSION[horario]<br>";
-	echo "_SESSION EN duracion vale: $_SESSION[duracion]<br>";
-	echo "_SESSION EN vehiculo vale: $_SESSION[vehiculo]<br>";
-	echo "_SESSION EN plazas vale: $_SESSION[plazas]<br>";
 	
 
 	
