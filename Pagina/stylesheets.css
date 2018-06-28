@@ -1,12 +1,14 @@
 
 body{
-background-color: rgb(140,26,255);
+	
+	background-color: rgb(140,26,255);
+
 }
 
-/*???capaz falta incluir algun elemento aca para ponerlos de color blanco y letra en negrita para que se vea mas???*/
-
-p,h1,h2,h3,h4,h5, div, a {  
+p,h1,h2,h3,h4,h5, div, a{  
 		color:white;
 		font-weight:bold;
 }
+
+
 

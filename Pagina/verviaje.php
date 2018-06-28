@@ -115,7 +115,7 @@
 				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')">
 					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:lightblue; color:white; border: 2px solid white">
 				</form>
-				<p style="font-size:20px; float:right;"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php/?id=$idConductor\">" ?>  <?php echo "&nbsp"; echo "Conductor: ".$nombreConductor; echo " (ver perfil) &nbsp";?>  </p>
+				<p style="font-size:20px; float:right;"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php?id=$idConductor\">" ?>  <?php echo "&nbsp"; echo "Conductor: ".$nombreConductor; echo " (ver perfil) &nbsp";?>  </p>
 				 <br/> 
 			</p>
 		</div>
