@@ -5,9 +5,20 @@
 	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
 	require('usuarioclass.php');
 	$sesion = new sesion;
-	//ACA PUEDE FALTAR UN IF DE QUE HACER SI NO ESTA LOGEADO
-	#BY LC. Es el if que esta mas abajo
+	
+
 	$logeado = $sesion->logeado();
+	
+	
+	//guardo los datos recibidos en variables de sesion para poder conservarlos en caso de error (antes de todos los header, pero despues del chequeo de si esta logeado)
+	$_SESSION['marca'] = $_POST['marca'];
+	$_SESSION['modelo'] = $_POST['modelo'];
+	$_SESSION['color'] = $_POST['color'];
+	$_SESSION['plazas'] = $_POST['plazas'];
+	$_SESSION['patente'] = $_POST['patente'];
+	
+	
+	
 	//???LO QUE SIGUE NO SE DEBERIA DES-COMENTAR (YA ESTABA COMENTADO DE ANTES)???
 	//$user = $sesion->datosuser();
 	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
@@ -15,13 +26,35 @@
 	if(!$logeado){
 		header('Location: index.php');
 	}
-	$campos = array('marca','modelo', 'plazas', 'color','patente');
-	foreach($campos AS $campo) {
-	  	if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
-	    	echo "$campo vacio";
-	    	die();
-	  	}
+	
+	
+	
+	
+	if(!isset($_POST['marca']) || empty($_POST['marca'])) {
+		header('Location: registrarvehiculo.php?error=2');
+		exit;
 	}
+	if(!isset($_POST['modelo']) || empty($_POST['modelo'])) {
+		header('Location: registrarvehiculo.php?error=3');
+		exit;
+	}
+	if(!isset($_POST['color']) || empty($_POST['color'])) {
+		header('Location: registrarvehiculo.php?error=4');
+		exit;
+	}
+	if(!isset($_POST['plazas']) || empty($_POST['plazas'])) {
+		header('Location: registrarvehiculo.php?error=5');
+		exit;
+	}
+	if(!isset($_POST['patente']) || empty($_POST['patente'])) {
+		header('Location: registrarvehiculo.php?error=6');
+		exit;
+	}
+
+	
+	
+		
+	
 	#lo que sigue a continuacion se puede mejorar. No lo hice porque no me daba la bateria, tengo tanta energia como una pila china
 	# $chequeo busca el vehiculo en la tabla de vehiculos
 	$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
@@ -56,6 +89,15 @@
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
 	//echo "$sql";
 	#si hubo exito (o no) se notifica
-	if($sql || $sql2)header('Location: miperfil.php?result=1');////////////////////////////
-	else header('Location: miperfil.php?result=2');//////////////////
+	if($sql || $sql2) {
+		unset($_SESSION['marca']);
+		unset($_SESSION['modelo']);
+		unset($_SESSION['color']);
+		unset($_SESSION['plazas']);
+		unset($_SESSION['patente']);
+		header('Location: miperfil.php?result=1');
+	}
+	else {
+		header('Location: miperfil.php?result=2');
+	}
 ?>

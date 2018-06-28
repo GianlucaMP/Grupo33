@@ -4,7 +4,13 @@
 	$coneccion = conectar();
 	
 	
-	//antes que nada guardo los datos recibidos en variables de sesion para poder conservarlos en caso de error
+	//chequeo la sesion, ya que necesito enviar al user actual a la BD como conductor del viaje
+	require('usuarioclass.php');
+	$sesion = new sesion;
+	$logeado = $sesion->logeado();
+	$user= $sesion->datosuser();
+	
+	//guardo los datos recibidos en variables de sesion para poder conservarlos en caso de error (antes de todos los header, pero despues del chequeo de si esta logeado)
 	$_SESSION['flagRegistro'] = $_POST['flagRegistro'];
 	$_SESSION['preciototal'] = $_POST['preciototal'];
 	$_SESSION['origen'] = $_POST['origen'];
@@ -14,24 +20,16 @@
 	$_SESSION['duracion'] = $_POST['duracion'];
 	$_SESSION['vehiculo'] = $_POST['vehiculo'];
 	$_SESSION['plazas'] = $_POST['plazas'];
-
 	
-		
 	
-	//DEBUGGING para el tema de guardar los campos en caso de error
-	/*
-	echo "_SESSION EN flagRegistro vale: $_SESSION[flagRegistro]<br>"
-	echo "_SESSION EN precio vale: $_SESSION[preciototal]<br>";
-	echo "_SESSION EN origen vale: $_SESSION[origen]<br>";
-	echo "_SESSION EN destino vale: $_SESSION[destino]<br>";
-	echo "_SESSION EN fecha vale: $_SESSION[fecha]<br>";
-	//echo "_SESSION EN horario vale: $_SESSION[horario]<br>";
-	echo "_SESSION EN duracion vale: $_SESSION[duracion]<br>";
-	echo "_SESSION EN vehiculo vale: $_SESSION[vehiculo]<br>";
-	echo "_SESSION EN plazas vale: $_SESSION[plazas]<br>";
-	exit; 
-	*/
-
+	// se chequea si esta logeado, y si no lo esta se lo redirecciona al inicio.
+	if(!$logeado){
+		header('Location: index.php');
+	}else { //si esta logeado cargo varios datos del usuario en la variable $datosUsuario
+		$datosUsuario = $sesion->datosuser();
+	}
+	
+	
 	
 	
 	
@@ -79,6 +77,11 @@
 			header('Location: crearviaje.php?error=8');
 			exit;
 		}
+		
+		//ACA VA EL CHEQUEO POR QUE LAS PLAZAS NO SUPEREN EL MAXIMO!!!???
+		//if($_POST['plazas'] > ) {
+			
+		//}
 	}
 	
 	$fechaactual = Date("Y-m-d");
@@ -104,18 +107,7 @@
 		
 	//??? Se agrego este pedazo de codigo, con todo el logeo para poder conseguir los datos del user.. chequear que funcione???
 	
-	//chequeo la sesion, ya que necesito enviar al user actual a la BD como conductor del viaje (creo que no hace falta pero por las dudas..)
-	require('usuarioclass.php');
-	$sesion = new sesion;
-	$logeado = $sesion->logeado();
-	$user= $sesion->datosuser();
 	
-	// se chequea si esta logeado, y si no lo esta se lo redirecciona al inicio.
-	if(!$logeado){
-		header('Location: index.php');
-	}else { //si esta logeado cargo varios datos del usuario en la variable $datosUsuario
-		$datosUsuario = $sesion->datosuser();
-	}
 	
 
 	
@@ -128,7 +120,18 @@
 	
 	
 	if($sql) {//transaccion valida, viaje creado
-		 header('Location: index.php?result=1');
+	
+		//borro todos los datos temporales de los campos llenados por el user para que no se vuelvan a mostrar en la proxima vez que se use el formulario
+		unset($_SESSION['flagRegistro']);
+		unset($_SESSION['preciototal']);
+		unset($_SESSION['origen']);
+		unset($_SESSION['destino']);
+		unset($_SESSION['fecha']);
+		//unset($_SESSION['horario']);
+		unset($_SESSION['duracion']);
+		unset($_SESSION['vehiculo']);
+		unset($_SESSION['plazas']);		
+		header('Location: index.php?result=1');
 	}
 	else { 
 		header('Location: index.php?result=2');

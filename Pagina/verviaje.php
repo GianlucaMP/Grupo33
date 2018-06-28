@@ -57,6 +57,9 @@
 	
 	
 ?>
+
+<!-- AGREGAR ACA MISMO LO NECESARIO PARA LA HU VER POSTULADOS Y ACEPTAR Y RECHAZAR. con un boton ver postualdos que solo se muestra en caso de ser el conductor-->
+
 <!DOCTYPE html>
 <html>
 <head>
