@@ -1,4 +1,5 @@
 <?php
+
 //Tras un intento de crear viaje vuelve aca en un estilo recursivo
 if (!empty($_GET['error'])) {
 		switch ($_GET['error']) {
@@ -26,6 +27,9 @@ if (!empty($_GET['error'])) {
 			case '8':
 				$error = 'El campo plazas esta en blanco';
 				break;
+			case '9':
+				$error = 'La cantidad de plazas ingresadas supera el maximo que posee el vehiculo';
+				break;	
 			case '20':
 				$error = 'Ha ingresado una fecha invalida';
 				break;
@@ -56,11 +60,14 @@ else{
 		$datosUsuario = $sesion->datosuser();
 	}
 	
+	
+	
 	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 	#este es la consulta vieja cuando los vehiculos tenian el campo unico de id de usuario
 
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
 	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+
 
 	
 ?>
@@ -93,16 +100,21 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 
 <!-- IMPORTANTE!!!!
 
-FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP
+FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP (entre ellos que las plazas no superen el maximo, y que mas...)
 
 FALTA AGREGAR EL CALENDARIO PARA VIAJES PERIODICOS
 
-IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto del formu opuesto) SI SE MARCA, SE LLENA MAL EL FORMU Y SE VUELVE PARA ATRAS... CORREGIR -->
+capaz  que los errores detectados a nivel javascript impiden que se mantengan los datos del formulario, ya que no se llegan a guardar en PHP. en ese caso, lo facil seria cambiar el javascript por php
+
+BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto del formu opuesto) SI SE MARCA, SE LLENA MAL EL FORMU Y SE VUELVE PARA ATRAS... CORREGIR -->
+	
+	
 	
 
 </style>
 <body>
-	<h2>Agregar nuevo viaje</h2>
+	<h2>Agregar nuevo viaje </h2>
+	<h2> <a/ href="index.php" style="text-decoration:none">volver </a> </h2>
 	
 	
 		<!-- si no tiene vehiculos-->
@@ -118,22 +130,21 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 		<form method="POST" enctype="multipart/form-data" action="agregarviaje.php" align="justify">		
 			<fieldset>
 			<fieldset>
-			<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000"></p>	
-			<p>Origen: <input type="text" id="origen" name="origen"></p>	
-			<p>Destino: <input type="text" id="destino" name="destino"></p>
+			<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000" value="<?php echo  (  (isset($_SESSION['preciototal']) && (!empty($_SESSION['preciototal'])))  ?  $_SESSION['preciototal'] : ''  ); ?>" ></p>	
+			<p>Origen: <input type="text" id="origen" name="origen" value="<?php echo  (  (isset($_SESSION['origen']) && (!empty($_SESSION['origen'])))  ?  $_SESSION['origen'] : ''  ); ?>"></p>	
+			<p>Destino: <input type="text" id="destino" name="destino" value="<?php echo  (  (isset($_SESSION['destino']) && (!empty($_SESSION['destino'])))  ?  $_SESSION['destino'] : ''  ); ?>"></p>
 			<p>Este viaje se realizara periodicamente
 			<input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito" title="si el viaje se realizara periodicamente debes marcar esta casilla"> </p>	
 			<div id="formularioOcasional">	
-			<p>Fecha: <input type="date" id="fecha" name="fecha"></p>
+			<p>Fecha: <input type="date" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
 			</div>
 			<div id="formularioPeriodico" style="display:none">
 			<p> IMAGINATE QUE SOY UN CALENDARIO</p> 
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
 			<!--			
-			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>
-			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>-->
-			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px"> horas </p>
+			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"> horas</p>-->
+			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas </p>
 			</fieldset>	<p> </p>		
 			
 			
@@ -142,21 +153,24 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			Parece que no se puede invocar a PHP con eventos, por lo que capaz que tenga que por PHP cargar en la pagina todos los datos del auto de una, y luego con javascript tomar la variable en cuestion de PHP e ir llenando los campos-->
 			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
-					echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
+					if ((isset($_SESSION['vehiculo'])) && ($_SESSION['vehiculo'] == $listarvehiculos['id'])) { //si el vehiculo ya fue elegido, con esto lo elijo automaticamente
+						echo '<option selected="selected" value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
+					}
+					else {//en este caso el vehiculo no se eligio previamente asi que NO se preselecciona
+						echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
+					}
 				} ?>
 			</select></p>
-			<p> Plazas disponibles para pasajeros: <input type="number" id="plazas" name="plazas" class="chiquito">  </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
+			<p style="font-size:small"> *Los datos de tu vehiculo seleccionado seran compartidos con todo aquel que consulte los detalles del viaje</p>
+			<p> Si queres modificar los datos de tu vehiculo, hacelo desde  <a href="miperfil.php"> Mi Perfil </a> </p>
+			<p> Plazas disponibles para pasajeros: <input type="number" id="plazas" name="plazas" class="chiquito" value="<?php echo  (  (isset($_SESSION['plazas']) && (!empty($_SESSION['plazas'])))  ?  $_SESSION['plazas'] : ''  ); ?>">  </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
 			<p style="font-size:small"> *De todas las plazas que posee el vehiculo, una de ellas sera ocupada por el conductor. Ingresa aqui la cantidad de plazas restantes que pueden ser ocupadas por pasajeros </p>
-			<!--<p> Modelo:<input type="text" id="modelo" name="modelo" readonly> </p> 		-->		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<!--<p> Marca:<input type="text" id="marca" name="marca" readonly> </p>			-->		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<!--<p> Color:<input type="text" id="color" name="color" readonly> </p>			-->		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
-			<!--<p> Patente:<input type="text" id="patente" name="patente" readonly> </p> 	-->		<!-- ????CARGAR EL VALOR POR PHP Y MOSTRAR QUE NO SE PEUDE CAMBIAR CON READONLY??? -->
 			</fieldset>	<p> </p> 
 			
 			
 			<fieldset>
-			<!--Los datos de contacto son readonly para que el user sepa que se envian. pero en realidad se toman siempre de los datos de contacto cargados en su perfil)-->
-			<p>Email de Contacto: <input type="text" id="contacto" name="contacto" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
+			<!--se muestran los datos de contacto que van a ser visibles a los pasajeros (pero NO se pueden cambiar) -->
+			<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> readonly > </p>
 			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
 			<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
 			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
@@ -188,6 +202,7 @@ function intercambiarOcasionalPeriodico() {
 		y.style.display = "block";
     }
 }
+
 </script>
 
 
