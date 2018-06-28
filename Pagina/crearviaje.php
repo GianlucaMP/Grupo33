@@ -139,7 +139,12 @@ BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto d
 			<p>Fecha: <input type="date" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
 			</div>
 			<div id="formularioPeriodico" style="display:none">
-			<p> IMAGINATE QUE SOY UN CALENDARIO</p> 
+			<form id="myForm">
+			<div id="input1" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="name1" type="date" name="name1" /></div>
+			<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="name2" type="date" name="name2" /></div>
+			<div><input id="btnAdd" type="button" style="background:url('icono_mas.png') no-repeat; border:none; width: 24px;height: 24px"/>
+			<input id="btnDel" type="button"  disabled="disabled" style="background:url('icono_menos.png') no-repeat; border:none; width: 24px;height: 24px" /></div>
+			</form>
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
 			<!--			
@@ -204,5 +209,31 @@ function intercambiarOcasionalPeriodico() {
 }
 
 </script>
-
-
+<script src="jquery.min.js" type="text/javascript"></script>
+<script>
+jQuery( function ( $ ) {
+	$( '#btnAdd' ).click( function() {
+		var num = $( '.clonedInput' ).length;		// how many "duplicatable" input fields we currently have
+		var newNum	= new Number( num + 1 );		// the numeric ID of the new input field being added
+		var newElem = $( '#input' + num ).clone().attr( 'id', 'input' + newNum );
+		
+		newElem.children( ':first' ).attr( 'id', 'fecha' + newNum ).attr( 'fecha', 'fecha' + newNum );
+		$( '#input' + num ).after( newElem );
+		$( '#btnDel' ).attr( 'disabled', false );
+		//if ( newNum == 5 )
+			//$( '#btnAdd' ).attr( 'disabled', 'disabled' );
+	});
+	
+	$( '#btnDel' ).click( function() {
+		var num = $( '.clonedInput' ).length;		// how many "duplicatable" input fields we currently have
+		$( '#input' + num ).remove();				// remove the last element
+		$( '#btnAdd' ).attr( 'disabled', false );	// enable the "add" button
+		
+		// if only one element remains, disable the "remove" button
+		if ( num-1 == 1 )
+			$( '#btnDel' ).attr( 'disabled', 'disabled' );
+	});
+			
+	$( '#btnDel' ).attr( 'disabled', 'disabled' );
+});
+</script>
