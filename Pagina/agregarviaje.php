@@ -14,8 +14,7 @@
 	$_SESSION['duracion'] = $_POST['duracion'];
 	$_SESSION['vehiculo'] = $_POST['vehiculo'];
 	$_SESSION['plazas'] = $_POST['plazas'];
-	$_SESSION['telefono'] = $_POST['telefono'];
-	$_SESSION['email'] = $_POST['email'];
+
 	
 		
 	
@@ -30,8 +29,6 @@
 	echo "_SESSION EN duracion vale: $_SESSION[duracion]<br>";
 	echo "_SESSION EN vehiculo vale: $_SESSION[vehiculo]<br>";
 	echo "_SESSION EN plazas vale: $_SESSION[plazas]<br>";
-	echo "_SESSION EN telefono vale: $_SESSION[telefono]<br>";
-	echo "_SESSION EN email vale: $_SESSION[email]<br>";
 	exit; 
 	*/
 
@@ -124,13 +121,12 @@
 	
 	
 	
-	//fecha valida se envian los datos a la base de datos, si se sube te avisa y si no tambien.
+	//se envian los datos a la base de datos, si se sube te avisa y si no tambien.
 	
-	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, email, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['email']."','".$_POST['creador']."')");
+	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['creador']."')");
 
-	/*$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, conductor) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$datosUsuario['id']."')"); 
-	//se le agrego el envio del ID del conductor ???chequearlo??? */
-
+	
+	
 	if($sql) {//transaccion valida, viaje creado
 		 header('Location: index.php?result=1');
 	}

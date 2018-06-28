@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-06-2018 a las 13:57:36
+-- Tiempo de generación: 28-06-2018 a las 14:30:12
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -110,21 +110,21 @@ CREATE TABLE `viajes` (
   `duracion` time NOT NULL,
   `plazas` int(11) NOT NULL,
   `vehiculos_id` int(11) NOT NULL,
-  `usuarios_id` int(11) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `email` varchar(50) NOT NULL
+  `usuarios_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `viajes`
 --
 
-INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `duracion`, `plazas`, `vehiculos_id`, `usuarios_id`, `telefono`, `email`) VALUES
-(6, 120, 'Posadas', 'Corrientes', '2018-08-29', '03:00:00', 4, 37, 3, '4812020', 'b@hotmail.com'),
-(7, 123, 'La Plata', 'CABA', '2018-07-06', '01:00:00', 4, 37, 2, '4227898', 'h@hotmail.com'),
-(10, 123, 'La Plata', 'Corrientes', '2018-07-07', '03:00:00', 3, 37, 2, '4287985', 'jose@hotmail.com'),
-(11, 123, 'Moscu', 'La quiaca', '2018-06-29', '22:22:00', 3, 37, 2, '2214569878', 'jorga@hotmail.com'),
-(12, 1200, 'abasto', 'shopping', '2020-04-20', '03:20:00', 3, 44, 5, '159874564', 'brai_ladoce@hotmail.com');
+INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `duracion`, `plazas`, `vehiculos_id`, `usuarios_id`) VALUES
+(6, 120, 'Posadas', 'Corrientes', '2018-08-29', '03:00:00', 4, 37, 3),
+(7, 123, 'La Plata', 'CABA', '2018-07-06', '01:00:00', 4, 37, 2),
+(10, 123, 'La Plata', 'Corrientes', '2018-07-07', '03:00:00', 3, 37, 2),
+(11, 123, 'Moscu', 'La quiaca', '2018-06-29', '22:22:00', 3, 37, 2),
+(12, 1200, 'abasto', 'Neuquen', '2020-04-20', '03:20:00', 3, 44, 5),
+(13, 1200, 'abasto', 'Romero', '2020-02-20', '03:20:00', 2, 44, 5),
+(14, 200, 'Nigeria', 'Holanda', '2035-12-20', '03:04:00', 2, 44, 5);
 
 --
 -- Índices para tablas volcadas
@@ -180,7 +180,7 @@ ALTER TABLE `vehiculos`
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

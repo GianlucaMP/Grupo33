@@ -74,15 +74,13 @@ else{
 	echo ((isset($_SESSION['duracion'])) ? "duracion esta seteado ": "duracion NO esta seteado");
 	echo ((isset($_SESSION['vehiculo'])) ? "vehiculo esta seteado ": "vehiculo NO esta seteado"); //capaz este funcione distinto por ser sacado de una lista
 	echo ((isset($_SESSION['plazas'])) ? "plazas esta seteado ": "plazas NO esta seteado");
-	echo ((isset($_SESSION['telefono'])) ? "telefono esta seteado ": "telefono NO esta seteado");
-	echo ((isset($_SESSION['email'])) ? "email esta seteado ": "email NO esta seteado");
 	exit;
 	*/
 	
-	//aca dejo como seria el codigo PHP para cargar en el atributo value de algunos de los campos del formulario (todavia no los puedo cargar porque por algun motivo NINGUN VALOR LLEGA A ESTA PAGINA SETEADO, parece que se pierden todos en la redireccion)
+	//aca dejo como seria algunos ejemplos del codigo PHP para cargar en el atributo value de algunos de los campos del formulario (todavia no los puedo cargar porque por algun motivo NINGUN VALOR LLEGA A ESTA PAGINA SETEADO, parece que se pierden todos en la redireccion)
 	
-	//	echo  (  (isset($_SESSION['telefono']) && (!empty($_SESSION['telefono'])))  ?  $_SESSION['telefono'] : $datosUsuario['telefono']  );
-	//	echo  (  (isset($_SESSION['email']) && (!empty($_SESSION['email'])))  ?  $_SESSION['email'] : $datosUsuario['email']  );
+	//	echo  (  (isset($_SESSION['origen']) && (!empty($_SESSION['origen'])))  ?  $_SESSION['origen'] : ''  );
+	//	echo  (  (isset($_SESSION['destino']) && (!empty($_SESSION['destino'])))  ?  $_SESSION['destino'] : ''  );
 	
 	
 ?>
@@ -115,7 +113,7 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 
 <!-- IMPORTANTE!!!!
 
-FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP
+FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP (entre ellos que las plazas no superen el maximo, y que mas...)
 
 FALTA AGREGAR EL CALENDARIO PARA VIAJES PERIODICOS
 
@@ -153,8 +151,7 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
 			<!--			
-			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>
-			<p> Duracion Estimada: <input type="number" id="duracion" name="duracion" min="1" max="200"  class="chiquito"> horas </p>-->
+			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito"> horas</p>-->
 			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px"> horas </p>
 			</fieldset>	<p> </p>		
 			
@@ -177,12 +174,12 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			
 			
 			<fieldset>
-			<!--ahora si se pueden enviar datos de contacto distintos, se envia siempre mail y telefono obligatoriamente (aunque por defecto se usa el ya cargado en la BD) -->
-			<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> > </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> > </p>
+			<!--se muestran los datos de contacto que van a ser visibles a los pasajeros (pero NO se pueden cambiar) -->
+			<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> readonly > </p>
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
 			<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
 			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
-			<p> Si queres modificar permanentemente tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
+			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
 			</fieldset> <p> </p>
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
