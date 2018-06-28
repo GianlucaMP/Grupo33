@@ -2,7 +2,7 @@
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
-	$viajes=mysqli_query($coneccion, "SELECT * FROM viajes");
+	
 	// Se chequea si el usuario esta logeado y se deja en una variable
 	require('usuarioclass.php');
 	$sesion = new sesion;
@@ -25,6 +25,41 @@
 	}else{//
 		$result = '&nbsp;';
 	}//
+
+	//Se verifica que llegue "por" a travez de get, esto define de que manera se van a listar las peliculas. Si llega, un case hace el resto, si no, por defecto se hara por momento en el que se agrego.
+	if(isset($_GET['por'])){
+		if(isset($_GET['orden'])){
+			switch ($_GET['orden']) {
+				case 'ASC':
+					$orden = 'ASC';
+					break;
+				
+				default:
+					$orden = 'DESC';
+					break;
+			}
+		}else{
+			$orden = 'DESC';
+		}
+		
+		// "por" define el orden en el que se muestra, y hay una query para cada cosa.
+		switch ($_GET['por']) {
+			case 'fecha':
+				$viajes=mysqli_query($coneccion, "SELECT * FROM viajes ORDER BY fecha ".$orden." ");
+				break;
+
+			case 'precio':
+				$viajes=mysqli_query($coneccion, "SELECT * FROM viajes ORDER BY preciototal ".$orden." ");
+				break;
+			
+			default:
+				$viajes=mysqli_query($coneccion, "SELECT * FROM viajes ORDER BY id ".$orden." ");
+				break;
+		}
+		// si no hay por, se hace el default, por orden de agregado.
+	}else{
+		$viajes=mysqli_query($coneccion, "SELECT * FROM viajes ORDER BY id DESC");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -95,6 +130,9 @@
 				else echo "Debes estar logeado para crear un viaje"; ?>
 				<p id="error" style="color: <?php echo $color; ?>;font-size:25px"><?php echo $result?></p><!-- //////////////////// -->
 			</p>
+		<div id="menuarriba">
+				<p>Orden Agregados <a href="index.php?por=agreg&orden=ASC">&#8593;</a> <a href="index.php?por=agreg&orden=DESC">&#8595;</a> | Por fecha <a href="index.php?por=fecha&orden=ASC">&#8593;</a> <a href="index.php?por=fecha&orden=DESC">&#8595;</a> | Por precio <a href="index.php?por=precio&orden=ASC">&#8593;</a> <a href="index.php?por=precio&orden=DESC">&#8595;</a></p>
+		</div>
 	</div>
 	<div align="center" id=viajes>
 		<?php
