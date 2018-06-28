@@ -5,6 +5,7 @@
 	
 	
 	//antes que nada guardo los datos recibidos en variables de sesion para poder conservarlos en caso de error
+	$_SESSION['flagRegistro'] = $_POST['flagRegistro'];
 	$_SESSION['preciototal'] = $_POST['preciototal'];
 	$_SESSION['origen'] = $_POST['origen'];
 	$_SESSION['destino'] = $_POST['destino'];
@@ -15,9 +16,12 @@
 	$_SESSION['plazas'] = $_POST['plazas'];
 	$_SESSION['telefono'] = $_POST['telefono'];
 	$_SESSION['email'] = $_POST['email'];
-
 	
-	//DEBUGGING
+		
+	
+	//DEBUGGING para el tema de guardar los campos en caso de error
+	/*
+	echo "_SESSION EN flagRegistro vale: $_SESSION[flagRegistro]<br>"
 	echo "_SESSION EN precio vale: $_SESSION[preciototal]<br>";
 	echo "_SESSION EN origen vale: $_SESSION[origen]<br>";
 	echo "_SESSION EN destino vale: $_SESSION[destino]<br>";
@@ -29,7 +33,7 @@
 	echo "_SESSION EN telefono vale: $_SESSION[telefono]<br>";
 	echo "_SESSION EN email vale: $_SESSION[email]<br>";
 	exit; 
-	
+	*/
 
 	
 	
@@ -122,7 +126,7 @@
 	
 	//fecha valida se envian los datos a la base de datos, si se sube te avisa y si no tambien.
 	
-	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, contacto,usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['contacto']."','".$_POST['creador']."')");
+	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, email, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['email']."','".$_POST['creador']."')");
 
 	/*$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, vehiculo, conductor) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['vehiculo']."','".$datosUsuario['id']."')"); 
 	//se le agrego el envio del ID del conductor ???chequearlo??? */

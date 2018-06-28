@@ -63,6 +63,28 @@ else{
 	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
 
 	
+	
+	//debugging (para ver si llegan los valores a meter en el formluario.. (cosa que por el memnto no pasa)
+	/*
+	echo ((isset($_SESSION['preciototal'])) ? "preciototal esta seteado ": "preciototal NO esta seteado");
+	echo ((isset($_SESSION['origen'])) ? "origen esta seteado ": "origen NO esta seteado") ;
+	echo ((isset($_SESSION['destino'])) ? "destino esta seteado ": "destino NO esta seteado");
+	echo ((isset($_SESSION['fecha'])) ? "fecha esta seteado ": "fecha NO esta seteado");
+	//echo ((isset($_SESSION['horario'])) ? "horario esta seteado ": "horario NO esta seteado"); 
+	echo ((isset($_SESSION['duracion'])) ? "duracion esta seteado ": "duracion NO esta seteado");
+	echo ((isset($_SESSION['vehiculo'])) ? "vehiculo esta seteado ": "vehiculo NO esta seteado"); //capaz este funcione distinto por ser sacado de una lista
+	echo ((isset($_SESSION['plazas'])) ? "plazas esta seteado ": "plazas NO esta seteado");
+	echo ((isset($_SESSION['telefono'])) ? "telefono esta seteado ": "telefono NO esta seteado");
+	echo ((isset($_SESSION['email'])) ? "email esta seteado ": "email NO esta seteado");
+	exit;
+	*/
+	
+	//aca dejo como seria el codigo PHP para cargar en el atributo value de algunos de los campos del formulario (todavia no los puedo cargar porque por algun motivo NINGUN VALOR LLEGA A ESTA PAGINA SETEADO, parece que se pierden todos en la redireccion)
+	
+	//	echo  (  (isset($_SESSION['telefono']) && (!empty($_SESSION['telefono'])))  ?  $_SESSION['telefono'] : $datosUsuario['telefono']  );
+	//	echo  (  (isset($_SESSION['email']) && (!empty($_SESSION['email'])))  ?  $_SESSION['email'] : $datosUsuario['email']  );
+	
+	
 ?>
 
 
@@ -155,12 +177,12 @@ IMPORATNTE BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando
 			
 			
 			<fieldset>
-			<!--Los datos de contacto son readonly para que el user sepa que se envian. pero en realidad se toman siempre de los datos de contacto cargados en su perfil)-->
-			<p>Email de Contacto: <input type="text" id="contacto" name="contacto" value=<?php echo $datosUsuario['email'] ?> readonly> </p>
-			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
+			<!--ahora si se pueden enviar datos de contacto distintos, se envia siempre mail y telefono obligatoriamente (aunque por defecto se usa el ya cargado en la BD) -->
+			<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> > </p>
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> > </p>
 			<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
 			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
-			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
+			<p> Si queres modificar permanentemente tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
 			</fieldset> <p> </p>
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
