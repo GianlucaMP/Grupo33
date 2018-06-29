@@ -102,7 +102,8 @@
 	
 	</div>	
 	<div align="center" id=viajes > 
-		<div align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">
+		<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
+		<div align="center" style="padding: 10px; box-shadow: 0px 0px 5px 5px darkgrey;background-color: grey; width: 800px; margin-bottom:15px;">
 			<p>
 				<?php echo "Origen: ".$datoviaje['origen'];?><br/>
 				<?php echo "Destino: ".$datoviaje['destino'];?><br/> 
@@ -111,7 +112,7 @@
 				
 				<?php echo "Vehiculo: ".$datovehiculo['marca']."  ".$datovehiculo['modelo']."" ;?><br/>
 				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
-					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:lightblue; color:white; border: 2px solid white">
+					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:black; color:white; border: 2px solid darkgrey">
 					<input type="hidden" name="viaje_id" value="<?php echo $datoviaje['id'] ?>">
 				</form>
 				<p style="font-size:20px; float:right;"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php?id=$idConductor\">" ?>  <?php echo "&nbsp"; echo "Conductor: ".$nombreConductor; echo " (ver perfil) &nbsp";?>  </p>

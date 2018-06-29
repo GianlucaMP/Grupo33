@@ -4,6 +4,16 @@
 require('dbc.php');
 $conexion = conectar();
 
+// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
+require('usuarioclass.php');
+$sesion = new sesion;
+$logeado = $sesion->logeado();
+$user = $sesion->datosuser();
+
+// si el usuario no esta logeado se redirecciona automaticamente al inicio
+if(!$logeado){
+	header('Location: index.php');
+}
 
 $sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id = '".$_GET['id']."'"); 
 
@@ -12,7 +22,11 @@ if (!$datosConductor = mysqli_fetch_array($sql)) {
 	exit;
 }
 //si llegue hasta aca todo bien, ya tengo los datos del conductor
+$sql2=mysqli_query($conexion,"SELECT viajes.*,pasajeros.pasajeros_id FROM viajes INNER JOIN pasajeros ON viajes.id=pasajeros.viajes_id WHERE viajes.usuarios_id='".$datosConductor['id']."' AND pasajeros.pasajeros_id='".$_SESSION['id']."' ");
 
+if ($sql2) {
+	$exito= mysqli_fetch_array($sql2);
+}
 
 ?>
 <!DOCTYPE html>
@@ -50,13 +64,20 @@ if (!$datosConductor = mysqli_fetch_array($sql)) {
 <!-- poner aca todos los datos, en grande (salvo los de contacto. (nombre, )-->
 
 
-<p class="centrado"> Nombre</p>
+<p class="centrado"> Nombre: <?php echo $datosConductor['nombre'] ?></p>
 
 <button onclick="mostrarDatosDeContacto()"> Mostrar datos de contacto </button>
 
 
 <div class="centrado" id="datosDeContacto" style="display:none">
-	<p> IMAGINATE QUE ACA ESTAN LOS DATOS DE CONTACTO</p>
+	<?php 
+	if(mysqli_num_rows($sql2)>0) {
+		echo "Email:".$datosConductor['email']." </br> ";
+		echo "Telefono:".$datosConductor['telefono']." </br> ";
+		}
+	else
+		{echo "Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto";	} 
+	?>
 </div>
 
 </body>
