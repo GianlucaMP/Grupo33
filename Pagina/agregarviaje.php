@@ -75,11 +75,23 @@
 		}
 		$vehiculo = mysqli_fetch_array($sqltoken);		
 
-		if($_POST['plazas'] > $vehiculo['plazas'] ) {
+		if($_POST['plazas'] > ($vehiculo['plazas']) - 1 ) {
 			header('Location: crearviaje.php?error=9');
 			exit;
 		}
+		
+		
+		//chequeo que el vehiculo no tenga otro viaje asignado en ese momento 	
+		//???por ahora solo contempla que no tenga viajes el mismo dia, sin considerar horas. Mejorar de ser necesario??? 
+		$otrosqltoken = mysqli_query($coneccion, "SELECT * FROM viajes WHERE vehiculos_id = '".$_POST['vehiculo']."' AND fecha = '".$_POST['fecha']."'");   
+		if(mysqli_num_rows($otrosqltoken) > 0) {
+			header('Location: crearviaje.php?error=11');
+			exit;
+		}		
 	}
+	
+	
+	
 	
 	$fechaactual = Date("Y-m-d");
 	$fechaevento = $_POST['fecha'];

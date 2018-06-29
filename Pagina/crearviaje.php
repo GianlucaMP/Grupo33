@@ -28,11 +28,14 @@ if (!empty($_GET['error'])) {
 				$error = 'El campo plazas esta en blanco';
 				break;
 			case '9':
-				$error = 'La cantidad de plazas ingresadas supera el maximo que posee el vehiculo';
+				$error = 'La cantidad de plazas ingresadas supera el maximo que posee el vehiculo. Acordate que una de las plazas va a ser automaticamente ocupada por el conductor';
 				break;	
 			case '10':
 				$error = 'Error en la operacion con la base de datos. Intentalo de nuevo';
 				break;	
+			case '11':
+				$error = 'El vehiculo tiene otro viaje asignado en ese mismo momento.';
+				break;
 			case '20':
 				$error = 'Ha ingresado una fecha invalida';
 				break;
@@ -101,15 +104,11 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 }
 
 
-<!-- IMPORTANTE!!!!
-
-FALTAN HACER PROBABLEMNTE ALGUNOS CHEQUEOS DE LOS NUEVOS CAMPOS DEL FORMULARIO (todos los datos del vehiculo) EN EL ARCHIVO AGREGARVIAJE.PHP (entre ellos que las plazas no superen el maximo, y que mas...)
-
-FALTA AGREGAR EL CALENDARIO PARA VIAJES PERIODICOS
+<!-- ALGUNOS BUGS PENDIENTES:!!!!
 
 capaz  que los errores detectados a nivel javascript impiden que se mantengan los datos del formulario, ya que no se llegan a guardar en PHP. en ese caso, lo facil seria cambiar el javascript por php
 
-BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto del formu opuesto) SI SE MARCA, SE LLENA MAL EL FORMU Y SE VUELVE PARA ATRAS... CORREGIR -->
+bug hace que el checbox de viaje periodico quede invertido (mostrando el resto del formu opuesto) ocurre cuando se marca el checkbox, se llena mal el formu y se vuelve para atras... -->
 	
 	
 	
