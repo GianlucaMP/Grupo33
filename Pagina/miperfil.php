@@ -89,6 +89,7 @@
 		<div id='menucostado'>
 			<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
+			<p> <a href="misviajespublicados.php" style="text-decoration:none">Mis Viajes Publicados</a></p>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
