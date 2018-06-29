@@ -74,7 +74,7 @@
 					</div>
 					<div>
 					...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>
-					... <p style="text-align:right;"> <a style="color: white; text-decoration:none;" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')" href="bajaviaje.php?id='.$listarviajes['id'].'">Eliminar Viaje </a> </p>
+					... <p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
 					</div>
 					</div>
 				
