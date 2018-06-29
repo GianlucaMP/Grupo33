@@ -64,21 +64,21 @@
 		<?php 
 		}
 		else { 		
-			while ($listarviajes=mysqli_fetch_array($viajes)) {  
+			while ($listarviajes=mysqli_fetch_array($viajes)) {  ?>
 				
-					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 600px; margin-bottom:15px; float: left">';
-					echo '<div>';
-					echo "Origen: ".$listarviajes['origen']."<br/>";
-					echo "Destino: ".$listarviajes['destino']."<br/>";
-					echo "Fecha: ".$listarviajes['fecha']."<br/>";
-					echo'</div>';
-					echo '<div>';
-					echo '...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>';
-					echo '... <p style="text-align:right;"> <a style="color: white; text-decoration:none;"  href="eliminarviaje.php?id='.$listarviajes['id'].'">Eliminar Viaje </a> </p>';
-					echo '</div>';
-					echo '</div>';
+					<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 600px; margin-bottom:15px; float: left">
+					<div>
+					<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
+					<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
+					<p> Fecha: <?php echo $listarviajes['fecha'] ?> </p>
+					</div>
+					<div>
+					...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>
+					... <p style="text-align:right;"> <a style="color: white; text-decoration:none;" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')" href="bajaviaje.php?id='.$listarviajes['id'].'">Eliminar Viaje </a> </p>
+					</div>
+					</div>
 				
-			}
+	<?php	}
 		}	?>
 			
 		</div>
@@ -86,3 +86,5 @@
 	</div>
 </body>
 </html>
+
+
