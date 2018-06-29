@@ -28,6 +28,18 @@ if ($sql2) {
 	$exito= mysqli_fetch_array($sql2);
 }
 
+
+//calculo la edad
+
+
+$f1 = new DateTime($datosConductor['fecha']);
+$f2 = new DateTime("now");
+$diferencia =  $f1->diff($f2);
+$edad = $diferencia->format("%y");
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,6 +49,22 @@ if ($sql2) {
 	<!--<script type="text/javascript" src="js/js_viajes.js"></script>-->
 	<style> 
 
+	#container{
+			width: 1200px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	
+	#menucostado{
+		float: left;
+		width: 20%;
+	}
+	
+	
+	#datos{
+			float: right;
+			width: 79%;
+	}
 	
 	.centrado{
 		margin: 70px 0; <!--centrado vertical-->
@@ -48,7 +76,6 @@ if ($sql2) {
 	
 	
 	button{
-
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
@@ -63,23 +90,27 @@ if ($sql2) {
 
 <!-- poner aca todos los datos, en grande (salvo los de contacto. (nombre, )-->
 
-
-<p class="centrado"> Nombre: <?php echo $datosConductor['nombre'] ?></p>
-
-<button onclick="mostrarDatosDeContacto()"> Mostrar datos de contacto </button>
-
-
-<div class="centrado" id="datosDeContacto" style="display:none">
-	<?php 
-	if(mysqli_num_rows($sql2)>0) {
-		echo "Email:".$datosConductor['email']." </br> ";
-		echo "Telefono:".$datosConductor['telefono']." </br> ";
-		}
-	else
-		{echo "Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto";	} 
-	?>
+<div id="container">
+	<h2> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h2>
+	<div id='menucostado' style="font-size:22px">
+		<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
+	</div>
+	<div id="datos">
+		<p style="font-size:25px"> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
+		<p style="font-size:25px"> Edad: <?php echo $edad ?></p>
+		<button style="margin:70px 200px; width:40%;" onclick="mostrarDatosDeContacto()"> Mostrar datos de contacto </button>	
+		<div id="datosDeContacto" style="display:none">
+			<?php 
+			if(mysqli_num_rows($sql2) > 0 || ($datosConductor['id'] == $user['id'])) { ?>
+				 <p style="font-size:25px"> Email: <?php echo $datosConductor['email'] ?> </p>
+				 <p style="font-size:25px"> Telefono: <?php echo $datosConductor['telefono'] ?> </p>
+			<?php }
+			else { ?>
+				 <p style="font-size:25px; color:red"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </p>
+			<?php } 	?>
+		</div>
+	</div>
 </div>
-
 </body>
 </html>
 
