@@ -54,6 +54,22 @@
 				$result='Perfil editado con exito';
 				$color="lightgreen";
 				break;
+			case '8':
+				$result='El viaje fue eliminado con exito';
+				$color="gold";
+				break;
+			case '9':
+				$result='El viaje que queres eliminar pertenece a otro usuario';
+				$color="red";
+				break;
+			case '10':
+				$result='El viaje que queres eliminar no existe, o hubo un error en la transaccion con la base de datos';
+				$color="red";
+				break;
+			case '11':
+				$result='Error al operar con la base de datos, el viaje NO pudo ser eliminado. Intentalo de nuevo';
+				$color="red";
+				break;
 			default:
 				$result='Error desconocido.';
 				$color="red";}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2018 a las 02:26:56
+-- Tiempo de generación: 29-06-2018 a las 21:42:56
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -41,7 +41,8 @@ CREATE TABLE `enlace` (
 INSERT INTO `enlace` (`id`, `usuarios_id`, `vehiculos_id`) VALUES
 (27, 3, 37),
 (29, 2, 38),
-(30, 2, 37);
+(30, 2, 37),
+(31, 5, 39);
 
 -- --------------------------------------------------------
 
@@ -125,7 +126,8 @@ CREATE TABLE `vehiculos` (
 
 INSERT INTO `vehiculos` (`id`, `plazas`, `marca`, `modelo`, `color`, `patente`) VALUES
 (37, 4, 'Chevrolet', 'Corsa', 'Azul', 'asd123'),
-(38, 2, 'Ford', 'F100', 'Verde', 'aca123');
+(38, 2, 'Ford', 'F100', 'Verde', 'aca123'),
+(39, 2, 'Toyota', 'Hilux', 'Verde', 'ddd222');
 
 -- --------------------------------------------------------
 
@@ -157,6 +159,31 @@ INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `duraci
 (12, 200, 'Posadas', 'Iguazu', '2018-07-07', '10:15:00', 2, 38, 'lucap@hotmail.com', 2),
 (13, 300, 'Resistencia', 'Parana', '2018-07-06', '22:00:00', 2, 37, 'lucap@hotmail.com', 2),
 (14, 100, 'Posadas', 'Apostoles', '2018-07-07', '12:00:00', 3, 37, 'camilab@hotmail.com', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `viajes_finalizados`
+--
+
+CREATE TABLE `viajes_finalizados` (
+  `id` int(11) NOT NULL,
+  `destino` varchar(100) NOT NULL,
+  `fecha` date NOT NULL,
+  `duracion` time NOT NULL,
+  `origen` varchar(100) NOT NULL,
+  `plazas` int(11) NOT NULL,
+  `preciototal` double NOT NULL,
+  `usuarios_id` int(11) NOT NULL,
+  `vehiculos_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `viajes_finalizados`
+--
+
+INSERT INTO `viajes_finalizados` (`id`, `destino`, `fecha`, `duracion`, `origen`, `plazas`, `preciototal`, `usuarios_id`, `vehiculos_id`) VALUES
+(1, 'Merlo', '2020-11-20', '20:22:00', 'Suiza', 1, 1200, 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -199,6 +226,12 @@ ALTER TABLE `viajes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `viajes_finalizados`
+--
+ALTER TABLE `viajes_finalizados`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -206,7 +239,7 @@ ALTER TABLE `viajes`
 -- AUTO_INCREMENT de la tabla `enlace`
 --
 ALTER TABLE `enlace`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `pasajeros`
@@ -230,13 +263,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT de la tabla `viajes_finalizados`
+--
+ALTER TABLE `viajes_finalizados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
