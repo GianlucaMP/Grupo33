@@ -30,6 +30,9 @@ if (!empty($_GET['error'])) {
 			case '9':
 				$error = 'La cantidad de plazas ingresadas supera el maximo que posee el vehiculo';
 				break;	
+			case '10':
+				$error = 'Error en la operacion con la base de datos. Intentalo de nuevo';
+				break;	
 			case '20':
 				$error = 'Ha ingresado una fecha invalida';
 				break;
@@ -66,7 +69,7 @@ else{
 	#este es la consulta vieja cuando los vehiculos tenian el campo unico de id de usuario
 
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
-	$vehiculos=mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+	$vehiculos = mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
 
 
 	
@@ -148,7 +151,7 @@ BUG HACE QUE EL CHECBOX DE VIAJE PERIODICO QUEDE INVERTIDO (mostrando el resto d
 			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
 			</div>
 			<!--			
-			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"> horas</p>-->
+			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"> horas</p>--> <!--sugiero manejar el horario con 2 casillas, horas y minutos, los cuales se almacenan en la BD como horario = horas *60 + minutos -->
 			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas </p>
 			</fieldset>	<p> </p>		
 			

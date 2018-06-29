@@ -21,6 +21,9 @@
 	$_SESSION['vehiculo'] = $_POST['vehiculo'];
 	$_SESSION['plazas'] = $_POST['plazas'];
 	
+	//$temp = $_POST['vehiculo'];
+	//echo ("el valor de vehiculo es: $temp");
+	//exit;
 	
 	// se chequea si esta logeado, y si no lo esta se lo redirecciona al inicio.
 	if(!$logeado){
@@ -30,19 +33,7 @@
 	}
 	
 	
-	
-	
-	
-	
-	// levanto los campos en un array, con el foreach de abajo reviso rapidamente que ninguno de los post a cada campo este vacio (el array a usar depende el tipo de viaje)
-	//$datosOcasional = array('preciototal', 'origen', 'destino', 'fecha', 'horario', 'duracion', 'vehiculo', 'plazas');
-	//$datosPeriodico = array('preciototal', 'origen', 'destino', 'fecha', 'horario', 'duracion', 'vehiculo', 'plazas'); //capaz se maneje un array distinto en un futuro para periodicos. Pero la idea es algo asi
-	#By LC. Que el array a usar dependa del tipo de viaje.
-	
-	
-	//se chequean que los datos no esten vacios y y a su vez se copian al array $_SESSION[] ???la idea es hacer todo esto en el foreach, pero se complico???
-	
-	
+		
 	if (isset($_POST['periodico'])) { //el viaje es periodico
 		echo 'el viaje periodico, no esta todavia implementado'; //???implementar en un futuro todo el chequeo para este tipo de viajes???
 		die();
@@ -72,16 +63,22 @@
 		if(!isset($_POST['duracion']) || empty($_POST['duracion'])) {
 			header('Location: crearviaje.php?error=6');
 			exit;
-		}
+		}	
 		if(!isset($_POST['plazas']) || empty($_POST['plazas'])) {
 			header('Location: crearviaje.php?error=8');
 			exit;
 		}
-		
-		//ACA VA EL CHEQUEO POR QUE LAS PLAZAS NO SUPEREN EL MAXIMO!!!???
-		//if($_POST['plazas'] > ) {
-			
-		//}
+		//chequeo por que las plazas no superen el maximo
+		$sqltoken = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE id = '".$_POST['vehiculo']."'");	//???aca creo estoy haciendo una transsaccion de mas en la DB ya que podria mandar todos los datos del vehiculo
+		if (!$sqltoken) {																						//desde la pagina anterior, pero por el momento queda asi???
+			header('Location: crearviaje.php?error=10');	
+		}
+		$vehiculo = mysqli_fetch_array($sqltoken);		
+
+		if($_POST['plazas'] > $vehiculo['plazas'] ) {
+			header('Location: crearviaje.php?error=9');
+			exit;
+		}
 	}
 	
 	$fechaactual = Date("Y-m-d");
@@ -91,27 +88,7 @@
 		die();
 	}
 		
-					
-		
-		
-		//este foreach fue un intento fallido de una buena implementacion. de lo anterior
-		/*foreach($datosOcasional AS $campo) {		
-			if(!isset($_POST[$campo]) || empty($_POST[$campo])) {
-				$error = true;
-				$codigoError = array_search($campo,array_keys($datosOcasional)); //esto deberia devolver el indice del elemento del array datosOcasional que es vacio/nulo para poder informarlo ??chequear ???
-			}
-			$_SESSION["formularioTemp$campo"] = $_POST[$campo]; //???chequear que este bien el indice cosa de que copie???		
-		}*/
-		#By LC. Si la idea seria usar un for de este estilo. Luego lo vemos bien.
-	
-		
-	//??? Se agrego este pedazo de codigo, con todo el logeo para poder conseguir los datos del user.. chequear que funcione???
-	
-	
-	
-
-	
-	
+						
 	
 	//se envian los datos a la base de datos, si se sube te avisa y si no tambien.
 	
