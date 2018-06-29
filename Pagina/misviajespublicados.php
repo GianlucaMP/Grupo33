@@ -55,8 +55,7 @@
 					echo "Fecha: ".$listarviajes['fecha']."<br/>";
 					echo'</div>';
 					echo '<div>';
-					echo '<a style="color: white;" href="postulados.php">Ver Postulados</a>';
-					//echo '...<a style="color: white;" href="verviaje.php?id='.$listarviajes['id'].'">Ver Postulados</a>';
+					echo '...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>';
 					echo '</div>';
 					echo '</div>';
 				
