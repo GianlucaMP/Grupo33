@@ -54,8 +54,6 @@
 	}
 	
 	
-	
-	
 ?>
 
 <!-- AGREGAR ACA MISMO LO NECESARIO PARA LA HU VER POSTULADOS Y ACEPTAR Y RECHAZAR. con un boton ver postualdos que solo se muestra en caso de ser el conductor-->
@@ -112,8 +110,9 @@
 				<?php echo "Precio: ".$datoviaje['preciototal'];?><br/>
 				
 				<?php echo "Vehiculo: ".$datovehiculo['marca']."  ".$datovehiculo['modelo']."" ;?><br/>
-				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')">
+				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
 					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:lightblue; color:white; border: 2px solid white">
+					<input type="hidden" name="viaje_id" value="<?php echo $datoviaje['id'] ?>">
 				</form>
 				<p style="font-size:20px; float:right;"> <?php echo "<a style=\"text-decoration:none;\" href=\"verperfil.php?id=$idConductor\">" ?>  <?php echo "&nbsp"; echo "Conductor: ".$nombreConductor; echo " (ver perfil) &nbsp";?>  </p>
 				 <br/> 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2018 a las 01:35:19
+-- Tiempo de generación: 29-06-2018 a las 02:26:56
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -66,6 +66,15 @@ CREATE TABLE `postulaciones` (
   `viajes_id` int(11) NOT NULL,
   `postulados_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `postulaciones`
+--
+
+INSERT INTO `postulaciones` (`id`, `viajes_id`, `postulados_id`) VALUES
+(1, 14, 2),
+(2, 14, 2),
+(3, 14, 2);
 
 -- --------------------------------------------------------
 
@@ -147,8 +156,7 @@ INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `duraci
 (10, 123, 'La Plata', 'Corrientes', '2018-07-07', '03:00:00', 3, 37, 'lucap@hotmail.com', 2),
 (12, 200, 'Posadas', 'Iguazu', '2018-07-07', '10:15:00', 2, 38, 'lucap@hotmail.com', 2),
 (13, 300, 'Resistencia', 'Parana', '2018-07-06', '22:00:00', 2, 37, 'lucap@hotmail.com', 2),
-(14, 100, 'Posadas', 'Apostoles', '2018-07-07', '12:00:00', 3, 37, 'lucap@hotmail.com', 2),
-(15, 123, 'La Plata', 'CABA', '2018-07-07', '01:00:00', 11, 38, 'lucap@hotmail.com', 2);
+(14, 100, 'Posadas', 'Apostoles', '2018-07-07', '12:00:00', 3, 37, 'camilab@hotmail.com', 3);
 
 --
 -- Índices para tablas volcadas
@@ -199,6 +207,18 @@ ALTER TABLE `viajes`
 --
 ALTER TABLE `enlace`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `pasajeros`
+--
+ALTER TABLE `pasajeros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `postulaciones`
+--
+ALTER TABLE `postulaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
