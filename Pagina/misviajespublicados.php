@@ -12,7 +12,7 @@
 		header('Location: index.php');
 	}
 
-	$viajes=mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.usuarios_id=".$user['id']);
+	$viajes = mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.usuarios_id=".$user['id']);
 	
 ?>
 <!DOCTYPE html>
@@ -35,17 +35,35 @@
 			float: right;
 			width: 74%;
 		}
+		
+		.grande {
+			font-size: 25px;
+			text-align:center;
+			margin: 0;
+		}
+		
+		
 	</style>
 </head>
 <body>
 	<div id='container'>
 	<h2>Mi perfil</h2>
 		<div id='menucostado'>
-			<h2> <a style="text-decoration:none" href="miperfil.php">Volver</h2	></p>
+			<h2> <a style="text-decoration:none" href="miperfil.php"> Volver </h2>
 		</div>
 		<div id='datos'>
-			<h4>Viajes Publicados: <?php echo $user['nombre']; ?></h3>
-			<?php
+			<h2>Viajes Publicados de: <?php echo $user['nombre']; ?></h2>
+			
+			
+		<!-- si no tiene viajes publicados-->
+		<?php if(mysqli_num_rows($viajes) == 0) { ?> 
+		
+			<p class="grande" style="color:gold;"> Todavia no publicaste ningun viaje. </p> <p> </p>
+			<p class="grande"> <a href="crearviaje.php"> Animate </a> </p>
+			
+		<?php 
+		}
+		else { 		
 			while ($listarviajes=mysqli_fetch_array($viajes)) {  
 				
 					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 600px; margin-bottom:15px; float: left">';
@@ -56,11 +74,13 @@
 					echo'</div>';
 					echo '<div>';
 					echo '...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>';
+					echo '... <p style="text-align:right;"> <a style="color: white; text-decoration:none;"  href="eliminarviaje.php?id='.$listarviajes['id'].'">Eliminar Viaje </a> </p>';
 					echo '</div>';
 					echo '</div>';
 				
 			}
-			?>
+		}	?>
+			
 		</div>
 		<div style="clear: both;"></div>
 	</div>
