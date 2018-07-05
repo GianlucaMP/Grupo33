@@ -7,14 +7,19 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 
-	if(!$logeado) header('Location: index.php');
-	
-	$sql = mysqli_query($coneccion,"INSERT INTO postulaciones (viajes_id,postulados_id) VALUES ('".$_POST['viaje_id']."','".$_SESSION['id']."')");
+	if(!$logeado) { 
+		header('Location: index.php');
+		exit;
+	}
+		
+	$sql = mysqli_query($coneccion,"INSERT INTO postulaciones (viajes_id,postulados_id,estado) VALUES ('".$_POST['viaje_id']."','".$_SESSION['id']."', 'P' )");
 
 	if($sql) {
-		 header('Location: verviaje.php?id="'.$_POST['viaje_id'].'"&result=1');
+		header('Location: verviaje.php?id="'.$_POST['viaje_id'].'"&result=1');
+		exit;
 	}
 	else { 
 		header('Location: verviaje.php?id="'.$_POST['viaje_id'].'"&result=2');
+		exit;
 	}
 ?>	

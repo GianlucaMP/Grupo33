@@ -8,24 +8,37 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	//$user = $sesion->datosuser();
-	if(!empty($_GET['result'])){//
-		switch ($_GET['result']) {//
-		case '1'://
-			$result='Viaje creado con exito!';//
-			$color= "lightgreen";//
-			break;//
-		case '2'://
-			$result='Error al crear el viaje :(';//
-			$color="red";//
-			break;//
-		default: //
-			$result='Error desconocido.';//
-			$color="red";
+	if(!empty($_GET['result'])){
+		switch ($_GET['result']) {
+		case '1':
+			$result = 'Viaje creado con exito!';
+			$color = "lightgreen";
+			break;
+		case '2':
+			$result = 'Error al crear el viaje :(';
+			$color = "red";
+			break;
+		case '3':
+			$result = 'el viaje indicado no existe';
+			$color = "red";
+			break;
+		case '4':
+			$result = 'Error en la operacion con la base de datos. Intentalo de nuevo';
+			$color = "red";
+			break;
+		case '5':
+			$result = 'El viaje que deseas administrar no te pertenece';
+			$color = "red";
+			break;
+		default:
+			$result = 'Error desconocido.';
+			$color = "red";
 		}
-	}else{//
+	}else{
 		$result = '&nbsp;';
-	}//
+	}
 
+	
 	//Se verifica que llegue "por" a travez de get, esto define de que manera se van a listar las peliculas. Si llega, un case hace el resto, si no, por defecto se hara por momento en el que se agrego.
 	if(isset($_GET['por'])){
 		if(isset($_GET['orden'])){

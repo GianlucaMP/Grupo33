@@ -10,6 +10,7 @@
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
 
 	$viajes = mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.usuarios_id=".$user['id']);
@@ -42,6 +43,11 @@
 			margin: 0;
 		}
 		
+		p{
+			line-height:0.6;
+			
+		}
+		
 		
 	</style>
 </head>
@@ -70,11 +76,11 @@
 					<div>
 					<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 					<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
-					<p> Fecha: <?php echo $listarviajes['fecha'] ?> </p>
+					<p> Fecha: <?php echo  $listarviajes['fecha'] ?> </p> <!-- imprimir la fecha en un formato mas lindo que este???-->
 					</div>
 					<div>
-					...<a style="color: white;" href="postulados.php?id='.$listarviajes['id'].'">Ver Postulados</a>
-					... <p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
+					<a style="color:white; font-size:22px" href="verpostulados.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Postulados </a>
+					<p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
 					</div>
 					</div>
 				

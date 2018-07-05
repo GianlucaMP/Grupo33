@@ -60,6 +60,7 @@ else{
 	// se chequea si esta logeado, y si no lo esta se lo redirecciona al inicio.
 	if(!$logeado){
 		header('Location: index.php');
+		exit();
 	}
 	//si esta logeado cargo varios datos del usuario en la variable $datosUsuario
 	else {
@@ -67,10 +68,6 @@ else{
 	}
 	
 	
-	
-	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
-	#este es la consulta vieja cuando los vehiculos tenian el campo unico de id de usuario
-
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
 	$vehiculos = mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
 
@@ -97,6 +94,10 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 	width: 40px;
 }
 
+.mediano{
+	width: 90px;
+}
+
 .grande {
 	font-size: 25px;
 	text-align:center;
@@ -111,8 +112,6 @@ capaz  que los errores detectados a nivel javascript impiden que se mantengan lo
 bug hace que el checbox de viaje periodico quede invertido (mostrando el resto del formu opuesto) ocurre cuando se marca el checkbox, se llena mal el formu y se vuelve para atras... -->
 	
 	
-	
-
 </style>
 <body>
 	<h2>Agregar nuevo viaje </h2>
@@ -129,7 +128,7 @@ bug hace que el checbox de viaje periodico quede invertido (mostrando el resto d
 		<?php } else { ?>
 			
 		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
-		<form method="POST" enctype="multipart/form-data" action="agregarviaje.php" align="justify">		
+		<form method="POST" enctype="multipart/form-data" action="altaviaje.php" align="justify">		
 			<fieldset>
 			<fieldset>
 			<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000" value="<?php echo  (  (isset($_SESSION['preciototal']) && (!empty($_SESSION['preciototal'])))  ?  $_SESSION['preciototal'] : ''  ); ?>" ></p>	
@@ -146,18 +145,15 @@ bug hace que el checbox de viaje periodico quede invertido (mostrando el resto d
 			<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="name2" type="date" name="name2" /></div>
 			<div><input id="btnAdd" type="button" style="background:url('icono_mas.png') no-repeat; border:none; width: 24px;height: 24px"/>
 			<input id="btnDel" type="button"  disabled="disabled" style="background:url('icono_menos.png') no-repeat; border:none; width: 24px;height: 24px" /></div>
-			</form>
-			<!--???AGREGAR EL CALENDARIO EN CASO DE QUE SEA PERIODICO??? --> 
+			</form> 
 			</div>
-			<!--			
-			<p> Horario de Salida: <input type="number" id="horario" name="horario" min="0" max="23" class="chiquito" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"> horas</p>--> <!--sugiero manejar el horario con 2 casillas, horas y minutos, los cuales se almacenan en la BD como horario = horas *60 + minutos -->
-			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" style="width: 90px" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas </p>
+						
+			Horario de Salida: <input type="time" id="horario" class="mediano" name="horario" value="<?php echo  (  (isset($_SESSION['horario']) && (!empty($_SESSION['horario'])))  ?  $_SESSION['horario'] : ''  ); ?>"> horas:minutos
+			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" class="mediano" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas:minutos </p>
 			</fieldset>	<p> </p>		
 			
 			
 			<fieldset>
-			<!--USAR SEGURAMENTE EVENTO HTML onChange() para llamar script que llene los valores de los campos del auto
-			Parece que no se puede invocar a PHP con eventos, por lo que capaz que tenga que por PHP cargar en la pagina todos los datos del auto de una, y luego con javascript tomar la variable en cuestion de PHP e ir llenando los campos-->
 			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
 				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
 					if ((isset($_SESSION['vehiculo'])) && ($_SESSION['vehiculo'] == $listarvehiculos['id'])) { //si el vehiculo ya fue elegido, con esto lo elijo automaticamente

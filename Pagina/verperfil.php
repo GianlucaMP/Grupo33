@@ -13,31 +13,45 @@ $user = $sesion->datosuser();
 // si el usuario no esta logeado se redirecciona automaticamente al inicio
 if(!$logeado){
 	header('Location: index.php');
+	exit;
 }
 
 $sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id = '".$_GET['id']."'"); 
 
 if (!$datosConductor = mysqli_fetch_array($sql)) {
-	echo"Error inesperado. No se puede acceder al conductor en la BD"; //hacer un manejo de este error mas copado
+	header('Location: index.php?result=4');
 	exit;
 }
-//si llegue hasta aca todo bien, ya tengo los datos del conductor
-$sql2=mysqli_query($conexion,"SELECT viajes.*,pasajeros.pasajeros_id FROM viajes INNER JOIN pasajeros ON viajes.id=pasajeros.viajes_id WHERE viajes.usuarios_id='".$datosConductor['id']."' AND pasajeros.pasajeros_id='".$_SESSION['id']."' ");
 
-if ($sql2) {
-	$exito= mysqli_fetch_array($sql2);
+
+//TESTEAR?? SEGURO ESTA MAL??
+$sql2 = mysqli_query($conexion, "SELECT postulaciones.*, viajes.usuarios_id FROM postulaciones INNER JOIN viajes ON postulados.usuarios_id=viajes.usuarios_id WHERE postulados_id='".$datosConductor['id']."' AND postulados.postulados_id='".$user['nombre']."'  AND postulaciones.estado='A' ");
+
+
+//consulta anterior, cuando se tenia tabla de passajeros y de postulados
+//$sql2 = mysqli_query($conexion,"SELECT viajes.*,pasajeros.pasajeros_id FROM viajes INNER JOIN pasajeros ON viajes.id=pasajeros.viajes_id WHERE viajes.usuarios_id='".$datosConductor['id']."' AND pasajeros.pasajeros_id='".$_SESSION['id']."' ");
+
+if (!$sql2) {
+	header('Location: index.php?result=926'); //le pongo este error por el momento para que salte y se note que es este, despues definirlo como error 4???
+	exit;
+	
+}
+
+//defino si se deben mostrar o no los datos de contacto
+$mostrarDatosContacto = false;
+if (mysqli_num_rows($sql2) > 0 || ($datosConductor['id'] == $user['id'])) {
+	$mostrarDatosContacto = true;
 }
 
 
-//calculo la edad
 
-
+//calculo la edad para poder mostrarla
 $f1 = new DateTime($datosConductor['fecha']);
 $f2 = new DateTime("now");
-$diferencia =  $f1->diff($f2);
-$edad = $diferencia->format("%y");
+$edad =  ($f1->diff($f2))->format("%y");
 
 
+//???SE DEBERIA CAMBIAR EL METODO DE ENVIO DE ID POR POST.. SINO SE PUEDE REVISAR TODA LA BD CON SOLO CAMBIAR EL ID DE LA URL???
 
 
 ?>
@@ -46,7 +60,6 @@ $edad = $diferencia->format("%y");
 <head>
 	<link type="text/css" rel="stylesheet" href="stylesheets.css"/>
 	<title> Ver Perfil </title>
-	<!--<script type="text/javascript" src="js/js_viajes.js"></script>-->
 	<style> 
 
 	#container{
@@ -74,6 +87,14 @@ $edad = $diferencia->format("%y");
 		text-align: center; 
 	}
 	
+	p, span{
+		font-size:25px;
+	}
+	
+	.alerta{
+		color:red;
+	}
+	
 	
 	button{
 		display: block;
@@ -88,7 +109,33 @@ $edad = $diferencia->format("%y");
 </head>
 <body>
 
-<!-- poner aca todos los datos, en grande (salvo los de contacto. (nombre, )-->
+<div id="container">
+	<h2> Ver Perfil: <?php echo $datosConductor['nombre']; ?> </h2>
+	<div id='menucostado' style="font-size:22px">
+	
+	<!-- si se llego aca por un link de una pagina de un viaje. muestro el boton volver al viaje-->
+	<?php if(isset($_GET['viaje'])) { ?>
+		<p> <a href="verviaje.php<?php echo ( isset($_GET['viaje']) ? "?id=${_GET['viaje']}" : "" ) ?>" style="text-decoration:none">Volver al Viaje</a></p>
+	<?php } ?>
+	<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
+	</div>
+	<div id="datos">
+		<fieldset>
+		<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
+		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
+		<p> Edad: <?php echo $edad ?> </p>
+		<p> Email: <?php  echo ($mostrarDatosContacto ? $datosConductor['email'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>'  ) ?> </p>
+		<p> Telefono: <?php echo ($mostrarDatosContacto ? $datosConductor['telefono'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>' ) ?> </p>
+		</fieldset>
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+<!--CODIGO ANTERIOR: CON UN BOTON PARA MOSTRAR DATOS DE CONTACTO (RESPETA LO QUE DICE LA HISTORIA DE USUARIO, PERO SE DIJO DE CAMBIARLA)
 
 <div id="container">
 	<h2> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h2>
@@ -96,17 +143,17 @@ $edad = $diferencia->format("%y");
 		<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
 	</div>
 	<div id="datos">
-		<p style="font-size:25px"> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
-		<p style="font-size:25px"> Edad: <?php echo $edad ?></p>
+		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
+		<p> Edad: <?php echo $edad ?></p>
 		<button style="margin:70px 200px; width:40%;" onclick="mostrarDatosDeContacto()"> Mostrar datos de contacto </button>	
 		<div id="datosDeContacto" style="display:none">
 			<?php 
-			if(mysqli_num_rows($sql2) > 0 || ($datosConductor['id'] == $user['id'])) { ?>
-				 <p style="font-size:25px"> Email: <?php echo $datosConductor['email'] ?> </p>
-				 <p style="font-size:25px"> Telefono: <?php echo $datosConductor['telefono'] ?> </p>
+			if ($mostrarDatosContacto) { ?>
+				 <p> Email: <?php echo $datosConductor['email'] ?> </p>
+				 <p> Telefono: <?php echo $datosConductor['telefono'] ?> </p>
 			<?php }
 			else { ?>
-				 <p style="font-size:25px; color:red"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </p>
+				 <p class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </p>
 			<?php } 	?>
 		</div>
 	</div>
@@ -115,6 +162,7 @@ $edad = $diferencia->format("%y");
 </html>
 
 
+-->
 
 
 <script>
