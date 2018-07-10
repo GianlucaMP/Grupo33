@@ -84,7 +84,7 @@
 		$nombreConductor = $datosConductor['nombre'];
 	}
 	else {
-		echo "error inesperado. No se encuentra el conductor en la Base de Datos"; //ver bien como tratar este error. si es posbile que se de y  si se puede hacer algo mejor
+		echo "error inesperado. No se encuentra el conductor en la Base de Datos"; //ver bien como tratar este error. si es posible que se de y  si se puede hacer algo mejor
 		die();
 	}
 
@@ -187,8 +187,6 @@
 			</form>
 		<?php }
 		else { //si no es el conductor, me fijo su estado de postulacion para ver que opciones mostrarle
-			
-			echo "el userestado vale: $userEstado"; //debug
 			switch ($userEstado) { 
 			case NOPOSTULADO:	?>
 				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
@@ -209,7 +207,7 @@
 				break;
 			case ACEPTADO: ?>
 				<p style="color:gold; font-size:20px; line-height:1"> Has sido aceptado en el viaje!. <br>
-				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>"> Ver Datos del Conductor <p>
+				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo $idConductor ?>&viaje=<?php echo $idviaje ?>"> Ver Datos del Conductor <p>
 				<?php
 				break;			
 			} 

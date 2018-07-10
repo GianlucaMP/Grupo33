@@ -30,6 +30,10 @@
 			$result = 'El viaje que deseas administrar no te pertenece';
 			$color = "red";
 			break;
+		case '6': //DEBUG
+			$result = 'Error en la consulta a la BD. seguro esta mal escrita'; //DEBUG
+			$color = "red"; //DEBUG
+			break; //DEBYG
 		default:
 			$result = 'Error desconocido.';
 			$color = "red";

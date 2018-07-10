@@ -54,7 +54,7 @@
 		case 'aceptar':
 			//si hay plazas disponibles se actualiza el estado del postulado como "aceptado" 
 			if ($plazasOcupadas < $viaje['plazas']) {
-				$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='A' WHERE viajes_id=${_GET['viaje']} AND postulados_id=${_GET['postulado']}");
+				$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='A' WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}");
 			}
 			else {
 				header('Location: verpostulados.php?result=4&id="'.$_GET['viaje'].'"');
@@ -71,7 +71,7 @@
 			break;
 		case 'rechazar':
 			//se actualiza el estado del postulado como "rechazado"
-	$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='R' WHERE viajes_id=${_GET['viaje']} AND postulados_id=${_GET['postulado']}");
+			$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='R' WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}");
 			if ($actualizar) {
 				header('Location: verpostulados.php?result=2&id="'.$_GET['viaje'].'"');
 				die(); 

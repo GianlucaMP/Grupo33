@@ -23,23 +23,40 @@ if (!$datosConductor = mysqli_fetch_array($sql)) {
 	exit;
 }
 
+//puesto por facilidad de escritura de la consulta
+$idConductor = $datosConductor['id'];
+$idUser = $user['id'];
 
-//TESTEAR?? SEGURO ESTA MAL??
-$sql2 = mysqli_query($conexion, "SELECT postulaciones.*, viajes.usuarios_id FROM postulaciones INNER JOIN viajes ON postulados.usuarios_id=viajes.usuarios_id WHERE postulados_id='".$datosConductor['id']."' AND postulados.postulados_id='".$user['nombre']."'  AND postulaciones.estado='A' ");
 
 
-//consulta anterior, cuando se tenia tabla de passajeros y de postulados
-//$sql2 = mysqli_query($conexion,"SELECT viajes.*,pasajeros.pasajeros_id FROM viajes INNER JOIN pasajeros ON viajes.id=pasajeros.viajes_id WHERE viajes.usuarios_id='".$datosConductor['id']."' AND pasajeros.pasajeros_id='".$_SESSION['id']."' ");
-
+$sql2 = mysqli_query($conexion, "SELECT postulaciones.* FROM postulaciones INNER JOIN viajes ON postulaciones.viajes_id=viajes.id WHERE viajes.usuarios_id={$datosConductor['id']} AND postulaciones.postulados_id={$user['id']} AND postulaciones.estado='A' ");
 if (!$sql2) {
-	header('Location: index.php?result=926'); //le pongo este error por el momento para que salte y se note que es este, despues definirlo como error 4???
+	header('Location: index.php?result=4');
+	exit;
+	
+}
+$sql3 = mysqli_query($conexion, "SELECT postulaciones.* FROM postulaciones INNER JOIN viajes ON postulaciones.viajes_id=viajes.id WHERE viajes.usuarios_id={$user['id']} AND postulaciones.postulados_id={$datosConductor['id']} AND postulaciones.estado='A' ");
+if (!$sql3) {
+	header('Location: index.php?result=4');
 	exit;
 	
 }
 
+
+
 //defino si se deben mostrar o no los datos de contacto
 $mostrarDatosContacto = false;
-if (mysqli_num_rows($sql2) > 0 || ($datosConductor['id'] == $user['id'])) {
+//si el conductor es el mismo usuario que esta logeado muestro los datos de contacto
+if (($datosConductor['id'] == $user['id'])) {
+	$mostrarDatosContacto = true;
+}
+//si el user actual se postulo a algun viaje de este usuario que estoy visitando el perfil (tengo que tener al menos una columna como resultado), muestro los datos de contacto
+if (mysqli_num_rows($sql2) > 0 ) {
+	$mostrarDatosContacto = true;
+}
+
+//si el usuario que estoy visitando el perfil se postulo a algun viaje del user actual (tengo que tener al menos una columna como resultado), muestro los datos de contacto
+if (mysqli_num_rows($sql3) > 0 ) {
 	$mostrarDatosContacto = true;
 }
 
@@ -132,48 +149,3 @@ $edad =  ($f1->diff($f2))->format("%y");
 </body>
 </html>
 
-
-
-
-<!--CODIGO ANTERIOR: CON UN BOTON PARA MOSTRAR DATOS DE CONTACTO (RESPETA LO QUE DICE LA HISTORIA DE USUARIO, PERO SE DIJO DE CAMBIARLA)
-
-<div id="container">
-	<h2> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h2>
-	<div id='menucostado' style="font-size:22px">
-		<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
-	</div>
-	<div id="datos">
-		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
-		<p> Edad: <?php echo $edad ?></p>
-		<button style="margin:70px 200px; width:40%;" onclick="mostrarDatosDeContacto()"> Mostrar datos de contacto </button>	
-		<div id="datosDeContacto" style="display:none">
-			<?php 
-			if ($mostrarDatosContacto) { ?>
-				 <p> Email: <?php echo $datosConductor['email'] ?> </p>
-				 <p> Telefono: <?php echo $datosConductor['telefono'] ?> </p>
-			<?php }
-			else { ?>
-				 <p class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </p>
-			<?php } 	?>
-		</div>
-	</div>
-</div>
-</body>
-</html>
-
-
--->
-
-
-<script>
-
-function mostrarDatosDeContacto() {
-    var x = document.getElementById("datosDeContacto");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-
-</script>
