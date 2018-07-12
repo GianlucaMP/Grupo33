@@ -6,11 +6,13 @@
 			// $usuario y $clave se buscan en la SQL, si hay resultados, se hace el login, si no, retorna false
 			$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE nombreusuario='".$usuario."' AND password='".$clave."'");
 			if($datosuser = mysqli_fetch_array($sql)){
-				session_start();
-				//Se cargan los datos del user en las variables de sesion
-				$_SESSION['id'] = $datosuser['id'];
-				$_SESSION['usuario'] = $datosuser['nombreusuario'];
-				return true;
+				if($datosuser['eliminado'] =='N') {
+					session_start();
+					//Se cargan los datos del user en las variables de sesion
+					$_SESSION['id'] = $datosuser['id'];
+					$_SESSION['usuario'] = $datosuser['nombreusuario'];
+					return true;
+				}
 			}else{
 				return false;
 				exit;

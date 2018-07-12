@@ -12,6 +12,7 @@
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
 ?>
 <!DOCTYPE html>

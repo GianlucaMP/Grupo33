@@ -44,17 +44,17 @@
 	}
 		
 	//muevo el viaje a la tabla de viajes finalizados/cancelados
-	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (preciototal, origen, destino, fecha, duracion, plazas,  vehiculos_id, usuarios_id) VALUES ('".$viaje['preciototal']."', '".$viaje['origen']."', '".$viaje['destino']."', '".$viaje['fecha']."', '".$viaje['duracion']."','".$viaje['plazas']."','".$viaje['vehiculo']."','".$viaje['creador']."')");
 	
 	
-	if(!$alta) {
+	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (preciototal, origen, destino, fecha, duracion, horario, plazas,  vehiculos_id, usuarios_id) VALUES ('".$viaje['preciototal']."', '".$viaje['origen']."', '".$viaje['destino']."', '".$viaje['fecha']."','".$viaje['duracion']."', '".$viaje['horario']."','".$viaje['plazas']."','".$viaje['vehiculos_id']."','".$viaje['usuarios_id']."')");
+	
+	if(!$alta) {//si la transaccion fallo
 		header('Location: miperfil.php?result=11');
 		exit;
 	}
-	else { //transaccion valida, viaje registrado en lista de viajes finalizados
-			
+	else { //transaccion valida, viaje registrado en lista de viajes finalizados		
 		$baja = mysqli_query($conexion, "DELETE FROM viajes WHERE id=".$_GET['id']); //delete el viaje de la tabla de viajes aun pendientes		
-		if(!baja) { //no se pudo eliminar el viaje Y EN LA BD QUEDO DUPLICADO EL VIAJE ???REPARAR ESTE CASO??
+		if(!baja) { //no se pudo eliminar el viaje Y EN LA BD QUEDO DUPLICADO EL VIAJE ???VER SI ESTE CASO PUEDE DARSE ???
 			header('Location: miperfil.php?result=11');
 			exit;
 		}
@@ -63,7 +63,7 @@
 			exit;
 		}
 		
-		//capaz se deberia tratar el tema de la lista de postulados y pasaeros. capaz convenga hacer algo con ellos pero por el momento creo que esta bien asi????
+		//capaz se deberia tratar el tema de la lista de postulados y pasajeros. capaz convenga hacer algo con ellos pero por el momento creo que esta bien asi????
 		
 	}
 	

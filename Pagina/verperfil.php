@@ -16,7 +16,7 @@ if(!$logeado){
 	exit;
 }
 
-$sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id = '".$_GET['id']."'"); 
+$sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id ={$_GET['id']}"); 
 
 if (!$datosConductor = mysqli_fetch_array($sql)) {
 	header('Location: index.php?result=4');

@@ -35,7 +35,7 @@
     $datoviaje = mysqli_fetch_array($viaje);
 
     //se busca el vehiculo del viaje por su id
-    $vehiculo = mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id='".$datoviaje['vehiculos_id']."'");
+    $vehiculo = mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id={$datoviaje['vehiculos_id']}");
     // se colocan los datos del vehiculo en un array
     $datovehiculo = mysqli_fetch_array($vehiculo);
 	
@@ -47,7 +47,7 @@
 	//!IMPORANTE: los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R)   
 	
 	//determino si el viaje tiene todas sus plazas ocupadas
-	$queryplazas = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id='".$datoviaje['id']."' AND estado='A' "); 
+	$queryplazas = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$datoviaje['id']}	AND estado='A' "); 
 	if (!$queryplazas) {
 		header('Location: index.php?result=4');
 		exit;
@@ -60,7 +60,7 @@
 	
 	//determino si el user actual esta: no postulado (N), postulado (P), aceptado (A), o rechazado (R) en el viaje.
 	$userEstado = NOPOSTULADO;
-	$querypostulados = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id='".$datoviaje['id']."'"); 
+	$querypostulados = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$datoviaje['id']}"); 
 	while ($postulado = mysqli_fetch_array($querypostulados)){
 		if ($postulado['postulados_id'] == $datosUsuario['id']) {
 			switch ($postulado['estado']){
@@ -79,14 +79,15 @@
 	
 		
 	//obtengo el nombre del conductor
-	$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id='".$idConductor."'");
-	if($datosConductor = mysqli_fetch_array($sql)){
-		$nombreConductor = $datosConductor['nombre'];
+	$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$idConductor}");
+	if (!$sql) { //si no puedo obtenerlo retorno error
+		header('Location: index.php?result=4');
+		exit;
 	}
-	else {
-		echo "error inesperado. No se encuentra el conductor en la Base de Datos"; //ver bien como tratar este error. si es posible que se de y  si se puede hacer algo mejor
-		die();
-	}
+	
+	$datosConductor = mysqli_fetch_array($sql);
+	$nombreConductor = $datosConductor['nombre'];
+	
 
 	$colorMensaje = "lightgreen";
 	$mensaje = "&nbsp";
@@ -212,7 +213,11 @@
 				break;			
 			} 
 		} ?>
-		<p style="font-size:20px; float:right;"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil) </p>
+		<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil)</p>
+		<?php //si el user es el conductor muestro un link para eliminar el viaje
+		if ($datosUsuario['id'] == $idConductor) { ?>
+			<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
+		<?php } ?>
 	</div>
 	</div>
 	</div>

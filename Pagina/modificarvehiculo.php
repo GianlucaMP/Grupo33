@@ -8,7 +8,8 @@
 	$logeado = $sesion->logeado();
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
-	header('Location: index.php');
+		header('Location: index.php');
+		exit;
 	}
 	//chequea que no haya campos vacios
 	$campos = array('marca','modelo', 'plazas', 'color','patente');
@@ -19,14 +20,6 @@
 	  	}
 	}
 	
-	//este chequeo es para evitar que queden 2 autos en la BD con una misma patente despues de una edicion???
-	//???hay un bug por este chequeo, q salta si modifica algo y se deja la patente igual. Ya que no comtempla ese caso???
-	//seguramente haya que ver esto solo si se cambia la patente, ahora si se deja igual salteamos este chequeo
-	/*$chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
-	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente  
-        header('Location: editarvehiculo.php?error=1');
-		die();
-    }*/
 
     $chequeo = mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE patente='".$_POST['patente']."'");
 	if(mysqli_num_rows($chequeo) > 0) { // si es mayor a 0, entonces hay un vehiculo con la misma patente

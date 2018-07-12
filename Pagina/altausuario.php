@@ -93,16 +93,15 @@ $f2 = new DateTime("now");
 $diferencia =  $f1->diff($f2);
 
 
-//se modifico esta porcion de codigo que sigue, ya que fallaba en algunos casos, debe ser testeada????
 
 if ($diferencia->format("%y") > 18) {
 	// se envia el usuario a la DB
-	$registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."')");
-	if($registrar){//si la ooperacion de la BD salio bien -> $registar deberia evaluar a true ??casi seguro???. y lo envia a la home
+	$registrar = mysqli_query($coneccion, "INSERT INTO usuarios (nombreusuario, email, password, nombre, fecha, telefono, eliminado) VALUES ('".$user."', '".$email."', '".$pass."', '".$nombre."', '".$date."','".$telefono."', 'N')");
+	if($registrar){//si la ooperacion de la BD salio bien
 		header('Location: index.php?res=3');
 		die();	
 	}
-	else { //si llega aca, seguramente sea un error con la BD
+	else { //hubo un error en la transaccion
 		header('Location: registrarusuario.php?error=12');  
 		die();
 	}

@@ -10,8 +10,8 @@
 	
 	#$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 
-	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
-	$vehiculos = mysqli_query ($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales y que el vehiculo no este eliminado
+	$vehiculos = mysqli_query ($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id={$user['id']}  AND enlace.eliminado='N' ");
 
 	
 	//chequeo si falla la consulta
@@ -23,6 +23,7 @@
 	//si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
 	if(!empty($_GET['result'])){
 		switch ($_GET['result']) {
@@ -31,7 +32,7 @@
 				$color= "lightgreen";
 				break;
 			case '2':
-				$result=	'Hubo un error al agregar el vehiculo';
+				$result='Hubo un error al agregar el vehiculo';
 				$color="red";
 				break;
 			case '3':
@@ -42,6 +43,14 @@
 				$result='Hubo un error al eliminar el vehiculo';
 				$color="red";
 				break;
+			case '41':
+				$result='El vehiculo a eliminar tiene viajes pendientes. Podras borrarlo cuando terminen esos viajes';
+				$color="red";
+				break;	
+			case '42':
+				$result='El vehiculo que intentas eliminar no te pertenece.';
+				$color="red";
+				break;		
 			case '5':
 				$result='Vehiculo modificado con exito';
 				$color= "lightgreen";
@@ -68,6 +77,22 @@
 				break;
 			case '11':
 				$result='Error al operar con la base de datos, el viaje NO pudo ser eliminado. Intentalo de nuevo';
+				$color="red";
+				break;
+			case '20':
+				$result='Hubo un error al eliminar tu cuenta';
+				$color="red";
+				break;
+			case '21':
+				$result='La cuenta que queres eliminar no te pertenece';
+				$color="red";
+				break;
+			case '22':
+				$result='Error al eliminar el usuario. Intentalo de Nuevo';
+				$color="red";
+				break;
+			case '23':
+				$result='El usuario a eliminar tiene viajes pendientes. No se pudo eliminar';
 				$color="red";
 				break;
 			default:

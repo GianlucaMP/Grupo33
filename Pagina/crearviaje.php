@@ -37,8 +37,14 @@ if (!empty($_GET['error'])) {
 				$error = 'El vehiculo tiene otro viaje asignado en ese mismo momento.';
 				break;
 			case '20':
-				$error = 'Ha ingresado una fecha invalida';
+				$error = 'Ha ingresado una fecha invalida o ya ocurrida';
 				break;
+			case '21':
+				$error = 'Ha ingresado una hora invalida o ya ocurrida';
+				break;
+			case '22':
+				$error = 'El vehiculo elegido para el viaje ha sido eliminado y no puede usarse';
+				break;	
 			default:
 				$error = 'error desconocido';
 		}	
@@ -69,7 +75,7 @@ else{
 	
 	
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
-	$vehiculos = mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id=".$user['id']);
+	$vehiculos = mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id={$user['id']} AND enlace.eliminado='N' ");
 
 
 	
@@ -120,11 +126,10 @@ bug hace que el checbox de viaje periodico quede invertido (mostrando el resto d
 	
 		<!-- si no tiene vehiculos-->
 		<?php if(mysqli_num_rows($vehiculos) == 0) { ?> 
-		
-			<p class="grande" style="color:gold;">Aviso: No tenes ningun vehiculo registrado. </p
-			>
+			<p id="error" class="grande" style="color: red;"><?php echo $error?></p>
+			<p class="grande" style="color:gold;">Aviso: No tenes ningun vehiculo registrado. </p>
 			<p class="grande">Antes de crear un viaje vas a necesitar <a href="registrarvehiculo.php"> registrar un vehiculo </a> </p>
-		
+					
 		<?php } else { ?>
 			
 		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->

@@ -33,7 +33,11 @@
 		case '6': //DEBUG
 			$result = 'Error en la consulta a la BD. seguro esta mal escrita'; //DEBUG
 			$color = "red"; //DEBUG
-			break; //DEBYG
+			break; //DEBUG
+		case '7':
+			$result = 'Usuario eliminado con exito';
+			$color = 'gold';
+			break;
 		default:
 			$result = 'Error desconocido.';
 			$color = "red";
