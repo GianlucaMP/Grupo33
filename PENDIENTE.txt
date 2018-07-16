@@ -1,5 +1,4 @@
-
-PEQUEÑOS FIXS DE CODIGO & IMPLEMENTACIONES CHICAS:
+﻿PEQUEÑOS FIXS DE CODIGO & IMPLEMENTACIONES CHICAS:
 
 1) bajavehiculo: chequear que el mismo no tenga viajes asociados antes de poder eliminarlo (en cuanto se agrege la tabla viajes finalizados, solo hay que chequear que el id del vehiculo no este ne la tabla viajes y list!!!
 
@@ -32,8 +31,7 @@ IMPORTANTE:
 EN LA BD:  los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R), cosa que deberian ser definidas como constantes en cada pagina que sea necesario. Ya estan definidas en la pagina verviaje.php, copiar lo que esta ahi donde haga falta cuando sea necesario.
 
 
-
-
+puede ser campo de finalizado y listo
 
 
 BUGS DESTACALBES:
