@@ -35,7 +35,7 @@
     $datoviaje = mysqli_fetch_array($viaje);
 
     //se busca el vehiculo del viaje por su id
-    $vehiculo = mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id='".$datoviaje['vehiculos_id']."'");
+    $vehiculo = mysqli_query($coneccion,"SELECT * FROM vehiculos WHERE vehiculos.id={$datoviaje['vehiculos_id']}");
     // se colocan los datos del vehiculo en un array
     $datovehiculo = mysqli_fetch_array($vehiculo);
 	
@@ -47,20 +47,20 @@
 	//!IMPORANTE: los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R)   
 	
 	//determino si el viaje tiene todas sus plazas ocupadas
-	$queryplazas = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id='".$datoviaje['id']."' AND estado='A' "); 
+	$queryplazas = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$datoviaje['id']}	AND estado='A' "); 
 	if (!$queryplazas) {
 		header('Location: index.php?result=4');
 		exit;
 	}
 	$plazasLlenas = false;
-	$plazasOcupadas = (mysqli_num_rows($queryplazas)) + 1;
-	if ($datovehiculo['plazas'] == $plazasOcupadas) {
+	$plazasOcupadas = (mysqli_num_rows($queryplazas));
+	if (($datoviaje['plazas']) == $plazasOcupadas) {
 		$plazasLlenas = true;
 	}
 	
 	//determino si el user actual esta: no postulado (N), postulado (P), aceptado (A), o rechazado (R) en el viaje.
 	$userEstado = NOPOSTULADO;
-	$querypostulados = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id='".$datoviaje['id']."'"); 
+	$querypostulados = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$datoviaje['id']}"); 
 	while ($postulado = mysqli_fetch_array($querypostulados)){
 		if ($postulado['postulados_id'] == $datosUsuario['id']) {
 			switch ($postulado['estado']){
@@ -79,14 +79,15 @@
 	
 		
 	//obtengo el nombre del conductor
-	$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id='".$idConductor."'");
-	if($datosConductor = mysqli_fetch_array($sql)){
-		$nombreConductor = $datosConductor['nombre'];
+	$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$idConductor}");
+	if (!$sql) { //si no puedo obtenerlo retorno error
+		header('Location: index.php?result=4');
+		exit;
 	}
-	else {
-		echo "error inesperado. No se encuentra el conductor en la Base de Datos"; //ver bien como tratar este error. si es posbile que se de y  si se puede hacer algo mejor
-		die();
-	}
+	
+	$datosConductor = mysqli_fetch_array($sql);
+	$nombreConductor = $datosConductor['nombre'];
+	
 
 	$colorMensaje = "lightgreen";
 	$mensaje = "&nbsp";
@@ -108,7 +109,7 @@
 	
 ?>
 
-<!-- AGREGAR ACA MISMO LO NECESARIO PARA LA HU VER POSTULADOS Y ACEPTAR Y RECHAZAR. con un boton ver postualdos que solo se muestra en caso de ser el conductor-->
+
 
 <!DOCTYPE html>
 <html>
@@ -166,17 +167,17 @@
 	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p>
 	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px darkgrey; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
 		<?php if (!$plazasLlenas) { ?>
-		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de ${datovehiculo['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
+		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
 		else { ?>
-			<p style="color:red; font-size:20px" align="right"> Las <?php echo $datovehiculo['plazas'] ?> plazas estan ocupadas </p>
+			<p style="color:red; font-size:20px" align="right"> Las <?php echo $datoviaje['plazas'] ?> plazas estan ocupadas </p>
 		<?php 
 		} ?>
 		<p> Origen: <?php echo  $datoviaje['origen'] ?> </p>
 		<p> Destino: <?php echo $datoviaje['destino']?> </p> 
-		<p> Fecha: <?php echo $datoviaje['fecha'] ?></p>
-		<p> Horario: <?php echo $datoviaje['horario'] ?> </p>
-		<p> Duracion Estimada: <?php echo $datoviaje['duracion'] ?></p>
+		<p> Fecha:<?php echo (Date("d-m-Y",strtotime($datoviaje['fecha']))); ?></p>
+		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['horario']))); ?> </p>
+		<p> Duracion Estimada: <?php echo (Date("H:i",strtotime($datoviaje['duracion']))); ?> (horas:minutos)</p>
 		<p> Precio: <?php echo $datoviaje['preciototal'] ?></p>			
 		<p> Vehiculo: <?php echo "${datovehiculo['marca']}  ${datovehiculo['modelo']}" ?></p>
 		<?php //si el user es el conductor muestro un link para ver los postulados
@@ -187,8 +188,6 @@
 			</form>
 		<?php }
 		else { //si no es el conductor, me fijo su estado de postulacion para ver que opciones mostrarle
-			
-			echo "el userestado vale: $userEstado"; //debug
 			switch ($userEstado) { 
 			case NOPOSTULADO:	?>
 				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
@@ -209,12 +208,16 @@
 				break;
 			case ACEPTADO: ?>
 				<p style="color:gold; font-size:20px; line-height:1"> Has sido aceptado en el viaje!. <br>
-				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>"> Ver Datos del Conductor <p>
+				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo $idConductor ?>&viaje=<?php echo $idviaje ?>"> Ver Datos del Conductor <p>
 				<?php
 				break;			
 			} 
 		} ?>
-		<p style="font-size:20px; float:right;"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil) </p>
+		<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil)</p>
+		<?php //si el user es el conductor muestro un link para eliminar el viaje
+		if ($datosUsuario['id'] == $idConductor) { ?>
+			<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
+		<?php } ?>
 	</div>
 	</div>
 	</div>

@@ -1,22 +1,11 @@
 
 <?php
 
-$a = array(
-  'blue'   => 'nice',
-  'car'    => 'fast',
-  'number' => 'none'
-);
+date_default_timezone_set("America/Argentina/Buenos_Aires");
 
-foreach($a AS $campo) {
-	echo "el elemento es: $campo <br>";
-}
-$b= 'hola';
+$hora = Date("y:m:d:H:i");
+echo "$hora";
 
-
-
-
-$indiceNumerico = array_search("car",array_keys($a));
-echo ($indiceNumerico==null?"nulo":$indiceNumerico);
 
 ?>
 
@@ -25,15 +14,6 @@ echo ($indiceNumerico==null?"nulo":$indiceNumerico);
 <HEAD>
 
 <BODY>
-
-<form>
-
-<input type="checkbox" name="aca"> aca
-
-<input type="submit">
-
-</form>
-
 
 </BODY>
 

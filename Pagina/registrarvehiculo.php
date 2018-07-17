@@ -12,6 +12,7 @@
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
 	if (!empty($_GET['error'])) {
 		switch ($_GET['error']) {
@@ -69,6 +70,7 @@
 	<h2>Mi perfil</h2>
 		<div id='menucostado'>
 			<h2> <a href="miperfil.php" style="text-decoration:none">Volver</a></h2>
+			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
 			<h3>Registrar Vehiculo</h3>

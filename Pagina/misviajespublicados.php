@@ -56,6 +56,7 @@
 	<h2>Mi perfil</h2>
 		<div id='menucostado'>
 			<h2> <a style="text-decoration:none" href="miperfil.php"> Volver </h2>
+			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
 			<h2>Viajes Publicados de: <?php echo $user['nombre']; ?></h2>
@@ -72,14 +73,14 @@
 		else { 		
 			while ($listarviajes=mysqli_fetch_array($viajes)) {  ?>
 				
-					<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 600px; margin-bottom:15px; float: left">
+					<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
 					<div>
 					<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 					<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
 					<p> Fecha: <?php echo  $listarviajes['fecha'] ?> </p> <!-- imprimir la fecha en un formato mas lindo que este???-->
 					</div>
 					<div>
-					<a style="color:white; font-size:22px" href="verpostulados.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Postulados </a>
+					<a style="color:white; font-size:22px" href="verviaje.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Detalles </a>
 					<p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
 					</div>
 					</div>

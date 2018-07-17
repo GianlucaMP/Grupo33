@@ -37,24 +37,24 @@
 		header('Location: index.php?result=5');
 		exit;
 	}
-	
+		
 	
 	//obtengo la cantidad de plazas ocupadas
-	$sqltoken2 = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id='".$_GET['viaje']."' AND postulados_id=".$_GET['postulado']."' ");
+	$sqltoken2 = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}  AND estado='A'");
 	if (!$sqltoken2) {//si no lo puedo recibir, entonces no existe o hubo un error en la operacion
-		header('Location: index.php?result=9999'); //por el momento lo defino como error desconocido
+		header('Location: index.php?result=9959'); //por el momento lo defino como error desconocido
 		exit;
 	}
-	$plazasOcupadas = (mysqli_num_rows($sqltoken2)) + 1; //se tiene en cuenta la plaza ocupada por el conductor
+	$plazasOcupadas = (mysqli_num_rows($sqltoken2)); //ya NO se tiene en cuenta la plaza ocupada por el conductor, ya que esa NO se considera desde el momento que se crea el viaje
 	
-		
+	
 	
 	//se opera segun la accion recibida como parametro
 	switch ($_GET['accion']) {
 		case 'aceptar':
 			//si hay plazas disponibles se actualiza el estado del postulado como "aceptado" 
 			if ($plazasOcupadas < $viaje['plazas']) {
-				$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='A' WHERE viajes_id=${_GET['viaje']} AND postulados_id=${_GET['postulado']}");
+				$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='A' WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}");
 			}
 			else {
 				header('Location: verpostulados.php?result=4&id="'.$_GET['viaje'].'"');
@@ -71,7 +71,7 @@
 			break;
 		case 'rechazar':
 			//se actualiza el estado del postulado como "rechazado"
-	$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='R' WHERE viajes_id=${_GET['viaje']} AND postulados_id=${_GET['postulado']}");
+			$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='R' WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}");
 			if ($actualizar) {
 				header('Location: verpostulados.php?result=2&id="'.$_GET['viaje'].'"');
 				die(); 
@@ -83,8 +83,6 @@
 			break;
 		default:
 			header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"');
-			die();
-			break;
-	
+			die();	
 	}		
 ?>

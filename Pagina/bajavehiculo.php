@@ -6,62 +6,58 @@
 	require('usuarioclass.php');
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
-	//$user = $sesion->datosuser();
+	$user = $sesion->datosuser();
+	
+	
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
-	// si hay una ID seteada se sigue, si no, se activa $err
+	
+	
+	// si no hay una ID seteada se sigue
 	if(!isset($_GET['id'])){
-		$err = true;
-	}else{
-		#Primero se elimina el enlace entre el usuario y el vehiculo
-		$mienlace = mysqli_query($coneccion,"DELETE FROM enlace WHERE usuarios_id='".$_SESSION['id']."' AND vehiculos_id='".$_GET['id']."' ");
-		#Se verifica que la query haya sido exitosa, CC error desconocido
-		if(!$mienlace) header('Location: miperfil.php?result=default');
-		#Se verifica la cantidad de enlaces restantes del vehiculo. 
-		$enlaces = mysqli_query($coneccion,"SELECT * FROM enlace WHERE vehiculos_id=".$_GET['id']);
-		if (mysqli_num_rows($enlaces) < 1) { #Si enlaces del vehiculo es menor a 1, el vehiculo no tiene mas dueños
-			#En ese caso se lo elimina definitivamente de la BD
-			$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
-		}
-		//$sql = $comentar = mysqli_query($coneccion, "DELETE FROM vehiculos WHERE id=".$_GET['id']);
-		if($mienlace||$sql) header('Location: miperfil.php?result=3');
-		else header('Location: miperfil.php?result=4');
+		header('Location: miperfil.php?result=4');
+		exit;		
 	}
+	
+	
+	//se chequea que el vehiculo realmente pertenezca al user que lo quiere borrar 
+	$sql4 =  mysqli_query($coneccion, "SELECT * FROM enlace WHERE vehiculos_id={$_GET['id']} AND usuarios_id={$user['id']} ");	
+	if (mysqli_num_rows($sql4) == 0) {
+		header('Location: miperfil.php?result=42');
+		exit;		
+	}
+	
+	
+	//???MIENTRAS NO SE UTILICE LA TABLA VIAJES FINALIZADOS, HAY QUE TESTEAR SI O SI QUE LA FECHA SEA >= fecha actual + un changui capaz para darle tiempo a que se muevan de tablas los viajes
+	
+	//se chequea que el vehiculo no tenga viajes pendientes	
+	$fechaactual = Date("Y-m-d");
+	$sql5 =  mysqli_query($coneccion, "SELECT * FROM viajes WHERE vehiculos_id={$_GET['id']}");
+	while ($viajetemp = mysqli_fetch_array($sql5)) {
+		if ($viajetemp['fecha'] > $fechaactual) {
+			header('Location: miperfil.php?result=41');
+			exit;	
+		}
+	}
+
+
+
+	//se "elimina" el vehiculo mediante marcar su enlace como borrado
+	$sql9 =  mysqli_query($coneccion, "UPDATE enlace SET eliminado='S' WHERE vehiculos_id={$_GET['id']} AND usuarios_id={$user['id']}");
+	if(!$sql9) { //no se pudo borrar el vehiculo
+		header('Location: miperfil.php?result=4');
+		exit;
+	}
+	else { //vehiculo borrado con exito
+		header('Location: miperfil.php?result=3');
+		exit;
+	}
+		
 ?>
-<!--<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<script type="text/javascript" src="js/js_viajes.js"></script>
-	<style type="text/css">
-		#container{
-			width: 1200px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		#menucostado{
-			float: left;
-			width: 40%;
-		}
-		#datos{
-			float: right;
-			width: 59%;
-		}
-	</style>
-</head>
-<body>
-	<div id="container">
-	<h3>Mi perfil</h3>
-		<div id="menucostado">
-			<p><a href="miperfil.php">Volver</a></p>
-		</div>
-		<div id="datos">
-			<p> <?php// echo $mensaje ?>
-		</p>
-		</div>
-		<div style="clear: both;"></div>
-	</div>
-</body>
-</html>-->
+
+
+
+

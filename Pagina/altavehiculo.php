@@ -5,8 +5,6 @@
 	// Se chequea si el usuario esta logeado y se deja en una variable a traves de la funcion logeado()
 	require('usuarioclass.php');
 	$sesion = new sesion;
-	
-
 	$logeado = $sesion->logeado();
 	
 	
@@ -19,12 +17,10 @@
 	
 	
 	
-	//???LO QUE SIGUE NO SE DEBERIA DES-COMENTAR (YA ESTABA COMENTADO DE ANTES)???
-	//$user = $sesion->datosuser();
-	//$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 	// si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
+		exit;
 	}
 	
 	
@@ -53,7 +49,6 @@
 
 	
 	
-		
 	
 	#lo que sigue a continuacion se puede mejorar. No lo hice porque no me daba la bateria, tengo tanta energia como una pila china
 	# $chequeo busca el vehiculo en la tabla de vehiculos
@@ -77,13 +72,13 @@
     	#si el vehiculo ya existe, solamente se agrga el enlace
     	$car=mysqli_fetch_array($chequeo);
     	$autoid = $car['id'];
-    	$sql2= mysqli_query($coneccion,"INSERT INTO enlace (usuarios_id,vehiculos_id) VALUES ('".$_SESSION['id']."','".$autoid."')");	
+    	$sql2= mysqli_query($coneccion,"INSERT INTO enlace (usuarios_id,vehiculos_id,eliminado) VALUES ('".$_SESSION['id']."','".$autoid."','N')");	
     }
     else {
     	#Caso Contrario, se da de alta el vehiculo en la BD y se crea el enlace 
     	$sql = mysqli_query($coneccion, "INSERT INTO vehiculos (plazas, marca, modelo, color, patente) VALUES ('".$_POST['plazas']."', '".$_POST['marca']."', '".$_POST['modelo']."', '".$_POST['color']."','".$_POST['patente']."')");
     	$autoid = mysqli_insert_id($coneccion);
-    	$sql2= mysqli_query($coneccion,"INSERT INTO enlace (usuarios_id,vehiculos_id) VALUES ('".$_SESSION['id']."','".$autoid."')");
+    	$sql2= mysqli_query($coneccion,"INSERT INTO enlace (usuarios_id,vehiculos_id,eliminado) VALUES ('".$_SESSION['id']."','".$autoid."','N')");
     }
 
 	//printf("Id del registro creado %d\n", mysqli_insert_id($sql));
