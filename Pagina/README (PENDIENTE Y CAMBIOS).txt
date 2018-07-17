@@ -17,7 +17,6 @@ b) los botones + - no hacen nada
 
 
 
-
 BUGS DESTACABLES:
 
 1) crear viaje: el chequeo por la hora del dia no haya pasado al crear viaje estan fallando, puede que halla un offset en la hora, aunque capaz ya este solucionado
@@ -118,6 +117,8 @@ c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
 
+
+
 MODIFICACIONES Y FIXES BAJA PRIORIDAD:
 
 1) el checkbox de periodico que queda haciendo las cosas al reves.
@@ -134,13 +135,20 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 
+
+4.9.1:
+
+altarespuestapostulacion: se corrigo un bug que permitia aceptar una postulacion aun cuando todas las plazas del viaje estaban ocupadas
+
+verviaje.php: ahora no muestra el boton de postularse en caso de que todas las plazas esten ocupadas
+
 4.9:
+
+verpostulados.php: se agrego una lista de pasajeros y una lista de postulados rechazados
 
 se corrigieron y testearon varias cosas con respecto a las postulaciones (al parecer ya esta funcionando bien todo este sistema)
 
 Se corrigieron muchos errores con respecto a las plazas ocupadas en un viaje las cuales eran administradas erroneamente
-
-se agrego una lista de pasajeros y una lista de postulados rechazados
 
 se mejoro el formato en el que se imprimen las fechas y horas en algunas paginas
 

@@ -165,7 +165,7 @@
 		<p>Somos el servicio para compartir viajes mas completo del pais!!!<br/>
 		Animate a viajar</p>
 	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p>
-	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px darkgrey; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
+	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px lightblue; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
 		<?php if (!$plazasLlenas) { ?>
 		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
@@ -189,12 +189,18 @@
 		<?php }
 		else { //si no es el conductor, me fijo su estado de postulacion para ver que opciones mostrarle
 			switch ($userEstado) { 
-			case NOPOSTULADO:	?>
+			case NOPOSTULADO:
+				if (!$plazasLlenas) { ?>
 				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
 					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:black; color:white; border: 2px solid darkgrey">
 					<input type="hidden" name="viaje_id" value="<?php echo $idviaje ?>">
 				</form> 
 				<?php 
+				}
+				else { ?>
+						<p style="font-size:20px; color:red"> No podes postularte, todas las plazas de este viaje estan ocupadas</p>
+					
+				 <?php }
 				break;
 			case POSTULADO: ?>
 				<p style="color:gold; font-size:20px; line-height:1"> Estas postulado a este viaje. <br>

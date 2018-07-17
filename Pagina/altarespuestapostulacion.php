@@ -40,7 +40,7 @@
 		
 	
 	//obtengo la cantidad de plazas ocupadas
-	$sqltoken2 = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}  AND estado='A'");
+	$sqltoken2 = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$_GET['viaje']} AND estado='A'");
 	if (!$sqltoken2) {//si no lo puedo recibir, entonces no existe o hubo un error en la operacion
 		header('Location: index.php?result=9959'); //por el momento lo defino como error desconocido
 		exit;
