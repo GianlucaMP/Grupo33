@@ -1,10 +1,6 @@
 PEQUENOS FIXS DE CODIGO:
 
-1) crear viaje: 
-
-a) chequear disponibilidad hora a hora 
-
-b) los botones + - no hacen nada
+1) crear viaje:  los botones + - no hacen nada
 
 
 2) registrar vehiculo: chequear que lo de recordar los campos ingresados en caso de error funcione en firefox
@@ -15,36 +11,35 @@ b) los botones + - no hacen nada
 
 
 
+BUGS GROSOS:
+
+1) el haber pasado la fecha a ser fecha y hora hace que todas las busquedas por fecha de un dia no retornen nada por ser de distinta hora. Ver cuando pasa eso y solucionarlo
+PUEDE Que cambiando el orden de los elemenosd e la fecha salga!!!
 
 
-BUGS DESTACABLES:
-
-1) crear viaje: el chequeo por la hora del dia no haya pasado al crear viaje estan fallando, puede que halla un offset en la hora, aunque capaz ya este solucionado
-
-2) creaviaje y registrar vehiculo: guarda capaz que el javascript que se ejecuta en crear viaje, ya no hace falta mas xq ya se chequea todo por php, y capaz q si justo se chequea por javascript me olvida los camopos ingresados en caso de error
-
-3) chequear que todos los headers que usen una variable tengan comillas dobles " " y no simples ya que asi no sirve
-
-4) revisar siempre que se usan elementos de arrays asociativos en strings que esten bien escritos para convertir texto en variables. Hay unos cuantes que no puse entre llaves el signo $, y otros que quiriendo copiar la tecnica del append cerrando el string, lo hice mal, revisar todos los echo, y otras cosas por el estilo
-
-
-
-
-
-
+a) pasa en el alta viaje, a la hora de chequear por si esta ocupado el vehiculo ese dia (y en otras partes capaz tambien)
 
 
 
 
 GRANDES IMPLEMENTACIONES PENDIENTES:
 
-0) eliminacion de usuarios:  chequear campo de borrado todos lados 
+1) eliminacion de usuarios:
 
-1) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
+a) chequear campo de borrado todos lados que haga falta
 
-2) viaje periodico
+b) ver bien seguro algo le falta al codigo de bajausario.php
 
-3) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
+2) sistema de calificaciones
+
+3) sistema de pagos
+
+4) viaje periodico
+
+5)  (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
+
+
+4) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
 
 
 
@@ -55,7 +50,7 @@ IMPORTANTE:
 EN LA BD:  los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R), cosa que deberian ser definidas como constantes en cada pagina que sea necesario. Ya estan definidas en la pagina verviaje.php, copiar lo que esta ahi donde haga falta cuando sea necesario.
 
 
-EN CUANTO A LAS PLAZAS: AL REGISTRAR EL VEHICULO SE DICE CUANTAS PLAZSA TIENE INCLUYENDO A LA QUE OCUPA EL CONDUCTOR. A PARTIR DE QUE SE CREA EL VIAJE, Y TODO EN ADELANTE, CUANDO SE HABLA DE PLAZAS SE HABLA EXCLUSIVAMENTE DE PLAZS DISPONIBLES PARA PASAJEROS (SIN CONTAR AL CONDUCTOR)
+EN CUANTO A LAS PLAZAS: al registrar el vehiculo se dice cuantas plazas tiene incluyendo a la que ocupa el conductor. A partir de que se crea el viaje, y todo en adelante, cuando se habla de plazas se habla exclusivamente de plazas disponibles para pasajeros (sin contar al conductor)
 
 
 
@@ -70,7 +65,7 @@ Esto facilita las consultas en cuanto haya viajes con pagos, viajes cancelados, 
 La otra pregunta, se necesita algo que periodicamente chequee por los viajes que finalizan y mandarlos a la tabla de finalizados, cual seria una buena manera de implementarlo?
 
 
-OTRAS DUDAS A A CONSULTAR Y PASAR EN PIVOTAL:
+OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
 1) Si en mis viajes publicados se muestran los viajes que estan pendientes ??? en algun lado se muestran todos los viajes incluidos los ya finalizados??? por ahi en la misma pagina con un checkbox???
 
@@ -87,7 +82,12 @@ OTRAS DUDAS A A CONSULTAR Y PASAR EN PIVOTAL:
 
 TESTEO PENDIENTE:
 
-1) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
+1) crearviaje: 
+
+ver que ahora que se elimino el javascript todo funcione bien
+
+
+2) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
 
 
 
@@ -110,9 +110,9 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
+5) chequear que todos los headers que usen una variable tengan comillas dobles " " y no simples ya que asi no sirve
 
-5) todo lo referente al horario de salida en todas las paginas que aparezca esto
-
+6) revisar siempre que se usan elementos de arrays asociativos en strings que esten bien escritos para convertir texto en variables. Hay unos cuantes que no puse entre llaves el signo $, y otros que quiriendo copiar la tecnica del append cerrando el string, lo hice mal, revisar todos los echo, y otras cosas por el estilo
 
 
 
@@ -134,6 +134,25 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+5.0.2:
+
+Se removio temporalmente la parte que hacia no funcioanr a alta viaje (el chequeo de si el vehiculo etsa ocupado en ese momento)
+
+
+5.0.1:
+
+altaviaje ESTA MOMENTANEAMENTE ROTO por el tema de que esta pendiente determinar como se almacenan las fechas y horas (pero puede ser solucionado con solo sacar la parte de chequear por si el vehiculo esta ocupado en ese momento)
+
+se elimino el uso del la columna horario de la BD en todo lugar donde aparecia (verviaje, verpostulados y bajaviaje)
+
+se elimino la columna horario de la tabla viajes de la BD
+
+
+5.0:
+
+altaviaje: se modifico el codigo para poder almacenar la fecha y hora en una unica variable (y campo de la BD) para facilitar los chequeos relacionados
+
+se modifico la tabla usuarios, ahora la columna fecha no solo almacena la fecha sino tambien el horario (tipo datetime)
 
 
 4.9.1:

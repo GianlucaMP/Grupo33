@@ -46,7 +46,7 @@
 	//muevo el viaje a la tabla de viajes finalizados/cancelados
 	
 	
-	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (preciototal, origen, destino, fecha, duracion, horario, plazas,  vehiculos_id, usuarios_id) VALUES ('".$viaje['preciototal']."', '".$viaje['origen']."', '".$viaje['destino']."', '".$viaje['fecha']."','".$viaje['duracion']."', '".$viaje['horario']."','".$viaje['plazas']."','".$viaje['vehiculos_id']."','".$viaje['usuarios_id']."')");
+	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (preciototal, origen, destino, fecha, duracion, horario, plazas,  vehiculos_id, usuarios_id) VALUES ('".$viaje['preciototal']."', '".$viaje['origen']."', '".$viaje['destino']."', '".$viaje['fecha']."','".$viaje['duracion']."','".$viaje['plazas']."','".$viaje['vehiculos_id']."','".$viaje['usuarios_id']."')");
 	
 	if(!$alta) {//si la transaccion fallo
 		header('Location: miperfil.php?result=11');

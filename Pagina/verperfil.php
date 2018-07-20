@@ -68,8 +68,6 @@ $f2 = new DateTime("now");
 $edad =  ($f1->diff($f2))->format("%y");
 
 
-//???SE DEBERIA CAMBIAR EL METODO DE ENVIO DE ID POR POST.. SINO SE PUEDE REVISAR TODA LA BD CON SOLO CAMBIAR EL ID DE LA URL???
-
 
 ?>
 <!DOCTYPE html>

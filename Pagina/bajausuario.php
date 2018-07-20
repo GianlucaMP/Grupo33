@@ -36,6 +36,7 @@
 	
 	
 	
+	//???cuidado, la comparacion aca la estoy haciendo con strings, pero creo que por como esta ordenado el string casi seguro deberia funcionar igual???
 	
 	//se chequea que el usuario no tenga viajes pendientes como conductor	
 	$fechaactual = Date("Y-m-d");

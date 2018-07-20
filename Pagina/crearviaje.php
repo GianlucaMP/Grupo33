@@ -51,8 +51,9 @@ if (!empty($_GET['error'])) {
 }
 
 else{
-		$error = '&nbsp;';
-	}
+	$error = '&nbsp;';
+}
+
 	// Se crea la conexion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
@@ -187,7 +188,7 @@ bug hace que el checbox de viaje periodico quede invertido (mostrando el resto d
 			
 			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
 			
-			<input type="submit" class="botonregistro" onclick="return viaje()" style="margin-bottom: 20px;" value="Crear viaje">
+			<input type="submit" class="botonregistro" style="margin-bottom: 20px;" value="Crear viaje">
 			<p id="error" style="color: red;"><?php echo $error?></p>
 			</fieldset> 
 		</form>

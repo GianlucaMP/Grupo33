@@ -176,7 +176,7 @@
 		<p> Origen: <?php echo  $datoviaje['origen'] ?> </p>
 		<p> Destino: <?php echo $datoviaje['destino']?> </p> 
 		<p> Fecha:<?php echo (Date("d-m-Y",strtotime($datoviaje['fecha']))); ?></p>
-		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['horario']))); ?> </p>
+		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['fecha']))); ?> </p>
 		<p> Duracion Estimada: <?php echo (Date("H:i",strtotime($datoviaje['duracion']))); ?> (horas:minutos)</p>
 		<p> Precio: <?php echo $datoviaje['preciototal'] ?></p>			
 		<p> Vehiculo: <?php echo "${datovehiculo['marca']}  ${datovehiculo['modelo']}" ?></p>

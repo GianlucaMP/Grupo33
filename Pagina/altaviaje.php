@@ -78,6 +78,12 @@
 			header('Location: crearviaje.php?error=9');
 			exit;
 		}
+		if(!isset($_POST['vehiculo']) || empty($_POST['vehiculo'])) {
+			header('Location: crearviaje.php?error=7');
+			exit;
+		}
+		
+		
 		
 		//chequeo que el vehiculo no este marcado como eliminado
 		$sql4 = mysqli_query($coneccion, "SELECT * FROM enlace WHERE vehiculos_id={$_POST['vehiculo']} AND usuarios_id={$user['id']}");
@@ -90,42 +96,129 @@
 			header('Location: crearviaje.php?error=22');
 			exit;	
 		}
-		
-		
-		
-		
-		
-		//???agregar que chequee tambien por horas y no solo dias???
-		
-		//chequeo que el vehiculo no tenga otro viaje asignado en ese momento 			
-		 
-		$otrosqltoken = mysqli_query($coneccion, "SELECT * FROM viajes WHERE vehiculos_id = '".$_POST['vehiculo']."' AND fecha = '".$_POST['fecha']."'");   
-		if(mysqli_num_rows($otrosqltoken) > 0) {
-			header('Location: crearviaje.php?error=11');
-			exit;
-		}		
+			
 	}
 	
 	
+	//SI QUIERO MEZCLAR FECHA Y HORA SOLO HAGO: mezclo fecha y hora en una variable (son strings concatenables)
+	$fechaYHora = "{$_POST['fecha']}". ' '. "{$_POST['horario']}"; 
+		
+	//chequeo que la fecha no halla ya ocurrido
 	date_default_timezone_set("America/Argentina/Buenos_Aires");	
-	$fechaactual = Date("Y-m-d");
-	$fechaevento = $_POST['fecha'];
-	if ($fechaactual > $fechaevento){	//fecha ya ocurrida -> aviso y retorno a la pagina de crear viaje
+	$fechaactual = strtotime(date("Y-m-d H:i")); //convierto las fechas a formato unix timestamp para compararlas
+	$fechaevento = strtotime($fechaYHora);
+	if ($fechaactual > $fechaevento){	//fecha ya ocurrida
 		header('Location: crearviaje.php?error=20');
 		die();
 	}
 	
 	
-	//???puede que haya cierto offset con este chequeo de la hora. Auqnue capaz ya esta solucionado. es seguramente surge por un tema de tipos???
-	//chequeo que la hora del dia no haya pasado 
-	$horaevento = $_POST['horario'];
-	if (($fechaactual == $fechaevento) && (Date("H-i") > $horaevento)){	//hora ya ocurrida -> aviso y retorno a la pagina de crear viaje
-		header('Location: crearviaje.php?error=21');
-		die();
+	
+	//************************************************************************
+	//ESTE CODIGO ENTRE ASTERISCOS ESTA EN CONSTRUCCION
+	
+	//chequeo que el vehiculo no tenga otro viaje asignado en ese momento 			
+	//????PENDIENTE???
+
+	/*
+	
+	
+	//extraigo en variables separadas las horas y minutos de la duracion del viaje
+	$duracionTimeStamp = strtotime ($_POST['duracion']); //convierto la duracion a timestamp, pero queda con tambien con la informacion de dia, mes y año actual que deben ser truncados
+	$duracionHoras = date("H", $duracionTimeStamp); //convierto a String la duracion en horas
+	$duracionMinutos = date("i", $duracionTimeStamp); //convierto a String la duracion en minutos
+	
+		
+	//instancio objetos para almacenar y comparar fecha y hora del inicio del viaje
+	$objetoInicioDeViaje = new DateTime($fechaYHora);
+	$objetoFinDeViaje = new DateTime($fechaYHora);
+	//le agrego las horas y minutos de la duracion que faltan para el momento de fin del viaje
+	$objetoFinDeViaje = $objetoFinDeViaje->add(new DateInterval("PT"."$duracionHoras"."H"."$duracionMinutos"."M"));
+	
+	
+	//convierto a string el inicio y fin del viaje //DEBUG
+	$inicioDeViaje =  $objetoInicioDeViaje->format("Y-m-d H:i"); //DEBUG
+	$finDeViaje = $objetoFinDeViaje->format("Y-m-d H:i"); //DEBUG
+
+	echo "inicio nuevo viaje vale: $inicioDeViaje <br>"; //DEBUG
+	echo "fin del nuev viaje vale: $finDeViaje <br>"; //DEBUG
+	
+	
+	
+	
+	//obtengo el dia anterior en un formato string, tal como se guarda en la BD para poder buscarlo
+	$diaAnterior = date("Y-m-d",strtotime("{$_POST['fecha']} -1 day ")); 
+	$diaViaje = date($_POST['fecha']);		
+			
+	echo "dia anterior vale $diaAnterior <br>"; //DEBUG		
+	echo "el dia vale: $diaViaje <br>"; //DEBUG	
+
+	
+	
+	//parece que ahora para sacar los elementos de un dia X tengo que especificar tambien la hora???
+	
+	
+	
+	
+	$sqlfecha = mysqli_query($coneccion, "SELECT * FROM viajes WHERE fecha=$diaViaje ");   //aun asi parece que no matchea con los del mismo dia???
+	if (!$sqlfecha) {
+		header('Location: crearviaje.php?error=10');
+		exit;
 	}
 	
-	//se envian los datos a la base de datos, si se sube te avisa y si no tambien.	
-	$sql  = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, horario, duracion, plazas,  vehiculos_id, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$_POST['fecha']."','".$_POST['horario']."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['creador']."')");
+	echo ("la cantidad de columnas de la consulta es: ". mysqli_num_rows($sqlfecha) . "<br>"); //DEBUG
+	
+	
+	
+	while ($otroViaje = mysqli_fetch_array($sqlfecha)) { //para todos los viejos en esos dias, tengo que chequear que el vehiculo no este ocupado en ese momento
+	
+	
+		echo"entre al while <br>"; //DEBUG
+		
+		//extraigo en variables separadas las horas y minutos de la duracion del otro viaje
+		$duracionOtroViaje = strtotime ($otroViaje['duracion']); //convierto la duracion a timestamp, pero queda con tambien con la informacion de dia, mes y año actual que deben ser truncados
+		$horasOtroViaje = date("H", $duracionOtroViaje); //convierto a String la duracion en horas
+		$minutosOtroViaje = date("i", $duracionOtroViaje); //convierto a String la duracion en minutos
+		
+		
+		//instancio objetos para comparar el el momento de inicio y fin del otro viaje
+		$objetoInicioDeOtroViaje = new DateTime($otroViaje['fecha']);
+		$objetoFinDeOtroViaje = new DateTime($otroViaje['fecha']);
+		$objetoFinDeOtroViaje = $objetoFinDeOtroViaje->add(new DateInterval("PT"."$horasOtroViaje"."H"."$minutosOtroViaje"."M"));
+	
+	
+		//convierto a string el inicio y fin del viaje
+		$inicioDeOtroViaje =  $objetoInicioDeOtroViaje->format("Y-m-d H:i"); //DEBUG
+		$finDeOtroViaje = $objetoFinDeOtroViaje->format("Y-m-d H:i"); //DEBUG
+
+		echo "iniciotroViaje vale: $inicioDeOtroViaje <br>"; //DEBUG
+		echo "finDeOtroViaje vale: $finDeOtroViaje <br>"; //DEBUG
+	
+		exit;
+		
+	
+		//si la hora de salida del nuevo viaje esta entre las horas de salida y fin de otro viaje doy aviso que el vehiculo esta ocupado
+		//if () {
+			
+		//}
+		
+		//si la hora de llegada estimada del nuevo viaje esta entre las horas de salida y fin de otro viaje doy aviso que el vehiculo esta ocupado
+		//if () {
+			
+		//}
+		
+	}
+		
+	echo"pase el while"; //DEBUG
+	exit; //DEBUG
+	
+	*/
+	//ESTE CODIGO ENTRE ASTERISCOS ESTA EN CONSTRUCCION
+	//************************************************************************
+	
+	
+	//se envian los datos a la base de datos
+	$sql = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas, vehiculos_id, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$fechaYHora."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['creador']."')");
 
 	if($sql) {//transaccion valida, viaje creado
 		//borro todos los datos temporales de los campos llenados por el user para que no se vuelvan a mostrar en la proxima vez que se use el formulario

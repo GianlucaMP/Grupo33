@@ -140,7 +140,7 @@ if(!empty($_GET['result'])){
 		</div>
 		<div id='datos'>
 			<h1>Lista de pasajeros y postulados al viaje: </h1>
-			<h2>Desde: <span class="dorado"> <?php echo $viaje['origen']; ?>  </span> hacia: <span class="dorado"> <?php echo $viaje['destino']; ?> </span> el dia: <span class="dorado"> <?php echo (Date("d-m-Y",strtotime($viaje['fecha']))); ?> </span> a las:  <span class="dorado"> <?php echo (Date("H:i",strtotime($viaje['horario']))); ?> </span> </h2> 
+			<h2>Desde: <span class="dorado"> <?php echo $viaje['origen']; ?>  </span> hacia: <span class="dorado"> <?php echo $viaje['destino']; ?> </span> el dia: <span class="dorado"> <?php echo (Date("d-m-Y",strtotime($viaje['fecha']))); ?> </span> a las:  <span class="dorado"> <?php echo (Date("H:i",strtotime($viaje['fecha']))); ?> </span> </h2> 
 			<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p> 
 			<div style="clear:both">
 			<h2> Pasajeros (<?php echo $cantidadPasajeros ?> de <?php echo $viaje['plazas'] ?>): </h2>
