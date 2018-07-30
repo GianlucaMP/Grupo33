@@ -16,20 +16,6 @@ b) agregarle a la deuda un tiempo de una semana para que no te deje hacer nada s
 
 
 
-
-BUGS GROSOS:
-
-1) el haber pasado la fecha a ser fecha y hora hace que todas las busquedas por fecha de un dia no retornen nada por ser de distinta hora. Ver cuando pasa eso y solucionarlo
-PUEDE Que cambiando el orden de los elemenosd e la fecha salga!!!
-
-
-a) pasa en el alta viaje, a la hora de chequear por si esta ocupado el vehiculo ese dia (y en otras partes capaz tambien aunque creo que no)
-
-b)en caso de que se vuelva a guardar por separado fecha y hora, se tendra que volver a colocar el uso del campo horario en verpostulados.php y en verviaje.php (creo que en ninguno mas)
-
-
-
-
 GRANDES IMPLEMENTACIONES PENDIENTES:
 
 1) eliminacion de usuarios:
