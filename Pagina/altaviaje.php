@@ -100,7 +100,7 @@
 	}
 	
 	
-	//SI QUIERO MEZCLAR FECHA Y HORA SOLO HAGO: mezclo fecha y hora en una variable (son strings concatenables)
+	//mezclo fecha y hora en una variable (son strings concatenables)
 	$fechaYHora = "{$_POST['fecha']}". ' '. "{$_POST['horario']}"; 
 		
 	//chequeo que la fecha no halla ya ocurrido
@@ -113,15 +113,11 @@
 	}
 	
 	
-	
-	//************************************************************************
-	//ESTE CODIGO ENTRE ASTERISCOS ESTA EN CONSTRUCCION
-	
-	//chequeo que el vehiculo no tenga otro viaje asignado en ese momento 			
-	//????PENDIENTE???
 
-	/*
 	
+	
+	//(en las proximas 50 lineas de codigo) chequeo que el vehiculo no tenga otro viaje asignado en ese momento 		
+
 	
 	//extraigo en variables separadas las horas y minutos de la duracion del viaje
 	$duracionTimeStamp = strtotime ($_POST['duracion']); //convierto la duracion a timestamp, pero queda con tambien con la informacion de dia, mes y año actual que deben ser truncados
@@ -135,92 +131,129 @@
 	//le agrego las horas y minutos de la duracion que faltan para el momento de fin del viaje
 	$objetoFinDeViaje = $objetoFinDeViaje->add(new DateInterval("PT"."$duracionHoras"."H"."$duracionMinutos"."M"));
 	
-	
-	//convierto a string el inicio y fin del viaje //DEBUG
-	$inicioDeViaje =  $objetoInicioDeViaje->format("Y-m-d H:i"); //DEBUG
-	$finDeViaje = $objetoFinDeViaje->format("Y-m-d H:i"); //DEBUG
+	 
+	//convierto a string el inicio y fin del viaje solamente para imprimirlos //DEBUG
+	//$inicioDeViaje =  $objetoInicioDeViaje->format("Y-m-d H:i"); //DEBUG
+	//$finDeViaje = $objetoFinDeViaje->format("Y-m-d H:i"); //DEBUG
 
-	echo "inicio nuevo viaje vale: $inicioDeViaje <br>"; //DEBUG
-	echo "fin del nuev viaje vale: $finDeViaje <br>"; //DEBUG
+	//echo "inicio nuevo viaje vale: $inicioDeViaje <br>"; //DEBUG
+	//echo "fin del nuev viaje vale: $finDeViaje <br>"; //DEBUG
 	
 	
 	
 	
 	//obtengo el dia anterior en un formato string, tal como se guarda en la BD para poder buscarlo
 	$diaAnterior = date("Y-m-d",strtotime("{$_POST['fecha']} -1 day ")); 
-	$diaViaje = date($_POST['fecha']);		
-			
-	echo "dia anterior vale $diaAnterior <br>"; //DEBUG		
-	echo "el dia vale: $diaViaje <br>"; //DEBUG	
+	$diaViaje = date("Y-m-d", strtotime($_POST['fecha']));		
+	
+
+	//echo "post fecha vale: {$_POST['fecha']} <br>"; //DEBUG	
+	//echo "dia anterior vale $diaAnterior <br>"; //DEBUG		
+	//echo "el dia vale: $diaViaje <br>"; //DEBUG	
+
+	
 
 	
 	
-	//parece que ahora para sacar los elementos de un dia X tengo que especificar tambien la hora???
+	//antes daba error la consulta, al querer hacer algo como:???)
+	//$sqlfecha = mysqli_query($coneccion, "SELECT * FROM viajes WHERE fecha=$diaViaje"); 
 	
 	
 	
+	$query = mysqli_query($coneccion, "SELECT * FROM viajes WHERE vehiculos_id = '".$_POST['vehiculo']."' AND fecha = '".$_POST['fecha']."'");   
+		
 	
-	$sqlfecha = mysqli_query($coneccion, "SELECT * FROM viajes WHERE fecha=$diaViaje ");   //aun asi parece que no matchea con los del mismo dia???
-	if (!$sqlfecha) {
+	if (!$query) {
 		header('Location: crearviaje.php?error=10');
 		exit;
 	}
 	
-	echo ("la cantidad de columnas de la consulta es: ". mysqli_num_rows($sqlfecha) . "<br>"); //DEBUG
+	//echo "el retorno de mysqli_error es: "; //DEBUG
+	//echo (mysqli_error($coneccion)); //DEBUG
+	//echo "<br> el retorno de mysqli_get_warnings es: "; //DEBUG
+	//echo ((mysqli_get_warnings($coneccion))->message); //DEBUG
+	//echo "<br>";
+	
+	//echo ("la cantidad de columnas de la consulta es: ". mysqli_num_rows($query) . "<br>"); //DEBUG
 	
 	
+	while ($otroViaje = mysqli_fetch_array($query)) { //para todos los viejos en esos dias, tengo que chequear que el vehiculo no este ocupado en ese momento
 	
-	while ($otroViaje = mysqli_fetch_array($sqlfecha)) { //para todos los viejos en esos dias, tengo que chequear que el vehiculo no este ocupado en ese momento
-	
-	
-		echo"entre al while <br>"; //DEBUG
-		
+			
 		//extraigo en variables separadas las horas y minutos de la duracion del otro viaje
 		$duracionOtroViaje = strtotime ($otroViaje['duracion']); //convierto la duracion a timestamp, pero queda con tambien con la informacion de dia, mes y año actual que deben ser truncados
 		$horasOtroViaje = date("H", $duracionOtroViaje); //convierto a String la duracion en horas
 		$minutosOtroViaje = date("i", $duracionOtroViaje); //convierto a String la duracion en minutos
 		
 		
-		//instancio objetos para comparar el el momento de inicio y fin del otro viaje
-		$objetoInicioDeOtroViaje = new DateTime($otroViaje['fecha']);
-		$objetoFinDeOtroViaje = new DateTime($otroViaje['fecha']);
+		//instancio objetos para comparar el momento de inicio y fin del otro viaje
+		$objetoInicioDeOtroViaje = new DateTime($otroViaje['fechayhora']);
+		$objetoFinDeOtroViaje = new DateTime($otroViaje['fechayhora']);
 		$objetoFinDeOtroViaje = $objetoFinDeOtroViaje->add(new DateInterval("PT"."$horasOtroViaje"."H"."$minutosOtroViaje"."M"));
 	
 	
-		//convierto a string el inicio y fin del viaje
-		$inicioDeOtroViaje =  $objetoInicioDeOtroViaje->format("Y-m-d H:i"); //DEBUG
-		$finDeOtroViaje = $objetoFinDeOtroViaje->format("Y-m-d H:i"); //DEBUG
+		//convierto a string el inicio y fin del viaje para poder imprimirlos
+		//$inicioDeOtroViaje =  $objetoInicioDeOtroViaje->format("Y-m-d H:i"); //DEBUG
+		//$finDeOtroViaje = $objetoFinDeOtroViaje->format("Y-m-d H:i"); //DEBUG
 
-		echo "iniciotroViaje vale: $inicioDeOtroViaje <br>"; //DEBUG
-		echo "finDeOtroViaje vale: $finDeOtroViaje <br>"; //DEBUG
-	
-		exit;
-		
+		//echo "iniciotroViaje vale: $inicioDeOtroViaje <br>"; //DEBUG
+		//echo "finDeOtroViaje vale: $finDeOtroViaje <br>"; //DEBUG
+			
 	
 		//si la hora de salida del nuevo viaje esta entre las horas de salida y fin de otro viaje doy aviso que el vehiculo esta ocupado
-		//if () {
-			
-		//}
+		if (($objetoInicioDeViaje  >= $objetoInicioDeOtroViaje)  &&($objetoInicioDeViaje  <= $objetoFinDeOtroViaje)) {
+			echo "entro al if"; //DEBUG
+			header('Location: crearviaje.php?error=11');
+			exit;
+		}
 		
 		//si la hora de llegada estimada del nuevo viaje esta entre las horas de salida y fin de otro viaje doy aviso que el vehiculo esta ocupado
-		//if () {
-			
-		//}
-		
+		if (($objetoFinDeViaje  >= $objetoInicioDeOtroViaje)  &&($objetoFinDeViaje  <= $objetoFinDeOtroViaje)) {
+			echo "entro al if"; //DEBUG
+			header('Location: crearviaje.php?error=11');
+			exit;
+		}		
 	}
 		
-	echo"pase el while"; //DEBUG
-	exit; //DEBUG
 	
-	*/
-	//ESTE CODIGO ENTRE ASTERISCOS ESTA EN CONSTRUCCION
-	//************************************************************************
+	
+	
+	
+	
 	
 	
 	//se envian los datos a la base de datos
-	$sql = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, duracion, plazas, vehiculos_id, usuarios_id,horario) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."', '".$fechaYHora."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['creador']."','".$_POST['horario']."')");
+	$sql = mysqli_query($coneccion, "INSERT INTO viajes (preciototal, origen, destino, fecha, horario, fechayhora, duracion, plazas, vehiculos_id, usuarios_id) VALUES ('".$_POST['preciototal']."', '".$_POST['origen']."', '".$_POST['destino']."' , '".$_POST['fecha']."' , '".$_POST['horario']."' , '".$fechaYHora."', '".$_POST['duracion']."','".$_POST['plazas']."','".$_POST['vehiculo']."','".$_POST['creador']."')");
 
-	if($sql) {//transaccion valida, viaje creado
+	if(!$sql) {//si falla la opearcion
+		header('Location: index.php?result=2');
+		exit;
+	}
+	
+	//obtengo el id que se le autogenero al viaje recien creado 
+	$idViaje = mysqli_insert_id ($coneccion);
+	
+	//si es 0 hay un comportamiento inesperado, el cual me dejaria la base de datos incosistente
+	if ($idViaje == 0) {
+		//???en este caso deberia borrar el viaje recien creado, para no comprometer el estado de la BD??? 
+		//???PENDIENTE???
+		header('Location: index.php?result=2552'); //este es error 2, cambiarlo despues //DEBUG
+		exit;
+		
+	}
+	
+
+	//creo un pago en la BD asociado a este viaje 
+	$sqlpago = mysqli_query($coneccion, "INSERT INTO pagos (viajes_id, usuarios_id, pago) VALUES ($idViaje, {$user['id']}, 'F' )");
+
+	if(!$sqlpago){//no se pudo crear la entrada de pago asociada al viaje
+		
+		//???SE DEBERIA ELIMINAR EL VIAJE RECIEN CREADO, PARA NO COMPROMETER EL ESTADO DE LA BASE DE DATOS (QUEDANDO UN VIAJE SIN PAGO ASOCIADO, usar $idViaje????
+		//???PENDIENTE???
+		header('Location: index.php?result=2999');   //este es error 2, cambiarlo despues //DEBUG
+		exit;
+	}
+	else {	//viaje y pago creados, todo listo
 		//borro todos los datos temporales de los campos llenados por el user para que no se vuelvan a mostrar en la proxima vez que se use el formulario
 		unset($_SESSION['flagRegistro']);
 		unset($_SESSION['preciototal']);
@@ -230,14 +263,10 @@
 		unset($_SESSION['horario']);
 		unset($_SESSION['duracion']);
 		unset($_SESSION['vehiculo']);
-		unset($_SESSION['plazas']);		
+		unset($_SESSION['plazas']);	
 		header('Location: index.php?result=1');
+		exit;
 	}
-	else { 
-		header('Location: index.php?result=2');
-	}
-	
-	
 	
 	
 	

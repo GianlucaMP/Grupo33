@@ -81,6 +81,9 @@
 	}else{
 		$viajes=mysqli_query($coneccion, "SELECT * FROM viajes ORDER BY id DESC");
 	}
+
+
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -109,14 +112,9 @@
 			float: right;
 			width: 59%;
 		}
-		<!--						//comentado para poder aplicar todo el estilo con violeta y blanco
-		@keyframes cambiaColor {
-			to {
-				background-color: grey;
-				/*transform: translateY(100px);*/
-			}
-		}
-		-->
+	
+			
+		
 	</style>
 	<script src="jquery.min.js"></script>
 	<script>
@@ -161,7 +159,7 @@
 			$fechaactual = Date("Y-m-d");
 			$fechaevento = $listarviajes['fecha'];
 			if ($fechaactual <= $fechaevento) {
-				echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px darkgray; width: 800px; margin-bottom:15px;">';
+				echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
 				echo '<div>';
 				echo "Origen: ".$listarviajes['origen']."<br/>";
 				echo "Destino: ".$listarviajes['destino']."<br/>";
@@ -176,5 +174,16 @@
 		?>
 	</div>
 	</div>
+	
+	
+<footer>
+
+<div class="footer" align="right">
+	<a href="ayuda.php" style="font-size:20px; text-decoration:none" >Ayuda</a> <span> &nbsp &nbsp </span>
+	<a href="contacto.php" style="font-size:20px; text-decoration:none ">Contacto</a>
+</div>
+</footer>
+
+	
 </body>
 </html>

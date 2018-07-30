@@ -8,6 +8,16 @@
 	$logeado = $sesion->logeado();
 	$datosUsuario = $sesion->datosuser();
 	
+	
+	
+		
+	//determino si el user tiene deudas pendientes, para ver si mostrar el link a la pagina de pagos
+	//??? SE DEBE TESTEAR QUE FUNCIONE COMO SE ESPERA???
+	require 'verificardeudas.php';
+	
+	
+	
+	
 	$idviaje = $_GET['id'];
     // si el ID esta vacio, se asume un error y se envia al index
     if(!isset($idviaje) || empty($idviaje)){
@@ -166,7 +176,12 @@
 		Animate a viajar</p>
 	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p>
 	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px lightblue; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
-		<?php if (!$plazasLlenas) { ?>
+	
+
+	<?php
+	//si el user no tiene deudas
+	if (!$tieneDeudas) {
+		if (!$plazasLlenas) { ?>
 		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
 		else { ?>
@@ -176,7 +191,7 @@
 		<p> Origen: <?php echo  $datoviaje['origen'] ?> </p>
 		<p> Destino: <?php echo $datoviaje['destino']?> </p> 
 		<p> Fecha:<?php echo (Date("d-m-Y",strtotime($datoviaje['fecha']))); ?></p>
-		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['fecha']))); ?> </p>
+		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['fechayhora']))); ?> </p>
 		<p> Duracion Estimada: <?php echo (Date("H:i",strtotime($datoviaje['duracion']))); ?> (horas:minutos)</p>
 		<p> Precio: <?php echo $datoviaje['preciototal'] ?></p>			
 		<p> Vehiculo: <?php echo "${datovehiculo['marca']}  ${datovehiculo['modelo']}" ?></p>
@@ -223,8 +238,19 @@
 		<?php //si el user es el conductor muestro un link para eliminar el viaje
 		if ($datosUsuario['id'] == $idConductor) { ?>
 			<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
-		<?php } ?>
-	</div>
+		<?php }
+	}
+	//si tiene deudas pendientes
+	else { ?>
+		<div style="text-align:center">
+		<p  style="font-size:25px"> Tenes viajes pendientes por pagar. </p>
+		<p style="font-size:25px"> Si no los pagas, no podras continuar utilizando el servicio</p>	
+		<a href="mispagos.php" style="font-size:25px"> Podes pagar tus viajes siguiendo este enlace</a> 
+		<div>
+	<?php 
+	} ?>
+	
+	</div>	
 	</div>
 	</div>
 </body>

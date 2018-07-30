@@ -1,12 +1,18 @@
 PEQUENOS FIXS DE CODIGO:
 
+0) sistema de pagos:
+
+a) crear entrada en la BD de pago pendiente tras la confirmacion de una postulacion de un pasajero
+	
+b) agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente
+	
+
 1) crear viaje:  los botones + - no hacen nada
 
+2) campo de eliminado de vehiculos. puede que halla quedado alguna pagina que no lo tenga en cuenta
 
-2) registrar vehiculo: chequear que lo de recordar los campos ingresados en caso de error funcione en firefox
+3) mis pagos: darle un layout aceptable a la pagina. sobre todo seguro falla cuando hay mas de un pago pendiente, y se pone para mostrar el formulario de pago.
 
-
-3) campo de eliminado de vehiculos. puede que halla quedado alguna pagina que no lo tenga en cuenta
 
 
 
@@ -17,7 +23,9 @@ BUGS GROSOS:
 PUEDE Que cambiando el orden de los elemenosd e la fecha salga!!!
 
 
-a) pasa en el alta viaje, a la hora de chequear por si esta ocupado el vehiculo ese dia (y en otras partes capaz tambien)
+a) pasa en el alta viaje, a la hora de chequear por si esta ocupado el vehiculo ese dia (y en otras partes capaz tambien aunque creo que no)
+
+b)en caso de que se vuelva a guardar por separado fecha y hora, se tendra que volver a colocar el uso del campo horario en verpostulados.php y en verviaje.php (creo que en ninguno mas)
 
 
 
@@ -30,22 +38,24 @@ a) chequear campo de borrado todos lados que haga falta
 
 b) ver bien seguro algo le falta al codigo de bajausario.php
 
+
 2) sistema de calificaciones
 
-3) sistema de pagos
 
-4) viaje periodico
-
-5)  (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
+3) viaje periodico
 
 
-4) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
+4) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
+
+
+5) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
 
 
 
 
 
 IMPORTANTE:
+
 
 EN LA BD:  los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R), cosa que deberian ser definidas como constantes en cada pagina que sea necesario. Ya estan definidas en la pagina verviaje.php, copiar lo que esta ahi donde haga falta cuando sea necesario.
 
@@ -67,13 +77,11 @@ La otra pregunta, se necesita algo que periodicamente chequee por los viajes que
 
 OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
-1) Si en mis viajes publicados se muestran los viajes que estan pendientes ??? en algun lado se muestran todos los viajes incluidos los ya finalizados??? por ahi en la misma pagina con un checkbox???
+1) en que consiste exactamete la HU verificar e-mail?
 
-2) en que consiste exactamete la HU verificar e-mail?
+2)  cuales son los posibles valores para una calificaccion, si un puntaje del 1 al 5 creo que era, o sino positivo/negativo?
 
-3)  cuales son los posibles valores para una calificaccion, si un puntaje del 1 al 5 creo que era, o sino positivo/negativo?
-
-4) como se recuperaria una contraseña?
+3) como se recuperaria una contraseña?
 
 
 
@@ -82,26 +90,25 @@ OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
 TESTEO PENDIENTE:
 
-1) crearviaje: 
+0) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
 
-ver que ahora que se elimino el javascript todo funcione bien
-
+1) sistema de pagos: (todo el sistema en general)
 
 2) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
 
 
 
-2) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
+3) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
 
 
-e) ver postulados (testear todo en general que seguro algo falla)
+4) ver postulados (testear todo en general que seguro algo falla)
 
 
-3) baja usuario: todo en general
+5) baja usuario: todo en general
 
 
 
-4) verviaje:
+6) verviaje:
 
 a) mostrar plazas ocupadas
 
@@ -110,9 +117,11 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
-5) chequear que todos los headers que usen una variable tengan comillas dobles " " y no simples ya que asi no sirve
 
-6) revisar siempre que se usan elementos de arrays asociativos en strings que esten bien escritos para convertir texto en variables. Hay unos cuantes que no puse entre llaves el signo $, y otros que quiriendo copiar la tecnica del append cerrando el string, lo hice mal, revisar todos los echo, y otras cosas por el estilo
+7) chequear que todos los headers que usen una variable tengan comillas dobles " " y no simples ya que asi no sirve
+
+
+8) revisar siempre que se usan elementos de arrays asociativos en strings que esten bien escritos para convertir texto en variables. Hay unos cuantes que no puse entre llaves el signo $, y otros que quiriendo copiar la tecnica del append cerrando el string, lo hice mal, revisar todos los echo, y otras cosas por el estilo
 
 
 
@@ -134,6 +143,40 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+6.0:
+
+se completo el codigo back-end que permite registrar un pago realizado en la BD
+
+se completo la verificacion de que el vehiculo no este ocupado a la hora de crear un viaje en altaviaje.php (testeo pendiente)
+
+se agrego a la tabla viajes las columnas "horario" y "fechayhorario", ahora se almacenan la fecha y hora tanto por separado, como tambien un campo las almacena combinadas, para utilizarla como sea conveniente
+
+se modifico el codigo de altaviaje, para crear viajes almacenando tanto fecha, hora, y fechayhora
+
+se corrigio un error de tipo en la BD (pagos.pago paso a ser tipo CHAR (1), estaba como tinyint)
+
+5.2.1:
+
+Se agrego en index.php y en miperfil.php un footer con links a las paginas de contacto y ayuda
+
+se crearon los archivos contacto.php y ayuda.php con la definicion basica de la estructura de la pagina (todavia vacia)
+
+5.2:
+
+se creo y codifico la mayor parte de la pagina pagardeudas.php (aun pendiente la parte back-end en la que se recuperan pagos de la BD para efectuarlos y en la que se registran como pagos)
+
+se modificaron nombres de los campos de la BD para respetar los nombres usados previamente (se cambio en la tabla pagos: usuario_id por usuarios_id, y viaje_id por viajes_id)
+
+en crearviaje.php y verviaje.php se creo un chequeo que  en caso de tener deudas impide usar dichas paginas, y muestra un link a la pagina para pagar,
+
+
+5.1: 
+
+se creo e implemento el archivo verificardeudas.php (testeo pendiente)
+
+se agrego la tabla preguntas
+
 5.0.2:
 
 Se removio temporalmente la parte que hacia no funcioanr a alta viaje (el chequeo de si el vehiculo etsa ocupado en ese momento)

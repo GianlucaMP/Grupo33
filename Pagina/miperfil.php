@@ -144,7 +144,7 @@
 					<li><b>Nick: </b><?php echo " ".$user['nombreusuario']." "; ?></li>
 					<li><b>Nombre: </b><?php echo " ".$user['nombre']." "; ?></li>
 					<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>
-					<li><b>Fecha de nacimiento: </b><?php echo " ".$user['fecha']." "; ?></li>
+					<li><b>Fecha de nacimiento: </b><?php echo (Date("d-m-Y",strtotime($user['fecha']))); ?></li>
 				</ul>
 			</div>
 			<div align="left">
@@ -174,5 +174,15 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
+	
+<footer>
+<div class="footer" align="right">
+	<a href="ayuda.php" style="font-size:20px; text-decoration:none" >Ayuda</a> <span> &nbsp &nbsp </span>
+	<a href="contacto.php" style="font-size:20px; text-decoration:none ">Contacto</a>
+</div>
+</footer>
+
+		
+	
 </body>
 </html>

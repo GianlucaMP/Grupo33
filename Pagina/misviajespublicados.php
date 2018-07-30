@@ -77,7 +77,7 @@
 					<div>
 					<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 					<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
-					<p> Fecha: <?php echo  $listarviajes['fecha'] ?> </p> <!-- imprimir la fecha en un formato mas lindo que este???-->
+					<p> Fecha: <?php echo (Date("d-m-Y",strtotime($listarviajes['fecha']))); ?> </p>
 					</div>
 					<div>
 					<a style="color:white; font-size:22px" href="verviaje.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Detalles </a>
