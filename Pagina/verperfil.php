@@ -16,7 +16,7 @@ if(!$logeado){
 	exit;
 }
 
-$sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id ={$_GET['id']}"); 
+$sql = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id ={$_GET['id']}");
 
 if (!$datosConductor = mysqli_fetch_array($sql)) {
 	header('Location: index.php?result=4');
@@ -33,13 +33,13 @@ $sql2 = mysqli_query($conexion, "SELECT postulaciones.* FROM postulaciones INNER
 if (!$sql2) {
 	header('Location: index.php?result=4');
 	exit;
-	
+
 }
 $sql3 = mysqli_query($conexion, "SELECT postulaciones.* FROM postulaciones INNER JOIN viajes ON postulaciones.viajes_id=viajes.id WHERE viajes.usuarios_id={$user['id']} AND postulaciones.postulados_id={$datosConductor['id']} AND postulaciones.estado='A' ");
 if (!$sql3) {
 	header('Location: index.php?result=4');
 	exit;
-	
+
 }
 
 
@@ -69,48 +69,89 @@ $edad =  ($f1->diff($f2))->format("%y");
 
 
 
+if ($datosConductor['cantidad_votos']== 0) {
+	$calificacion=0;
+}
+else {
+	$calificacion=$datosConductor['calificacion'] / $datosConductor['cantidad_votos'];
+}
+
+if ($calificacion==5) {
+	$reputacion="Exelente";
+}
+else {
+	if (($calificacion<=4)&&($calificacion>=3)) {
+		$reputacion="Muy buena";
+	}
+	else {
+		if (($calificacion<=2)&&($calificacion>=1)) {
+			$reputacion="Buena";
+		}
+		else {
+			if (($calificacion<1)&&($calificacion>-1)) {
+				$reputacion="Regular";
+			}
+			else {
+				if (($calificacion<=-1)&&($calificacion>=-2)) {
+					$reputacion="Mala";
+				}
+				else {
+					if (($calificacion<=-3)&&($calificacion>=-4)) {
+						$reputacion="Muy mala";
+					}
+					else {
+							$reputacion="Pesima";
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<link type="text/css" rel="stylesheet" href="stylesheets.css"/>
 	<title> Ver Perfil </title>
-	<style> 
+	<style>
 
 	#container{
 			width: 1200px;
 			margin-left: auto;
 			margin-right: auto;
 		}
-	
+
 	#menucostado{
 		float: left;
 		width: 20%;
 	}
-	
-	
+
+
 	#datos{
 			float: right;
 			width: 79%;
 	}
-	
+
 	.centrado{
 		margin: 70px 0; <!--centrado vertical-->
-	
+
 
 		width: 50%; <!--centrado horizontal muchas veces hace lo que se le canta con solo agregar un comment-->
-		text-align: center; 
+		text-align: center;
 	}
-	
+
 	p, span{
 		font-size:25px;
 	}
-	
+
 	.alerta{
 		color:red;
 	}
-	
-	
+
+
 	button{
 		display: block;
 		margin-left: auto;
@@ -118,8 +159,8 @@ $edad =  ($f1->diff($f2))->format("%y");
 		width: 20%;
 		height: 3em;
 		font-size:25px;
-	}	
-	
+	}
+
 	</style>
 </head>
 <body>
@@ -127,7 +168,7 @@ $edad =  ($f1->diff($f2))->format("%y");
 <div id="container">
 	<h2> Ver Perfil: <?php echo $datosConductor['nombre']; ?> </h2>
 	<div id='menucostado' style="font-size:22px">
-	
+
 	<!-- si se llego aca por un link de una pagina de un viaje. muestro el boton volver al viaje-->
 	<?php if(isset($_GET['viaje'])) { ?>
 		<p> <a href="verviaje.php<?php echo ( isset($_GET['viaje']) ? "?id=${_GET['viaje']}" : "" ) ?>" style="text-decoration:none">Volver al Viaje</a></p>
@@ -139,6 +180,7 @@ $edad =  ($f1->diff($f2))->format("%y");
 		<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
 		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
 		<p> Edad: <?php echo $edad ?> </p>
+		<p> Reputacion: <?php echo $reputacion ?> </p>
 		<p> Email: <?php  echo ($mostrarDatosContacto ? $datosConductor['email'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>'  ) ?> </p>
 		<p> Telefono: <?php echo ($mostrarDatosContacto ? $datosConductor['telefono'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>' ) ?> </p>
 		</fieldset>
@@ -146,4 +188,3 @@ $edad =  ($f1->diff($f2))->format("%y");
 </div>
 </body>
 </html>
-

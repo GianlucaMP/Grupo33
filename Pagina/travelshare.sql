@@ -134,7 +134,9 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(50) NOT NULL,
   `fecha` date NOT NULL,
   `telefono` varchar(30) NOT NULL,
-  `eliminado` char(1) NOT NULL
+  `eliminado` char(1) NOT NULL,
+  `calificacion` int(11) NOT NULL,
+	`cantidad_votos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
