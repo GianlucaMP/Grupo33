@@ -49,6 +49,12 @@
 	
 	
 	
+	//para facilitar la escritura del codigo
+	$viajeid = $_GET['viaje'];
+	$postulado = $_GET['postulado'];
+	$userid = $user['id'];
+	
+	
 	//se opera segun la accion recibida como parametro
 	switch ($_GET['accion']) {
 		case 'aceptar':
@@ -62,17 +68,30 @@
 			}			
 			if ($actualizar) {
 				//se crea un pago pendiente en la BD para el postulado aceptado con respecto a este viaje
-			$sqlpago = mysqli_query($coneccion, "INSERT INTO pagos (viajes_id, usuarios_id, pago) VALUES ({$_GET['viaje']}, {$_GET['postulado']}, 'F' )");
+				$sqlpago = mysqli_query($coneccion, "INSERT INTO pagos (viajes_id, usuarios_id, pago) VALUES ({$_GET['viaje']}, {$_GET['postulado']}, 'F' )");
 
 				if(!$sqlpago){//no se pudo crear la entrada de pago asociada al viaje
 					//???SE DEBERIA ELIMINAR LA POSTULACION RECIEN HECHA PARA QUE NO QUEDE UNA POSTULACION SIN UN PAGO ASOCIADO????
 					//???PENDIENTE???
-					header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"') 
+					header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"');
 					exit;
 				}
-				else {//postulacion aceptada y pago pendiente registrado, todo bien, retorno con aviso positivo			
-					header('Location: verpostulados.php?result=1&id="'.$_GET['viaje'].'"');
-					die(); 
+				else {//postulacion aceptada y pago pendiente registrado, creo las 2 entradas de calificaciones del viaje (uso -1 como puntaje nulo)
+					
+				
+					$sqlcalificacion =  mysqli_query($coneccion, "INSERT INTO calificaciones (viaje_id, calificador_id, calificado_id, puntaje) VALUES ($viajeid, $userid, $postulado, -1)");
+					$sqlcalificacion2 =  mysqli_query($coneccion, "INSERT INTO calificaciones (viaje_id, calificador_id, calificado_id, puntaje) VALUES ($viajeid, $postulado, $userid, -1)");
+					
+					
+					
+					if (!sqlcalificacion || !sqlcalificacion2) {
+						header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"');
+						exit;
+					}				
+					else{ //todo bien, retorno con aviso positivo			
+						header('Location: verpostulados.php?result=1&id="'.$_GET['viaje'].'"');
+						die(); 
+					}
 				}
 			}
 			else {

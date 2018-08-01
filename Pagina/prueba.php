@@ -5,36 +5,57 @@ require('dbc.php');
 $coneccion = conectar();
 
 
-$sql = mysqli_query($coneccion, "SELECT * FROM viajes where id='45' ");
-if (!$sql) {
-	echo "fallo la query";
-}
-
-echo date("Y-m-d");
-
-echo "el valor de mysqli_num_rows es: ";
-echo mysqli_num_rows($sql), "<br>";
-
-$viaje = mysqli_fetch_array($sql);
-
-
-echo "el valor de la fecha del viaje es: {$viaje['fecha']} <br>";
-
-echo "el tipo de la fecha del viaje es: ";
-echo gettype($viaje['fecha']), "<br>";
-
-
 ?>
 
 <HTML>
 
 <HEAD>
 
-<BODY>
+<style>
 
-</BODY>
+
+label { 
+	color:grey;
+	font-size:40px;
+}
+
+.calificacion{
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+input[type = "radio"]{ 
+	display:none;
+}
+
+label:hover,
+label:hover ~ label{color:gold;}
+input[type = "radio"]:checked ~ label{color:gold;}
+
+
+</style>
 
 </HEAD>
+
+<BODY>
+
+<form action="altacalificacion.php">
+  <p class="calificacion">
+    <input id="radio1" type="radio" name="estrellas" value="5"><!--
+    --><label for="radio1" title="Excelente" >★</label><!--
+    --><input id="radio2" type="radio" name="estrellas" value="4"><!--
+    --><label for="radio2" title="Muy Buena" >★</label><!--
+    --><input id="radio3" type="radio" name="estrellas" value="3"><!--
+    --><label for="radio3" title="Buena">★</label><!--
+    --><input id="radio4" type="radio" name="estrellas" value="2"><!--
+    --><label for="radio4" title="Regular">★</label><!--
+    --><input id="radio5" type="radio" name="estrellas" value="1"><!--
+    --><label for="radio5" title="Mala">★</label>
+  </p>
+<input type="submit" value="Calificar">
+</form>
+
+</BODY>
 
 
 </HTML>

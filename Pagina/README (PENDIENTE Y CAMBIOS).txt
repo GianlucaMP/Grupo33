@@ -1,33 +1,57 @@
 PEQUENOS FIXS DE CODIGO:
 
-1) mispagos.php: modificar el layout. cuando hay pagos de los 2 tipos se superponen
 
-0) sistema de pagos: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente
+1)verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
 	
 
-1) crear viaje:  los botones + - no hacen nada
-
-2) campo de eliminado de vehiculos. puede que halla quedado alguna pagina que no lo tenga en cuenta
-
-3) mis pagos: darle un layout aceptable a la pagina. sobre todo seguro falla cuando hay mas de un pago pendiente, y se pone para mostrar el formulario de pago.
-
-2) bajaviaje.php ... creo que el chequeo de si hay postulados deberia hacerse con mysqli_num_rows.. sino va a dar true en casos que no son...
-
-
-3)mis viajes pendintes.php: 
-
-a) las querys que obtienen os viajes como conductor y como pasajero.... falla la parte de la fecha para que muestre solo los viajes pendientes y NO todos
-
-b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien (parece que si, pero es complicada asi que testearla bien)
-
-c) darle formato a la pagina para que no se superpongan los viajes, cuando hay viajes tanto como condcutor como pasajero
+	
+2) calificaciones:  si la calificacion tiene descripcion la query al guardarla me falla!!!
 
 
 
+3) mis viajes pendintes.php: 
+
+a) las querys que obtienen os viajes como conductor y como pasajero.... falla la parte de la fecha para que muestre solo los viajes pendientes y NO todos ???PUEDE QUE NO HAGA FALTA POR SER UNA HU YA APROBADA???
+
+b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien (parece que si, pero es complicada asi que testearla bien) ???PUEDE QUE NO HAGA FALTA POR SER UNA HU YA APROBADA???
+
+
+
+	
+4) crear viaje:
+
+a) agregar chequeo de calificaciones pendientes de hace mas de 30 dias!!!!!
+
+
+b) los botones + - no hacen nada
+
+	
+
+5) 
+
+a) bajaviaje.php: terminar bien la auto-calificacion negativa
+... creo que el chequeo de si hay postulados deberia hacerse con mysqli_num_rows.. sino va a dar true en casos que no son...
+
+b) baja postulacion.php: terminar bien la auto-calificacion negativa
 
 
 
 
+CASOS DE LAYOUT ROTOS:
+
+1) mispagos.php:  cuando hay pagos de los 2 tipos se superponen
+
+2) calificar.php: se rompe si hay mas de un viaje por calificar
+
+3) en verperfil.php y seguramente en miperfil.php si hay mas de una calificacion el layout se rompe
+
+4) misviajespendientes.php darle formato a la pagina para que no se superpongan los viajes, cuando hay viajes tanto como condcutor como pasajero ???ESTE ES DE UNA HU YA APROBADA, ASI QUE NO HACE FALTA???
+
+
+
+
+
+OTRAS IMPLEMENTACIONES:
 
 
 1) eliminacion de usuarios:
@@ -37,16 +61,13 @@ a) chequear campo de borrado todos lados que haga falta
 b) ver bien seguro algo le falta al codigo de bajausario.php
 
 
-2) sistema de calificaciones
+2) viaje periodico
 
 
-3) viaje periodico
+3) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
 
 
-4) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
-
-
-5) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
+4) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
 
 
 
@@ -56,6 +77,8 @@ IMPORTANTE:
 
 
 EN LA BD:  los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R), cosa que deberian ser definidas como constantes en cada pagina que sea necesario. Ya estan definidas en la pagina verviaje.php, copiar lo que esta ahi donde haga falta cuando sea necesario.
+
+EN LA BD: una calificacion pendiente tiene como puntaje "-1"
 
 
 EN CUANTO A LAS PLAZAS: al registrar el vehiculo se dice cuantas plazas tiene incluyendo a la que ocupa el conductor. A partir de que se crea el viaje, y todo en adelante, cuando se habla de plazas se habla exclusivamente de plazas disponibles para pasajeros (sin contar al conductor)
@@ -83,8 +106,6 @@ La otra pregunta, se necesita algo que periodicamente chequee por los viajes que
 OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
 1) en que consiste exactamete la HU verificar e-mail?
-
-2)  cuales son los posibles valores para una calificaccion, si un puntaje del 1 al 5 creo que era, o sino positivo/negativo?
 
 3) como se recuperaria una contraseña?
 
@@ -121,6 +142,8 @@ b) todo el sistema en general
 
 8)calificaciones (todo en genral)
 
+b) las querys para updtear una calificacion parecen funcionar siempre que NO halla una descripcion
+
 
 9) verviaje:
 
@@ -152,6 +175,22 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+
+6.3:
+
+se agrego en mi perfil.php y verperfil.php la lista de calificaciones y el promedio
+
+altacalificacion.php se codifico casi completamente la pagina (hay un bug en caso de que la calificacion incluya una descripcion)
+
+calificar.php se codifico casi completamente la pagina (testeo pendiente)
+
+se crean 2 entradas en la tabla calificaciones al aceptar una postulacion (una para cada usuario involucrado)
+
+altarespuestapostulacion.php: se agrega una entrada en la tabla calificaciones al confirmarse una postulacion 
+
+se completo la pagina contacto.php
+
 
 6.2:
 

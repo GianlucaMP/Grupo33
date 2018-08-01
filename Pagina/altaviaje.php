@@ -237,7 +237,7 @@
 	if ($idViaje == 0) {
 		//???en este caso deberia borrar el viaje recien creado, para no comprometer el estado de la BD??? 
 		//???PENDIENTE???
-		header('Location: index.php?result=2552'); //este es error 2, cambiarlo despues //DEBUG
+		header('Location: index.php?result=2'); 
 		exit;
 		
 	}

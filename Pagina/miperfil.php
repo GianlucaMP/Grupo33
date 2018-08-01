@@ -8,15 +8,14 @@
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
 	
-	#$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
-
+	
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales y que el vehiculo no este eliminado
 	$vehiculos = mysqli_query ($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id={$user['id']}  AND enlace.eliminado='N' ");
 
 	
 	//chequeo si falla la consulta
 	if (!$vehiculos) {
-		echo "Error en la operacion con la Base de datos";
+		header('Location: index.php?result=4');
 		exit;
 	}
 	
@@ -116,54 +115,77 @@
 
 	
 	
+	//simplifico el codigo
+	$userid = $user['id'];
+	
+	
+	//obtengo las calificaciones del user
+	$sqlcalificacion = mysqli_query($coneccion, "SELECT * FROM calificaciones INNER JOIN usuarios ON calificador_id = usuarios.id WHERE calificado_id = $userid AND puntaje<>-1");
+
+	
+	if (!$sqlcalificacion) {
+		header('Location: index.php?result=4');
+		exit;
+	}
+	
+	
+	//por el momento lo hago 2 veces, necesito primero obtener el promedio
+	$otrosql = mysqli_query($coneccion, "SELECT * FROM calificaciones WHERE calificado_id = $userid AND puntaje<>-1");
+
+	
+	
+	if (!$otrosql) {
+		header('Location: index.php?result=4');
+		exit;
+	}
+	
+	//obtengo la cantidad de votos y el promedio
+	$cantidadvotos = mysqli_num_rows($sqlcalificacion);
+	$promedio = 0;
+	
+	while ($calificacion = mysqli_fetch_array($otrosql)) {
+		$promedio = $promedio + $calificacion['puntaje'];
+		
+	}
+	
+	
+	if ($cantidadvotos != 0) {
+	  $promedio = intdiv ($promedio, $cantidadvotos);
+	}
+	
 	
 	//determino la reputacion del user
-	if ($user['cantidad_votos']== 0) {
-		  $calificacion=0;
-	}
-	else {
-	  $calificacion=$user['calificacion'] / $user['cantidad_votos'];
-	}
-	
-	
-	
-	if ($user['cantidad_votos'] == 0) {
-		$reputacion="Pendiente (sin calificaciones)"; 
-	}
-	else{	
-		if ($calificacion==5) {
-		  $reputacion="Excelente";
-		}
-		else {
-		  if (($calificacion<=4)&&($calificacion>=3)) {
+	switch ($promedio) {
+		case '5':
+			$reputacion="Excelente";
+			$colorReputacion= "lightgreen";
+			break;
+		case '4':
 			$reputacion="Muy buena";
-		  }
-		  else {
-			if (($calificacion<=2)&&($calificacion>=1)) {
-			  $reputacion="Buena";
-			}
-			else {
-			  if (($calificacion<1)&&($calificacion>-1)) {
-				$reputacion="Regular";
-			  }
-			  else {
-				if (($calificacion<=-1)&&($calificacion>=-2)) {
-				  $reputacion="Mala";
-				}
-				else {
-				  if (($calificacion<=-3)&&($calificacion>=-4)) {
-					$reputacion="Muy mala";
-				  }
-				  else {
-					  $reputacion="Pesima";
-				  }
-				}
-			  }
-			}
-		  }
-		}
+			$colorReputacion= "lightgreen";
+			break;
+		case '3':
+			$reputacion="Buena";
+			$colorReputacion= "gold";
+			break;
+		case '2':
+			$reputacion="regular";
+			$colorReputacion= "red";
+			break;
+		case '1':
+			$reputacion="Mala";
+			$colorReputacion= "red";
+			break;
+		case '0':
+			$reputacion="Pendiente (sin calificaciones)"; 
+			$colorReputacion= "gold";
+			break;
+		default;
+			$reputacion="Error";
+			$colorReputacion= "red";
 	}
 	
+
 	
 	
 	
@@ -194,6 +216,11 @@
 			float: right;
 			width: 79%;
 		}
+		
+		p{
+			line-height:0.6;			
+		}
+		
 	</style>
 </head>
 <body>
@@ -203,28 +230,29 @@
 			<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
 			<p> <a href="misviajespendientes.php" style="text-decoration:none" title="Viajes aun no realizados en los que soy conductor, pasajero o postulado" >Mis Viajes Pendientes</a></p>
+			<p> <a href="calificar.php" style="text-decoration:none" title="Todas las calificaciones pendientes"> Mis Calificaciones Pendientes</a></p>
 			<p> <a href="misviajespublicados.php" style="text-decoration:none" title="Todos los viajes publicados por mi como conductor" >Mis Viajes Publicados</a></p>
 			<p> <a href="mispagos.php" style="text-decoration:none" title="Lista de pagos pendientes y realizados como conductor y pasajero" >Mis Pagos</a></p>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
 			<div>
-				<ul>
+				<ul style="font-size:20px">
 					<li><b>Nick: </b><?php echo " ".$user['nombreusuario']." "; ?></li>
 					<li><b>Nombre: </b><?php echo " ".$user['nombre']." "; ?></li>
-					<li><b>Reputacion: </b><?php echo " ".$reputacion." "; ?></li>
+					<li><b>Reputacion: </b> <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?>  <span>  </li>
 					<li><b>Edad: </b><?php echo $edad ?> </li>
 					<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>					
 				</ul>
 			</div>
 			<div align="left">
 				<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p>
-				<h4>Listado de Vehiculos</h4>
+				<h2>Vehiculos</h2>
 				<?php
 				$tieneVehiculos = false;
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
 					$tieneVehiculos = true; //no es muy lindo el codigo pero se entiende y sirve
-					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
+					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">';
 					echo "Marca: ".$listarvehiculos['marca']."<br/>";
 					echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
 					echo "Color: ".$listarvehiculos['color']."<br/>";
@@ -240,11 +268,28 @@
 					</div><?php
 				}
 				?>
+			
+			<h2> Calificaciones </h2>
+			<p style="font-size:20px"> El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?>  <span> </p>
+			
+			<?php while ($cali = mysqli_fetch_array($sqlcalificacion)) { ?>
+				<div class="calificacion" align="left" style="padding: 10px; color:white; font-size:20px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">
+				<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
+				<p style="align:right"> Puntaje:
+				<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
+				--><span style="color:black"><?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; }    ?>  </p>		
+				<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
+				<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
+			
+			<?php } ?>
+			
 			</div>
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-	
+
+
+<!--	 lo comento, porque no es 100% necesario y queda corrido haciendo quedar mal la pagina
 <footer>
 <div class="footer" align="right">
 	<a href="ayuda.php" style="font-size:20px; text-decoration:none" >Ayuda</a> <span> &nbsp &nbsp </span>
@@ -252,6 +297,7 @@
 </div>
 </footer>
 
+-->
 		
 	
 </body>

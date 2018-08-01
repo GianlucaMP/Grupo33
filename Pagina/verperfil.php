@@ -70,54 +70,78 @@ $edad =  ($f1->diff($f2))->format("%y");
 
 
 
-//se determina la reputacion del usuario
-if ($datosConductor['cantidad_votos']== 0) {
-	$calificacion=0;
-}
-else {
-	$calificacion=$datosConductor['calificacion'] / $datosConductor['cantidad_votos'];
+
+
+//simplifico el codigo
+$perfilid = $_GET['id'];
+	
+
+//obtengo las calificaciones del user
+$sqlcalificacion = mysqli_query($conexion, "SELECT * FROM calificaciones INNER JOIN usuarios ON calificador_id = usuarios.id WHERE calificado_id = $perfilid AND puntaje<>-1");
+
+
+if (!$sqlcalificacion) {
+	header('Location: index.php?result=4');
+	exit;
 }
 
 
-if ($user['cantidad_votos'] == 0) {
-	$reputacion="Pendiente (sin calificaciones)"; 
+//por el momento lo hago 2 veces, necesito primero obtener el promedio
+$otrosql = mysqli_query($conexion, "SELECT * FROM calificaciones WHERE calificado_id = $perfilid AND puntaje<>-1");
+
+
+
+if (!$otrosql) {
+	header('Location: index.php?result=4');
+	exit;
 }
-else{	
-	if ($calificacion==5) {
-	  $reputacion="Excelente";
+
+	//obtengo la cantidad de votos y el promedio
+	$cantidadvotos = mysqli_num_rows($sqlcalificacion);
+	$promedio = 0;
+	
+	while ($calificacion = mysqli_fetch_array($otrosql)) {
+		$promedio = $promedio + $calificacion['puntaje'];
+		
 	}
-	else {
-	  if (($calificacion<=4)&&($calificacion>=3)) {
-		$reputacion="Muy buena";
-	  }
-	  else {
-		if (($calificacion<=2)&&($calificacion>=1)) {
-		  $reputacion="Buena";
-		}
-		else {
-		  if (($calificacion<1)&&($calificacion>-1)) {
-			$reputacion="Regular";
-		  }
-		  else {
-			if (($calificacion<=-1)&&($calificacion>=-2)) {
-			  $reputacion="Mala";
-			}
-			else {
-			  if (($calificacion<=-3)&&($calificacion>=-4)) {
-				$reputacion="Muy mala";
-			  }
-			  else {
-				  $reputacion="Pesima";
-			  }
-			}
-		  }
-		}
-	  }
+	
+	
+	if ($cantidadvotos != 0) {
+	  $promedio = intdiv ($promedio, $cantidadvotos);
 	}
-}
-
-
-
+	
+	
+	//determino la reputacion del user
+	switch ($promedio) {
+		case '5':
+			$reputacion="Excelente";
+			$colorReputacion= "lightgreen";
+			break;
+		case '4':
+			$reputacion="Muy buena";
+			$colorReputacion= "lightgreen";
+			break;
+		case '3':
+			$reputacion="Buena";
+			$colorReputacion= "gold";
+			break;
+		case '2':
+			$reputacion="regular";
+			$colorReputacion= "red";
+			break;
+		case '1':
+			$reputacion="Mala";
+			$colorReputacion= "red";
+			break;
+		case '0':
+			$reputacion="Pendiente (sin calificaciones)"; 
+			$colorReputacion= "gold";
+			break;
+		default;
+			$reputacion="Error";
+			$colorReputacion= "red";
+	}
+	
 
 
 
@@ -156,6 +180,7 @@ else{
 	
 	p, span{
 		font-size:25px;
+		line-height:0.8;
 	}
 	
 	.alerta{
@@ -187,15 +212,33 @@ else{
 	<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
 	</div>
 	<div id="datos">
-		<fieldset>
+		<div style="padding: 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px;">
 		<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
 		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
-		<p> Reputacion: <?php echo $reputacion ?> </p>
+		<p> Reputacion: <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?> </span> <p> 
 		<p> Edad: <?php echo $edad ?> </p>
 		<p> Email: <?php  echo ($mostrarDatosContacto ? $datosConductor['email'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>'  ) ?> </p>
 		<p> Telefono: <?php echo ($mostrarDatosContacto ? $datosConductor['telefono'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>' ) ?> </p>
-		</fieldset>
+		</div>
+		
+		<p> </p>
+		<h2> Calificaciones </h2>
+		<p style="font-size:20px"> El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?>  <span> </p>
+		
+		<?php while ($cali = mysqli_fetch_array($sqlcalificacion)) { ?>
+			<div class="calificacion" align="left" style="padding: 10px; color:white; font-size:20px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">
+			<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
+			<p style="align:right"> Puntaje:
+			<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
+		 --><span style="color:black"> <?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; }    ?>  </p>	
+			<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
+			<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
+		
+		<?php } ?>
+		
+		
 	</div>
+	<div style="clear: both;"></div>
 </div>
 </body>
 </html>
