@@ -7,19 +7,19 @@
 	$sesion = new sesion;
 	$logeado = $sesion->logeado();
 	$user = $sesion->datosuser();
-
+	
 	#$vehiculos=mysqli_query($coneccion, "SELECT * FROM vehiculos WHERE usuarios_id = '".$user['id']."'");
 
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales y que el vehiculo no este eliminado
 	$vehiculos = mysqli_query ($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id={$user['id']}  AND enlace.eliminado='N' ");
 
-
+	
 	//chequeo si falla la consulta
 	if (!$vehiculos) {
 		echo "Error en la operacion con la Base de datos";
 		exit;
 	}
-
+	
 	//si el usuario no esta logeado se redirecciona automaticamente al inicio
 	if(!$logeado){
 		header('Location: index.php');
@@ -46,11 +46,11 @@
 			case '41':
 				$result='El vehiculo a eliminar tiene viajes pendientes. Podras borrarlo cuando terminen esos viajes';
 				$color="red";
-				break;
+				break;	
 			case '42':
 				$result='El vehiculo que intentas eliminar no te pertenece.';
 				$color="red";
-				break;
+				break;		
 			case '5':
 				$result='Vehiculo modificado con exito';
 				$color= "lightgreen";
@@ -103,48 +103,75 @@
 				$result='Error desconocido.';
 				$color="red";}
 	}else{
-			$result = '&nbsp;';}
+			$result = '&nbsp;';
+	}
+	
+	
+	
+	
+	//calculo la edad para poder mostrarla
+	$f1 = new DateTime($user['fecha']);
+	$f2 = new DateTime("now");
+	$edad =  ($f1->diff($f2))->format("%y");
 
-
-
-			if ($user['cantidad_votos']== 0) {
-			  $calificacion=0;
+	
+	
+	
+	//determino la reputacion del user
+	if ($user['cantidad_votos']== 0) {
+		  $calificacion=0;
+	}
+	else {
+	  $calificacion=$user['calificacion'] / $user['cantidad_votos'];
+	}
+	
+	
+	
+	if ($user['cantidad_votos'] == 0) {
+		$reputacion="Pendiente (sin calificaciones)"; 
+	}
+	else{	
+		if ($calificacion==5) {
+		  $reputacion="Excelente";
+		}
+		else {
+		  if (($calificacion<=4)&&($calificacion>=3)) {
+			$reputacion="Muy buena";
+		  }
+		  else {
+			if (($calificacion<=2)&&($calificacion>=1)) {
+			  $reputacion="Buena";
 			}
 			else {
-			  $calificacion=$user['calificacion'] / $user['cantidad_votos'];
-			}
-
-			if ($calificacion==5) {
-			  $reputacion="Exelente";
-			}
-			else {
-			  if (($calificacion<=4)&&($calificacion>=3)) {
-			    $reputacion="Muy buena";
+			  if (($calificacion<1)&&($calificacion>-1)) {
+				$reputacion="Regular";
 			  }
 			  else {
-			    if (($calificacion<=2)&&($calificacion>=1)) {
-			      $reputacion="Buena";
-			    }
-			    else {
-			      if (($calificacion<1)&&($calificacion>-1)) {
-			        $reputacion="Regular";
-			      }
-			      else {
-			        if (($calificacion<=-1)&&($calificacion>=-2)) {
-			          $reputacion="Mala";
-			        }
-			        else {
-			          if (($calificacion<=-3)&&($calificacion>=-4)) {
-			            $reputacion="Muy mala";
-			          }
-			          else {
-			              $reputacion="Pesima";
-			          }
-			        }
-			      }
-			    }
+				if (($calificacion<=-1)&&($calificacion>=-2)) {
+				  $reputacion="Mala";
+				}
+				else {
+				  if (($calificacion<=-3)&&($calificacion>=-4)) {
+					$reputacion="Muy mala";
+				  }
+				  else {
+					  $reputacion="Pesima";
+				  }
+				}
 			  }
 			}
+		  }
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -175,8 +202,9 @@
 		<div id='menucostado'>
 			<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
-			<p> <a href="misviajespublicados.php" style="text-decoration:none">Mis Viajes Publicados</a></p>
-			<p> <a href="mispagos.php" style="text-decoration:none">Mis Pagos</a></p>
+			<p> <a href="misviajespendientes.php" style="text-decoration:none" title="Viajes aun no realizados en los que soy conductor, pasajero o postulado" >Mis Viajes Pendientes</a></p>
+			<p> <a href="misviajespublicados.php" style="text-decoration:none" title="Todos los viajes publicados por mi como conductor" >Mis Viajes Publicados</a></p>
+			<p> <a href="mispagos.php" style="text-decoration:none" title="Lista de pagos pendientes y realizados como conductor y pasajero" >Mis Pagos</a></p>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
@@ -184,9 +212,9 @@
 				<ul>
 					<li><b>Nick: </b><?php echo " ".$user['nombreusuario']." "; ?></li>
 					<li><b>Nombre: </b><?php echo " ".$user['nombre']." "; ?></li>
-					<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>
-					<li><b>Fecha de nacimiento: </b><?php echo (Date("d-m-Y",strtotime($user['fecha']))); ?></li>
 					<li><b>Reputacion: </b><?php echo " ".$reputacion." "; ?></li>
+					<li><b>Edad: </b><?php echo $edad ?> </li>
+					<li><b>Email: </b><?php echo " ".$user['email']." "; ?></li>					
 				</ul>
 			</div>
 			<div align="left">
@@ -205,8 +233,8 @@
 					echo '<a href="editarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
 					echo '</div>';
 				}
-				if (!$tieneVehiculos){
-					?>  <div align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">
+				if (!$tieneVehiculos){ 
+					?>  <div align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;"> 
 						<p style="font-size:25px	"> No tenes ningun vehiculo registrado :( </p>
 						<a href="registrarvehiculo.php" style="font-size:17px"> Registra tu vehiculo</a> para poder crear un viaje y compartirlo con otros usuarios </a>
 					</div><?php
@@ -216,7 +244,7 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-
+	
 <footer>
 <div class="footer" align="right">
 	<a href="ayuda.php" style="font-size:20px; text-decoration:none" >Ayuda</a> <span> &nbsp &nbsp </span>
@@ -224,7 +252,7 @@
 </div>
 </footer>
 
-
-
+		
+	
 </body>
 </html>

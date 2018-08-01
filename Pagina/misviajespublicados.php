@@ -15,6 +15,12 @@
 
 	$viajes = mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.usuarios_id=".$user['id']);
 	
+	if(!$viajes) {
+		header('Location: miperfil.php?result=30');
+		exit;
+	}
+	
+	
 ?>
 <!DOCTYPE html>
 <html>

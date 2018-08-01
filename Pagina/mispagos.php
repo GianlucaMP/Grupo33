@@ -107,16 +107,19 @@
 			float: right;
 			width: 79%;
 		}
+		
+		p{
+			line-height:0.6;
+			
+		}
+		
 	</style>
 </head>
 <body>
 	<div id='container'>
-	<h2>Pagar Deudas</h2>
+	<h2>Mis Pagos</h2>
 	<div id='menucostado'>
-		<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
-		<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
-		<p> <a href="misviajespublicados.php" style="text-decoration:none">Mis Viajes Publicados</a></p>
-		<p> <a href="mispagos.php" style="text-decoration:none">Mis Pagos</a></p>
+		<h2> <a href="miperfil.php" style="text-decoration:none">Volver </a></h2>
 		<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 	</div>
 	<div id='datos'>
@@ -151,13 +154,13 @@
 				}
 				$viaje = mysqli_fetch_array($sqlviaje);  ?>
 				
-				<fieldset>
+				<div class="pago" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
 				<h2 style="text-decoration:underline"> Viaje </h2>
-				<p> origen: <?php echo $viaje['origen'] ?>  </p>
-				<p> destino: <?php echo $viaje['destino'] ?>  </p>
-				<p> fecha: <?php echo (Date("d-m-Y",strtotime($viaje['fecha']))); ?>  </p>
-				<p> importe: $<?php echo $viaje['preciototal'] ?>  </p>
-				</fieldset>
+				<p> Origen: <?php echo $viaje['origen'] ?>  </p>
+				<p> Destino: <?php echo $viaje['destino'] ?>  </p>
+				<p> Fecha: <?php echo (Date("d-m-Y",strtotime($viaje['fecha']))); ?>  </p>
+				<p> Importe: $<?php echo $viaje['preciototal'] ?>  </p>
+				</div>
 			
 		<?php
 			}
@@ -185,7 +188,7 @@
 			$viaje = mysqli_fetch_array($sqlviaje);
 			
 		?>
-			<fieldset>
+			<div class="pago" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
 			<h2 style="text-decoration:underline"> Viaje </h2>
 			<p> origen: <?php echo $viaje['origen'] ?>  </p>
 			<p> destino: <?php echo $viaje['destino'] ?>  </p>
@@ -205,7 +208,7 @@
 				</form>			
 			</div>
 			
-			</fieldset>
+			</DIV>
 			</div>		
 		<?php
 		} ?>

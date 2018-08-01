@@ -10,6 +10,8 @@ if (!$sql) {
 	echo "fallo la query";
 }
 
+echo date("Y-m-d");
+
 echo "el valor de mysqli_num_rows es: ";
 echo mysqli_num_rows($sql), "<br>";
 

@@ -1,10 +1,8 @@
 PEQUENOS FIXS DE CODIGO:
 
-0) sistema de pagos:
+1) mispagos.php: modificar el layout. cuando hay pagos de los 2 tipos se superponen
 
-a) crear entrada en la BD de pago pendiente tras la confirmacion de una postulacion de un pasajero
-	
-b) agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente
+0) sistema de pagos: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente
 	
 
 1) crear viaje:  los botones + - no hacen nada
@@ -13,10 +11,24 @@ b) agregarle a la deuda un tiempo de una semana para que no te deje hacer nada s
 
 3) mis pagos: darle un layout aceptable a la pagina. sobre todo seguro falla cuando hay mas de un pago pendiente, y se pone para mostrar el formulario de pago.
 
+2) bajaviaje.php ... creo que el chequeo de si hay postulados deberia hacerse con mysqli_num_rows.. sino va a dar true en casos que no son...
+
+
+3)mis viajes pendintes.php: 
+
+a) las querys que obtienen os viajes como conductor y como pasajero.... falla la parte de la fecha para que muestre solo los viajes pendientes y NO todos
+
+b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien (parece que si, pero es complicada asi que testearla bien)
+
+c) darle formato a la pagina para que no se superpongan los viajes, cuando hay viajes tanto como condcutor como pasajero
 
 
 
-GRANDES IMPLEMENTACIONES PENDIENTES:
+
+
+
+
+
 
 1) eliminacion de usuarios:
 
@@ -61,6 +73,13 @@ Esto facilita las consultas en cuanto haya viajes con pagos, viajes cancelados, 
 La otra pregunta, se necesita algo que periodicamente chequee por los viajes que finalizan y mandarlos a la tabla de finalizados, cual seria una buena manera de implementarlo?
 
 
+
+
+
+
+
+
+
 OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
 1) en que consiste exactamete la HU verificar e-mail?
@@ -76,25 +95,34 @@ OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
 
 TESTEO PENDIENTE:
 
-0) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
 
-1) sistema de pagos: (todo el sistema en general)
+1) sistema de pagos:
 
-2) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
+a) que un postulado aceptado se le cree un pago pendiente en la BD
 
-
-
-3) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
+b) todo el sistema en general
 
 
-4) ver postulados (testear todo en general que seguro algo falla)
+2) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
+
+3) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
 
 
-5) baja usuario: todo en general
+4) misviajespendientes.php: que las consultas retornen los viajes que deben retornar, especialmente la 2da (viajes como pasajero/postulado aun proximos)
 
 
+5) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
 
-6) verviaje:
+
+6) ver postulados (testear todo en general que seguro algo falla)
+
+
+7) baja usuario: todo en general
+
+8)calificaciones (todo en genral)
+
+
+9) verviaje:
 
 a) mostrar plazas ocupadas
 
@@ -103,11 +131,6 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
-
-7) chequear que todos los headers que usen una variable tengan comillas dobles " " y no simples ya que asi no sirve
-
-
-8) revisar siempre que se usan elementos de arrays asociativos en strings que esten bien escritos para convertir texto en variables. Hay unos cuantes que no puse entre llaves el signo $, y otros que quiriendo copiar la tecnica del append cerrando el string, lo hice mal, revisar todos los echo, y otras cosas por el estilo
 
 
 
@@ -129,6 +152,38 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+6.2:
+
+se creo misviajespendientes.php que deberia mostrar todos los viajes como condcutor, pasajero y postulado del user. (SE TIENEN QUE CORREGIR LAS 2 CONSULTAS QUE OBTIENEN LOS VIAJES PARA QUE MUESTRE SOLO LOS PENDIENTES!!!! Y se tiene que arreglar el formato de la pagina para que no se superponga cuando hay viajes de ambos tipos)
+
+altarespuestapostulacion.php: ahora se crea una entrada en la BD de un pago pendiente tras la confirmacion de una postulacion de un pasajero 
+
+se agrego en verperfil.php y miperfil.php el caso de mostrar una calificacion de "pendiente (sin califiaciones)"
+
+se mejoro el estilo de la pagina mispagos.php
+
+se modifico el menu del costado en mispagos.php para solo mostrar las opciones de volver a mi perfil, y de ir a inicio
+
+
+6.1 (merge):
+
+se agrego a la BD en la tabla usuarios los campos "calificacion" y "cantidad_votos"
+
+se agrego el archivo calificar.php
+
+se agrego en bajaviaje.php el codigo para dar una calificaion negativa automatica (aun en proceso)
+
+se agrego en miperfil.php codigo para determinar y mostrar la reputacion del user
+
+se agrego en verperfil.php codigo para determinar y mostrar la reputacion del user
+
+
+
+6.0.1:
+
+ultima version antes del merge
+
 
 6.0:
 

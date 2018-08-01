@@ -56,13 +56,24 @@
 			if ($plazasOcupadas < $viaje['plazas']) {
 				$actualizar = mysqli_query($coneccion, "UPDATE postulaciones SET estado='A' WHERE viajes_id={$_GET['viaje']} AND postulados_id={$_GET['postulado']}");
 			}
-			else {
+			else {//no hay cupo
 				header('Location: verpostulados.php?result=4&id="'.$_GET['viaje'].'"');
 				die(); 
 			}			
 			if ($actualizar) {
-				header('Location: verpostulados.php?result=1&id="'.$_GET['viaje'].'"');
-				die(); 
+				//se crea un pago pendiente en la BD para el postulado aceptado con respecto a este viaje
+			$sqlpago = mysqli_query($coneccion, "INSERT INTO pagos (viajes_id, usuarios_id, pago) VALUES ({$_GET['viaje']}, {$_GET['postulado']}, 'F' )");
+
+				if(!$sqlpago){//no se pudo crear la entrada de pago asociada al viaje
+					//???SE DEBERIA ELIMINAR LA POSTULACION RECIEN HECHA PARA QUE NO QUEDE UNA POSTULACION SIN UN PAGO ASOCIADO????
+					//???PENDIENTE???
+					header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"') 
+					exit;
+				}
+				else {//postulacion aceptada y pago pendiente registrado, todo bien, retorno con aviso positivo			
+					header('Location: verpostulados.php?result=1&id="'.$_GET['viaje'].'"');
+					die(); 
+				}
 			}
 			else {
 				header('Location: verpostulados.php?result=3&id="'.$_GET['viaje'].'"');
