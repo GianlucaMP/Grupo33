@@ -28,7 +28,7 @@
 	
 	//??? PENDIENTE CORREGIR EL TEMA DE LA FECHA DE LA QUERY PARA QUE SOLO MUESTRE VIAJES AUN NO REALIZADOS????
 	
-	$viajesComoConductor = mysqli_query($coneccion, "SELECT * FROM viajes WHERE usuarios_id={$user['id']} AND fecha>=$fechaactual" );  
+	$viajesComoConductor = mysqli_query($coneccion, "SELECT * FROM viajes WHERE usuarios_id={$user['id']} AND fecha>='".$fechaactual."'" );  
 	
 	//echo "fecha vale: <br>"; //DEBUG
 	//echo "fechaactual vale:  $fechaactual <br>";		//DEBUG
@@ -43,7 +43,7 @@
 	
 	//??? PEENDIENTE FALTA CORREGIR EL TEMA DE LA FECHA DE LA QUERY PARA QUE SOLO MUESTRE VIAJES AUN NO REALIZADOS????
 	
-	$viajesComoPasajero = mysqli_query($coneccion, "SELECT viajes.* FROM postulaciones INNER JOIN  usuarios ON postulaciones.postulados_id=usuarios.id  INNER JOIN viajes ON viajes.id=postulaciones.viajes_id WHERE postulaciones.postulados_id={$user['id']}  "); 
+	$viajesComoPasajero = mysqli_query($coneccion, "SELECT viajes.* FROM postulaciones INNER JOIN  usuarios ON postulaciones.postulados_id=usuarios.id  INNER JOIN viajes ON viajes.id=postulaciones.viajes_id WHERE postulaciones.postulados_id={$user['id']} AND viajes.fecha>='".$fechaactual."' "); 
 	
 	if(!$viajesComoPasajero) {
 		header('Location: miperfil.php?result=30');
@@ -66,11 +66,11 @@
 		}
 		#menucostado{
 			float: left;
-			width: 25%;
+			width: 20%;
 		}
 		#datos{
 			float: right;
-			width: 74%;
+			width: 79%;
 		}
 		
 		.grande {
@@ -97,6 +97,7 @@
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>
+			<div id="izq" align="center" style="float: left;width:470px">
 			<h2>Viajes Pendientes como conductor:</h2>	
 			<!-- si no tiene viajes publicados-->
 			<?php if(mysqli_num_rows($viajesComoConductor) == 0) { ?> 
@@ -106,7 +107,7 @@
 			else { 		
 				while ($listarviajes=mysqli_fetch_array($viajesComoConductor)) {  ?>
 					
-						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px black; width: 600px; margin-bottom:15px; float: left">
+						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 300px; margin-bottom:15px; float: middle">
 						<div>
 						<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 						<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
@@ -119,14 +120,16 @@
 					
 		<?php	}
 			}	?>
-			<h2 float="left">Viajes Pendientes como pasajero/postulado:</h2>
+			</div>
+			<div id="der" align="center" style="float: right; width:470px ">
+			<h2>Viajes Pendientes como pasajero/postulado:</h2>
 			<?php if(mysqli_num_rows($viajesComoPasajero) == 0) { ?> 
 				<p class="grande" style="color:gold;"> No tenes ningun viaje pendiente como pasajero/postulado</p>
 			<?php 
 			}
 			else { 		
 				while ($listarviajes=mysqli_fetch_array($viajesComoPasajero)) {  ?>		
-						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
+						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 300px; margin-bottom:15px; float: middle;">
 						<div>
 						<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 						<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
@@ -139,6 +142,8 @@
 					
 		<?php	}
 			}	?>
+			</div>
+		<div style="clear: both;"></div>
 		</div>
 	</div>
 </body>
