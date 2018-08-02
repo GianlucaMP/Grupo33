@@ -7,11 +7,6 @@ require('usuarioclass.php');
 $sesion = new sesion;
 $logeado = $sesion->logeado();
 
-$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$_SESSION['id']}");
-$datos = mysqli_fetch_array($sql);
-$nombreUsuario = $datos['nombreusuario'];
-
-
 
 if(!$logeado){
   header('Location: index.php');
@@ -19,15 +14,15 @@ if(!$logeado){
 }
 
 
-if(!isset($_POST['comentario'])|| empty($_POST['comentario'])) {
+if(!isset($_POST['respuesta'])|| empty($_POST['respuesta'])) {
   header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=1");
   exit;
 }
 
-$enviar= mysqli_query($coneccion,"INSERT INTO preguntas  (viajes_id,usuarios,pregunta) VALUES ('".$_POST['viaje']."','".$nombreUsuario."','".$_POST['comentario']."')");
+$enviar= mysqli_query($coneccion, "UPDATE preguntas SET tiene_respuesta='1', respuesta='".$_POST['respuesta']."' WHERE id={$_POST['num']}");
 
 if(!$enviar) {
-header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=2");
+header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=3");
   exit;
 }
 else {

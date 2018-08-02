@@ -10,6 +10,11 @@
 
   $preguntas = mysqli_query ($coneccion,"SELECT * FROM preguntas WHERE preguntas.viajes_id=".$_GET['viaje']);
 
+	$soyConductor=false;
+
+	if ($_GET['id']== $_SESSION['id']) {
+		$soyConductor=true;
+	}
 
   //chequeo si falla la consulta
   if (!$preguntas) {
@@ -32,6 +37,9 @@
           case '2':
     				$error = 'No se pudo publicar el comentario';
     				break;
+						case '3':
+	    				$error = 'No se pudo publicar la respuesta';
+	    				break;
           default:
     				$error = 'error desconocido';
     		}
@@ -41,14 +49,14 @@
     	$error = '&nbsp;';
     }
 
+		$conductor = mysqli_query ($coneccion,"SELECT * FROM usuarios WHERE usuarios.id=".$_GET['id']);
+		$datosConductor = mysqli_fetch_array($conductor);
+		$nombreConductor= $datosConductor['nombreusuario'];
 
-	// se bajan los datos del viaje en $viaje, para despues volcarse en un array.
-    $sqlviaje = mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.id=".$_GET['id']);
-	if (!$sqlviaje) {
- 		header('Location: miperfil.php?result=30');
-		exit;
- 	}
-	$viaje = mysqli_fetch_array($sqlviaje);
+
+		$yo = mysqli_query ($coneccion,"SELECT * FROM usuarios WHERE usuarios.id=".$_SESSION['id']);
+		$datosYo = mysqli_fetch_array($yo);
+		$miNombre= $datosYo['nombreusuario'];
 
 
 ?>
@@ -100,7 +108,7 @@
 </head>
 <body>
 	<div id='container'>
-	<h2>Mi perfil</h2>
+	<h2>Consultas del viaje</h2>
 		<div id='menucostado'>
 			<h2> <a style="text-decoration:none" href="verviaje.php<?php echo ( isset($_GET['viaje']) ? "?id=${_GET['viaje']}" : "" ) ?>">Volver</h2>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
@@ -110,7 +118,8 @@
         <form method="post" action="comentar.php">
             <input type="text" id="com" name="comentario" placeholder="Ingrese su comentario">
             <input type="hidden" id="viaje" name="viaje" value="<?php echo ( isset($_GET['viaje']) ? "${_GET['viaje']}" : "" ) ?>">
-            <input type="submit" value="comentar" id="boton">
+						<input type="hidden" id="id" name="id" value="<?php echo ( isset($_GET['id']) ? "${_GET['id']}" : "" ) ?>">
+            <input type="submit" value="Comentar" id="boton">
         </form>
         <div align="center" id=comentarios>
         <h4>Comentarios:</h4>
@@ -118,10 +127,22 @@
         $tienecomentarios = false;
         while ($listarcomentarios=mysqli_fetch_array($preguntas)) {
           $tienecomentarios = true; //no es muy lindo el codigo pero se entiende y sirve
-          echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';?>
+          echo '<div class="viaje" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';?>
           <p> Usuario: <?php echo $listarcomentarios['usuarios'] ?> </p>
 					<p><?php echo $listarcomentarios['pregunta'] ?> </p><?php
-          echo '<a href="responder.php">Responder</a>';
+					if ($soyConductor && $listarcomentarios['tiene_respuesta']=='0' && $listarcomentarios['usuarios']<>"$miNombre") { ?>
+						<form method="post" action="responder.php">
+		            <input type="text" id="com" name="respuesta" placeholder="Ingrese su respuesta">
+		            <input type="hidden" id="viaje" name="viaje" value="<?php echo $_GET['viaje'] ?>">
+		            <input type="hidden" id="num" name="num" value="<?php echo $listarcomentarios['id'] ?>">
+								<input type="hidden" id="id" name="id" value="<?php echo $_GET['id'] ?>">
+		            <input type="submit" value="Responder" id="boton">
+		        </form> <?php }
+						else {
+							if ($listarcomentarios['tiene_respuesta']=='1'){?>
+							<p> Respuesta del conductor: <?php echo $nombreConductor ?> </p>
+							<p><?php echo $listarcomentarios['respuesta'] ?> </p>
+					<?php	}}
           echo '</div>';
         }
         if (!$tienecomentarios){
