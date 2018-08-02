@@ -3,12 +3,10 @@ PEQUENOS FIXS DE CODIGO:
 
 1)verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
 		
-2) calificaciones:  
 
-a) si la calificacion tiene descripcion la query al guardarla me falla!!!
-
-b) bajaviaje.php y bajapostulacion.php generan calificaiones automaticas sin descripcion porque falla si incluyo una descripcion
-
+		
+		
+		2) bajaviaje.php (tras una postulacion, fallo con error 11)...
 
 
 3) mis viajes pendintes.php: 
@@ -179,6 +177,15 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 
+6.6.2:
+
+se agrego la descripcion a las calificaciones
+
+se agrego descrpcion a los calificaciones negativas automaticas
+
+6.6.1:
+
+crearviaje.php unas 5 lineas que modifico piriz que se habian traspapelado se modificaron correctamente
 
 6.6:
 

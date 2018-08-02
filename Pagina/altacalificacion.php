@@ -55,7 +55,7 @@
 	
 
 	if ($haydescripcion) { //si hay descripcion la incluyo en la query ???ESTE CASO ME FALLA  ???
-		$sql = mysqli_query($coneccion, "UPDATE calificaciones SET puntaje=$puntaje , descripcion=$descripcion WHERE viaje_id = $viajeid AND calificador_id = $userid ");
+		$sql = mysqli_query($coneccion, "UPDATE calificaciones SET puntaje=$puntaje , descripcion='$descripcion' WHERE viaje_id = $viajeid AND calificador_id = $userid ");
 	}
 	else {//si no hay descripcion hago una query sin eso
 		 $sql = mysqli_query($coneccion, "UPDATE calificaciones SET puntaje=$puntaje WHERE viaje_id = $viajeid AND calificador_id = $userid "); 

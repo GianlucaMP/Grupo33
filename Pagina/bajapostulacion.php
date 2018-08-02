@@ -102,11 +102,11 @@
 	}
 
 	
+	$descripcion = "Calificacion automatica por darse de baja de un viaje habiendo sido ya aceptado";
+	
 	// si tengo que calificar negativo, lo hago a nombre del user con ID "1"  que esta reservado para el sistema
 	if($calificarnegativo) {
-		$sqlnegativa = mysqli_query($coneccion, "INSERT INTO calificaciones (viaje_id, calificado_id, puntaje, calificador_id) VALUES ($viajeid, $userid, 1, 1) " );
-		
-		//????SE LE DEBERIA AGREGAR UNA DESCRPCION, POR EL MOMENTO NO LO HAGO PORQUE SEGURO FALLA???
+		$sqlnegativa = mysqli_query($coneccion, "INSERT INTO calificaciones (viaje_id, calificado_id, puntaje, calificador_id, descripcion) VALUES ($viajeid, $userid, 1, 1, '$descripcion') " );
 		
 		if(!$sqlnegativa){ //no se guardar crear la calificacion negativa
 			header("Location: verviaje.php?id=$viajeid&result=4");

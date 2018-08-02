@@ -51,10 +51,9 @@
 	$userid = $user['id'];
 	$descripcion = "Calificacion automatica por eliminar viaje con pasajeros aceptados";
 	
+	
+	
 	//califico negativamente al usuario si acepto pasajeros
-	
-	//???PENDIENTE???
-	
 	
 	$sqlpostulados = mysqli_query($conexion, "SELECT * FROM postulaciones WHERE viajes_id=$viajeid AND estado='A' ");
 	if (!$sqlpostulados){
@@ -65,9 +64,7 @@
 	
 	if (mysqli_num_rows($sqlpostulados) > 0) { //tiene postulados
 		//se aplica la calificacion negativa automatica a nombre del user con ID "1"  que esta reservado para el sistema
-		$sqlnegativa = mysqli_query($conexion, "INSERT INTO calificaciones (viaje_id, calificado_id, puntaje, calificador_id) VALUES ($viajeid, $userid, 1, 1) " );
-		
-		//????SE LE DEBERIA AGREGAR UNA DESCRPCION, POR EL MOMENTO NO LO HAGO PORQUE SEGURO FALLA???
+		$sqlnegativa = mysqli_query($conexion, "INSERT INTO calificaciones (viaje_id, calificado_id, puntaje, calificador_id, descripcion) VALUES ($viajeid, $userid, 1, 1, '$descripcion') " );
 		
 		if(!$sqlnegativa){
 			header('Location: miperfil.php?result=30');
