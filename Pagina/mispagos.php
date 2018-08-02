@@ -72,6 +72,14 @@
 				$mensaje='El campo "codigo de seguridad" esta vacio';
 				$color= "red";
 				break;
+			case '9':
+				$mensaje='Numero de tarjeta no valido';
+				$color= "red";
+				break;
+			case '10':
+				$mensaje='Fecha de vecimiento no valida';
+				$color= "red";
+				break;
 			default: 
 				$mensaje='Error desconocido';
 				$color= "red";
@@ -198,10 +206,10 @@
 			<div id='formularioTarjeta'  style="display:none">
 				<form action="altapago.php" method="POST" enctype="multipart/form-data" align="justify" onsubmit="return confirm('Estas seguro que quieres efectuar el pago?')">
 					<fieldset>
-					<p>Numero de tarjeta: <input type="text" id="tarjeta" name="tarjeta" value="<?php echo  (  (isset($_SESSION['tarjeta']) && (!empty($_SESSION['tarjeta'])))  ?  $_SESSION['tarjeta'] : ''  ); ?>"></p>
+					<p>Numero de tarjeta: <input type="text" id="tarjeta" name="tarjeta"  placeholder="xxxx-xxxx-xxxx-xxxx" value="<?php echo  (  (isset($_SESSION['tarjeta']) && (!empty($_SESSION['tarjeta'])))  ?  $_SESSION['tarjeta'] : ''  ); ?>"></p>
 					<p>Titular de la tarjeta: <input type="text" id="titular" name="titular" value="<?php echo  (  (isset($_SESSION['titular']) && (!empty($_SESSION['titular'])))  ?  $_SESSION['titular'] : ''  ); ?>"></p>
-					<p>Fecha de vencimiento: <input type="fecha" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
-					<p>Codigo de seguridad: <input type="number" id="codigo" name="codigo" min="0" max="999"></p> <!-- NO le cargo ningun valor por simplicidad y seguridad-->
+					<p>Fecha de vencimiento: <input type="string" id="fecha" name="fecha" placeholder="mm/aa" maxlength="5" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
+					<p>Codigo de seguridad: <input type="number" id="codigo" name="codigo" min="0" max="999" placeholder="999"></p> <!-- NO le cargo ningun valor por simplicidad y seguridad-->
 					<input type="hidden" id="pago" name="pago" value="<?php echo $pago['id'] ?>">
 					<input type="submit" value="Realizar Pago">
 					</fieldset>

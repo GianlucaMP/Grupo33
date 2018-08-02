@@ -46,30 +46,37 @@
 
 
 
-
-
-
+	//por facilidad de escritura
+	$viajeid = $_GET['id'];
+	$userid = $user['id'];
+	$descripcion = "Calificacion automatica por eliminar viaje con pasajeros aceptados";
+	
 	//califico negativamente al usuario si acepto pasajeros
+	
 	//???PENDIENTE???
 	
-	//??? POSIBLE BUG!!!: casi seguro, el chequeo de si hay postulados deberia hacerse con mysqli_num_rows()... sino si la consulta sale bien (por mas que retorne 0 postulados), va a devolver true... (creo) 
 	
-	
-	$acepto = mysqli_query($conexion, "SELECT * FROM postulaciones WHERE viajes_id='".$_GET['id']."', estado='".A."'");
-	if ($acepto) {
-		$calificacion = $user['calificacion'] -5;
-		$cantidad = $user['cantidad_votos'] +1;
-		$sql = mysqli_query($conexion, "UPDATE usuarios SET  calificacion='".$calificacion."', cantidad_votos='".$cantidad."' WHERE id=".$user['id']);
-		if($sql){
-		$exito = true;
-		}else{
-		$exito = false;
-		}
-	}
-	else {
-		header('Location: miperfil.php?result=11');
+	$sqlpostulados = mysqli_query($conexion, "SELECT * FROM postulaciones WHERE viajes_id=$viajeid AND estado='A' ");
+	if (!$sqlpostulados){
+		header('Location: miperfil.php?result=30');
 		exit;
 	}
+	
+	
+	if (mysqli_num_rows($sqlpostulados) > 0) { //tiene postulados
+		//se aplica la calificacion negativa automatica a nombre del user con ID "1"  que esta reservado para el sistema
+		$sqlnegativa = mysqli_query($conexion, "INSERT INTO calificaciones (viaje_id, calificado_id, puntaje, calificador_id) VALUES ($viajeid, $userid, 1, 1) " );
+		
+		//????SE LE DEBERIA AGREGAR UNA DESCRPCION, POR EL MOMENTO NO LO HAGO PORQUE SEGURO FALLA???
+		
+		if(!$sqlnegativa){
+			header('Location: miperfil.php?result=30');
+			exit;
+		}
+		
+	}
+
+	
 		
 	
 	

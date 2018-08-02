@@ -2,10 +2,12 @@ PEQUENOS FIXS DE CODIGO:
 
 
 1)verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
-	
+		
+2) calificaciones:  
 
-	
-2) calificaciones:  si la calificacion tiene descripcion la query al guardarla me falla!!!
+a) si la calificacion tiene descripcion la query al guardarla me falla!!!
+
+b) bajaviaje.php y bajapostulacion.php generan calificaiones automaticas sin descripcion porque falla si incluyo una descripcion
 
 
 
@@ -20,6 +22,8 @@ b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien
 	
 4) crear viaje:
 
+a) AGREGARLE UNA SIMPLE AYUDA CONTEXTUAL!!! "Tene en cuenta que Aventon recaudara un 5% de cada pago asociado al viaje por los costos de servicio" al lado del campo precio
+
 a) agregar chequeo de calificaciones pendientes de hace mas de 30 dias!!!!!
 
 
@@ -27,12 +31,9 @@ b) los botones + - no hacen nada
 
 	
 
-5) 
+	
 
-a) bajaviaje.php: terminar bien la auto-calificacion negativa
-... creo que el chequeo de si hay postulados deberia hacerse con mysqli_num_rows.. sino va a dar true en casos que no son...
 
-b) baja postulacion.php: terminar bien la auto-calificacion negativa
 
 
 
@@ -134,6 +135,8 @@ b) todo el sistema en general
 
 5) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
 
+bajapostulacion (ya esta medianamente chequeado)
+
 
 6) ver postulados (testear todo en general que seguro algo falla)
 
@@ -176,6 +179,53 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 
+
+6.6:
+
+verviaje.php: 
+
+si el viaje que se esta viendo es propio,  o si ya esta acepado/postulado/rechazado, por mas que tengas deudas te muestro todo igual...
+
+se agrego la opcion para darse de baja de un viaje
+
+se creo y codifico bajapostulacion.php
+
+misviajespendites.php se muestran en distintos colores los viajes que uno es condcutor o pasajero para facilitar diferenciarlos mientra el layout este mal
+
+
+6.5.2 (merge parte 3):
+
+
+se modifico verviaje.php (se corrigo un bug en caso que el user no este logeado)
+
+se modifico usarioclass.php (simple fix de una linea)
+
+
+
+6.5.1 (merge parte 2):
+
+se modifico verviaje.php agregandole cosas realacionadas a los comentarios (seguramente links para poder acceder a esa pagina)
+
+se creo y codifico el archivo consultas.php
+
+
+se creo y codifico el archivo comentar.php
+
+
+
+6.5 (merge parte 1):
+
+se modifico grosamente altaviaje.php. Sacando gran parte del codigo y moviendolo a chequeos.php ???que mas se hizo???
+
+se creo y codifico el archivo chequeos.php (se verifican la consistencia de las fechas y disponibilidad del vehiculo a la hora de crear un viaje)
+
+crearviaje.php se modificaron unas 10 lineas de codigo de viaje periodico
+
+
+
+6.4 (ultima version antes del merge):
+
+bajaviaje.php se codifico la calificacion negativa automatica
 
 6.3:
 

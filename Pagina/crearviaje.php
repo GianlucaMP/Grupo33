@@ -154,12 +154,12 @@ bug hace que el checbox de viaje periodico quede invertido (mostrando el resto d
 				<p>Fecha: <input type="date" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
 				</div>
 				<div id="formularioPeriodico" style="display:none">
-				<!--<form id="myForm">-->
-				<div id="input1" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha1" type="date" name="fecha1" /></div>
-				<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha2" type="date" name="fecha2" /></div>
+				<form id="myForm">
+				<div id="input1" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="name1" type="date" name="name1" /></div>
+				<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="name2" type="date" name="name2" /></div>
 				<div><input id="btnAdd" type="button" style="background:url('icono_mas.png') no-repeat; border:none; width: 24px;height: 24px"/>
 				<input id="btnDel" type="button"  disabled="disabled" style="background:url('icono_menos.png') no-repeat; border:none; width: 24px;height: 24px" /></div>
-				<!--</form>--> 
+				</form> 
 				</div>
 							
 				Horario de Salida: <input type="time" id="horario" class="mediano" name="horario" value="<?php echo  (  (isset($_SESSION['horario']) && (!empty($_SESSION['horario'])))  ?  $_SESSION['horario'] : ''  ); ?>"> horas:minutos
@@ -241,7 +241,7 @@ jQuery( function ( $ ) {
 		var newNum	= new Number( num + 1 );		// the numeric ID of the new input field being added
 		var newElem = $( '#input' + num ).clone().attr( 'id', 'input' + newNum );
 		
-		newElem.children( ':first' ).attr( 'id', 'fecha' + newNum ).attr( 'name', 'fecha' + newNum );
+		newElem.children( ':first' ).attr( 'id', 'fecha' + newNum ).attr( 'fecha', 'fecha' + newNum );
 		$( '#input' + num ).after( newElem );
 		$( '#btnDel' ).attr( 'disabled', false );
 		//if ( newNum == 5 )

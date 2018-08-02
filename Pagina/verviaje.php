@@ -105,10 +105,22 @@
 	if (!empty($_GET['result'])) {
 		switch ($_GET['result']){
 			case '1': 
-				$mensaje = "Postulacion exitosa. Chequea \"Mis Postulaciones\" para saber cuando te acepten";
+				$mensaje = "Postulacion exitosa. Chequea \"Mis viajes pendientes\" para saber cuando te acepten";
 				break;
 			case '2':
 				$mensaje = "La postulacion no pudo realizarse. Intentalo de nuevo"; 
+				$colorMensaje = "red";
+				break;
+			case '3':
+				$mensaje = "La postulacion fue cancelada"; 
+				$colorMensaje = "gold";
+				break;
+			case '4':
+				$mensaje = "Hubo un error al operar con la BD. Intentalo de nuevo"; 
+				$colorMensaje = "red";
+				break;
+			case '5':
+				$mensaje = "Tu postulacion ya habia sido rechazada, no hay porque borrarla"; 
 				$colorMensaje = "red";
 				break;
 			default:
@@ -182,8 +194,8 @@
 	
 
 	<?php
-	//si el user no tiene deudas
-	if (!$tieneDeudas) {
+	//si el user no tiene deudas .. o si es su propio viaje.. o ya esta postulado/aceptado/rechazado --> muestro los detalles principales del viaje, y las opciones correspondientes
+	if (!$tieneDeudas || $idConductor == $user['id'] || $userEstado != NOPOSTULADO) {
 		if (!$plazasLlenas) { ?>
 		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
@@ -196,7 +208,7 @@
 		<p> Fecha:<?php echo (Date("d-m-Y",strtotime($datoviaje['fecha']))); ?></p>
 		<p> Horario: <?php echo (Date("H:i",strtotime($datoviaje['fechayhora']))); ?> </p>
 		<p> Duracion Estimada: <?php echo (Date("H:i",strtotime($datoviaje['duracion']))); ?> (horas:minutos)</p>
-		<p> Precio: <?php echo $datoviaje['preciototal'] ?></p>			
+		<p> Precio: $<?php echo $datoviaje['preciototal'] ?></p>			
 		<p> Vehiculo: <?php echo "${datovehiculo['marca']}  ${datovehiculo['modelo']}" ?></p>
 		<?php //si el user es el conductor muestro un link para ver los postulados
 		if ($datosUsuario['id'] == $idConductor) { ?>
@@ -224,6 +236,7 @@
 			case POSTULADO: ?>
 				<p style="color:gold; font-size:20px; line-height:1"> Estas postulado a este viaje. <br>
 				Te vamos a avisar en esta misma pagina cuando el conductor responda a tu postulacion</p>
+				<p align="right"> <a href="bajapostulacion.php?viaje=<?php echo $idviaje ?>" style="text-decoration:none"  > Cancelar Postulacion </a> </p>
 				<?php
 				break;
 			case RECHAZADO: ?>
@@ -234,6 +247,10 @@
 			case ACEPTADO: ?>
 				<p style="color:gold; font-size:20px; line-height:1"> Has sido aceptado en el viaje!. <br>
 				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo $idConductor ?>&viaje=<?php echo $idviaje ?>"> Ver Datos del Conductor <p>
+				<form action="bajapostulacion.php" align="right"  onsubmit="return confirm('Estas seguro que queres cancelar tu postulacion? (vas a recibir una calificacion negativa')">
+				<input type="submit" align="right" value="Cancelar Postulacion" style="width:12em; height:2em; font-size:16px; background-color:lightblue; color:black; border: 2px solid black">
+				<input type="hidden" name="viaje" value="<?php echo $idviaje ?>">
+				</form>
 				<?php
 				break;			
 			} 

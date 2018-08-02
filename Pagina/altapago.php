@@ -56,8 +56,17 @@
 		exit;
 	}
 	
-	//???PENDIENTE: hacer el resto de los chequeos mas elaborados (formato de codigo de tarjeta, etc)???
+	if(false)  {  //NUMERO DE TARJETA NO VALIDA  ???SE PODRIA AGREGAR, PERO NO PREOCUPARSE
+		header('Location: mispagos.php?result=9');			
+		exit;
+	}
 	
+	/*
+	if (!preg_match("/^(0[1-9]|1[0-2])\/[0-9]{4}$/", $_POST['fecha'])) { //FECHA NO VALIDA, SE PODRIA AGREGAR PERO NO ES MUY IMPORTANTE
+		header('Location: mispagos.php?result=10');			
+		exit;
+	}
+	*/
 	
 	
 	$sqlpago = mysqli_query($coneccion, "UPDATE pagos SET pago='T' WHERE id={$_POST['pago']} ");

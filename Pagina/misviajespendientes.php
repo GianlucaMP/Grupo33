@@ -106,7 +106,7 @@
 			else { 		
 				while ($listarviajes=mysqli_fetch_array($viajesComoConductor)) {  ?>
 					
-						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
+						<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px black; width: 600px; margin-bottom:15px; float: left">
 						<div>
 						<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
 						<p> Destino: <?php echo $listarviajes['destino'] ?> </p>

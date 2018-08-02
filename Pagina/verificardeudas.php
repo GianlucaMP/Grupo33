@@ -17,10 +17,33 @@ if ($logeado) {
 	$user = $sesion->datosuser();
 		
 	
-	//???PENDIENTE???
-	//???ES probable que haya que agregarle un chequeo por la fecha del viaje con pago pendiente, para poder asi dar una semana o un tiempo X para pagar antes de impedir el uso de la pagina???
+	//facilito el codigo
+	$userid = $user['id'];
 	
-	$sqlpagos = mysqli_query($coneccion, "SELECT * FROM pagos WHERE usuarios_id={$user['id']} AND pago='F' ");
+	
+	//obtengo la fecha de 1 semana anterior
+	date_default_timezone_set("America/Argentina/Buenos_Aires");	
+	$semanaatras = date("Y-m-d", strtotime("-1 week"));
+	
+	
+	
+	echo "semanaatras vale: $semanaatras <br>"; //DEBUG
+	//exit; //DEBUG
+	
+	
+	
+	//consulto por los pagos pendientes de hace mas de 1 semana				//???ESTA FALLANDO EL TEMA DE LA SEMANA...!!!???
+	$sqlpagos = mysqli_query($coneccion, "SELECT pagos.* FROM pagos INNER JOIN viajes ON pagos.viajes_id = viajes.id WHERE pagos.usuarios_id=$userid AND pago='F' AND viajes.fecha < $semanaatras");  
+	
+	
+	echo "tenes "; //DEBUG
+	echo (mysqli_num_rows($sqlpagos)); //DEBUG
+	echo " deudas vencidas <br>"; //DEBUG
+ 	
+	
+	
+	//antes, cuando no daba 1 semana hacia:
+	//$sqlpagos = mysqli_query($coneccion, "SELECT * FROM pagos WHERE usuarios_id={$user['id']} AND pago='F' ");
 
 	if (!$sqlpagos){
 		header('Location: index.php?result=4');
