@@ -233,6 +233,7 @@
 			<p> <a href="calificar.php" style="text-decoration:none" title="Todas las calificaciones pendientes"> Mis Calificaciones Pendientes</a></p>
 			<p> <a href="misviajespublicados.php" style="text-decoration:none" title="Todos los viajes publicados por mi como conductor" >Mis Viajes Publicados</a></p>
 			<p> <a href="mispagos.php" style="text-decoration:none" title="Lista de pagos pendientes y realizados como conductor y pasajero" >Mis Pagos</a></p>
+			<p> <a href="eliminarusuario.php" style="text-decoration:none">Eliminar cuenta</a></p>
 			<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 		</div>
 		<div id='datos'>

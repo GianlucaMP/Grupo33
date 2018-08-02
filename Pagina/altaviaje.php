@@ -85,6 +85,37 @@
 		exit;	
 	}
 	
+	
+	
+	//determino si el user tiene deudas pendientes, para ver si mostrar el link a la pagina de pagos
+	//??? SE DEBE TESTEAR QUE FUNCIONE COMO SE ESPERA???
+	require 'verificardeudas.php';
+	
+	
+	
+	if ($tieneDeudas) {
+		header('Location: crearviaje.php?error=23');
+		exit;
+		
+	}
+	
+	
+	
+	//determino si el user tiene calificaciones pendientes con antiguedad mayor a 30 dias
+	//??? SE DEBE TESTEAR QUE FUNCIONE COMO SE ESPERA???
+	require 'verificarcalificaciones.php';
+	
+
+	if ($calificacionesPendientes) {
+		header('Location: crearviaje.php?error=24');
+		exit;
+		
+	}
+	
+	
+	
+	
+	
 	//codigo encargado de verificar la consistencia de las fechas y disponibilidad del vehiculo para viajes ocasionales y periodicos		
 	require('chequeos.php');
 

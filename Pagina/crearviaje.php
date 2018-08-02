@@ -44,6 +44,12 @@ if (!empty($_GET['error'])) {
 				break;
 			case '22':
 				$error = 'El vehiculo elegido para el viaje ha sido eliminado y no puede usarse';
+				break;
+			case '23':
+				$error = "Tenes deudas pendientes, pagalas para poder seguir usando completamente el servicio"; 
+				break;	
+			case '24':
+				$error = "Tenes calificaciones pendientes, primero califica, y despues postulate"; 
 				break;	
 			default:
 				$error = 'error desconocido';
@@ -75,14 +81,7 @@ else{
 	}
 	
 	
-	
-	//determino si el user tiene deudas pendientes, para ver si mostrar el link a la pagina de pagos
-	//??? SE DEBE TESTEAR QUE FUNCIONE COMO SE ESPERA???
-	require 'verificardeudas.php';
-	
-			
 		
-	
 	
 	//SELECCIONO los campos que se mencionan DE la tabla de vehiculos Y la tabla de enlace DONDE los campos de enlace y de vehiculo (vehiculos_id) son iguales y DE usuarios DONDE los campos de enlace y de usuarios (usuarios.id) son iguales
 	$vehiculos = mysqli_query($coneccion,"SELECT vehiculos.* FROM vehiculos INNER JOIN enlace ON enlace.vehiculos_id=vehiculos.id INNER JOIN usuarios ON enlace.usuarios_id=usuarios.id WHERE usuarios.id={$user['id']} AND enlace.eliminado='N' ");
@@ -121,98 +120,86 @@ input, select { 			/*se busca definir que todos los elementos de los formularios
 }
 
 
-<!-- ALGUNOS BUGS PENDIENTES:!!!!
+<!-- BUG PENDIENTE:
 
-bug hace que el checbox de viaje periodico quede invertido (mostrando el resto del formu opuesto) ocurre cuando se marca el checkbox, se llena mal el formu y se vuelve para atras... -->
+el checbox de viaje periodico queda invertido (mostrando el resto del formu opuesto) ocurre cuando se marca el checkbox, se llena mal el formu y se vuelve para atras... -->
 	
 	
 </style>
 <body>
 	<h2>Agregar nuevo viaje </h2>
-	<!--si no tiene deudas pendientes-->
-	<?php if(!$tieneDeudas) { ?>
-	
-		<h2> <a/ href="index.php" style="text-decoration:none">volver </a> </h2>
-			<!-- si no tiene vehiculos-->
-			<?php if(mysqli_num_rows($vehiculos) == 0) { ?> 
-				<p id="error" class="grande" style="color: red;"><?php echo $error?></p>
-				<p class="grande" style="color:gold;">Aviso: No tenes ningun vehiculo registrado. </p>
-				<p class="grande">Antes de crear un viaje vas a necesitar <a href="registrarvehiculo.php"> registrar un vehiculo </a> </p>
-						
-			<?php } else { ?>
-				
-			<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
-			<form method="POST" enctype="multipart/form-data" action="altaviaje.php" align="justify">		
-				<fieldset>
-				<fieldset>
-				<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000" value="<?php echo  (  (isset($_SESSION['preciototal']) && (!empty($_SESSION['preciototal'])))  ?  $_SESSION['preciototal'] : ''  ); ?>" ></p>	
-				<p>Origen: <input type="text" id="origen" name="origen" value="<?php echo  (  (isset($_SESSION['origen']) && (!empty($_SESSION['origen'])))  ?  $_SESSION['origen'] : ''  ); ?>"></p>	
-				<p>Destino: <input type="text" id="destino" name="destino" value="<?php echo  (  (isset($_SESSION['destino']) && (!empty($_SESSION['destino'])))  ?  $_SESSION['destino'] : ''  ); ?>"></p>
-				<p>Este viaje se realizara periodicamente
-				<input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito" title="si el viaje se realizara periodicamente debes marcar esta casilla"> </p>	
-				<div id="formularioOcasional">	
-				<p>Fecha: <input type="date" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
-				</div>
-				<div id="formularioPeriodico" style="display:none">
-				<!--<form id="myForm">-->
-				<div id="input1" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha1" type="date" name="fecha1" /></div>
-				<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha2" type="date" name="fecha2" /></div>
-				<div><input id="btnAdd" type="button" style="background:url('icono_mas.png') no-repeat; border:none; width: 24px;height: 24px"/>
-				<input id="btnDel" type="button"  disabled="disabled" style="background:url('icono_menos.png') no-repeat; border:none; width: 24px;height: 24px" /></div>
-				<!--</form>-->  
-				</div>
-							
-				Horario de Salida: <input type="time" id="horario" class="mediano" name="horario" value="<?php echo  (  (isset($_SESSION['horario']) && (!empty($_SESSION['horario'])))  ?  $_SESSION['horario'] : ''  ); ?>"> horas:minutos
-				<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" class="mediano" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas:minutos </p>
-				</fieldset>	<p> </p>		
-				
-				
-				<fieldset>
-				<p>Vehiculo: <select id="vehiculo" name="vehiculo">
-					<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
-						if ((isset($_SESSION['vehiculo'])) && ($_SESSION['vehiculo'] == $listarvehiculos['id'])) { //si el vehiculo ya fue elegido, con esto lo elijo automaticamente
-							echo '<option selected="selected" value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
-						}
-						else {//en este caso el vehiculo no se eligio previamente asi que NO se preselecciona
-							echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
-						}
-					} ?>
-				</select></p>
-				<p style="font-size:small"> *Los datos de tu vehiculo seleccionado seran compartidos con todo aquel que consulte los detalles del viaje</p>
-				<p> Si queres modificar los datos de tu vehiculo, hacelo desde  <a href="miperfil.php"> Mi Perfil </a> </p>
-				<p> Plazas disponibles para pasajeros: <input type="number" id="plazas" name="plazas" class="chiquito" value="<?php echo  (  (isset($_SESSION['plazas']) && (!empty($_SESSION['plazas'])))  ?  $_SESSION['plazas'] : ''  ); ?>">  </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
-				<p style="font-size:small"> *De todas las plazas que posee el vehiculo, una de ellas sera ocupada por el conductor. Ingresa aqui la cantidad de plazas restantes que pueden ser ocupadas por pasajeros </p>
-				</fieldset>	<p> </p> 
-				
-				
-				<fieldset>
-				<!--se muestran los datos de contacto que van a ser visibles a los pasajeros (pero NO se pueden cambiar) -->
-				<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> readonly > </p>
-				<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
-				<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
-				<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
-				<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
-				</fieldset> <p> </p>
-				
-				<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
-				
-				<input type="submit" class="botonregistro" style="margin-bottom: 20px;" value="Crear viaje">
-				<p id="error" style="color: red;"><?php echo $error?></p>
-				</fieldset> 
-			</form>
+	<h2> <a/ href="index.php" style="text-decoration:none">volver </a> </h2>
+		<!-- si no tiene vehiculos-->
+		<?php if(mysqli_num_rows($vehiculos) == 0) { ?> 
+			<p id="error" class="grande" style="color: red;"><?php echo $error?></p>
+			<p class="grande" style="color:gold;">Aviso: No tenes ningun vehiculo registrado. </p>
+			<p class="grande">Antes de crear un viaje vas a necesitar <a href="registrarvehiculo.php"> registrar un vehiculo </a> </p>
+					
+		<?php } else { //tiene vehiculos?>
+			
+		<div class="formulario"> <!-- defino un div para poder dar un formato mas lindo a todo el formulario en su conjunto-->
+		<form method="POST" enctype="multipart/form-data" action="altaviaje.php" align="justify">		
+			<fieldset>
+			<fieldset>
+			<p>Precio: <input type="number" id="preciototal" name="preciototal" min="0" max="1000000" value="<?php echo  (  (isset($_SESSION['preciototal']) && (!empty($_SESSION['preciototal'])))  ?  $_SESSION['preciototal'] : ''  ); ?>" >  </p>	
+			<p style="font-size:small"> Tene en cuenta que Aventon recaudara un 5% de cada pago asociado al viaje por los costos de servicio</p>
+			<p>Origen: <input type="text" id="origen" name="origen" value="<?php echo  (  (isset($_SESSION['origen']) && (!empty($_SESSION['origen'])))  ?  $_SESSION['origen'] : ''  ); ?>"></p>	
+			<p>Destino: <input type="text" id="destino" name="destino" value="<?php echo  (  (isset($_SESSION['destino']) && (!empty($_SESSION['destino'])))  ?  $_SESSION['destino'] : ''  ); ?>"></p>
+			<p>Este viaje se realizara periodicamente
+			<input type=checkbox id="periodico" name="periodico" onclick=intercambiarOcasionalPeriodico() class="chiquito" title="si el viaje se realizara periodicamente debes marcar esta casilla"> </p>	
+			<div id="formularioOcasional">	
+			<p>Fecha: <input type="date" id="fecha" name="fecha" value="<?php echo  (  (isset($_SESSION['fecha']) && (!empty($_SESSION['fecha'])))  ?  $_SESSION['fecha'] : ''  ); ?>"></p>
 			</div>
+			<div id="formularioPeriodico" style="display:none">
+			<!--<form id="myForm">-->
+			<div id="input1" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha1" type="date" name="fecha1" /></div>
+			<div id="input2" class="clonedInput" style="margin-bottom: 4px;">Fecha: <input id="fecha2" type="date" name="fecha2" /></div>
+			<div><input id="btnAdd" type="button" style="background:url('icono_mas.png') no-repeat; border:none; width: 24px;height: 24px"/>
+			<input id="btnDel" type="button"  disabled="disabled" style="background:url('icono_menos.png') no-repeat; border:none; width: 24px;height: 24px" /></div>
+			<!--</form>-->  
+			</div>
+						
+			Horario de Salida: <input type="time" id="horario" class="mediano" name="horario" value="<?php echo  (  (isset($_SESSION['horario']) && (!empty($_SESSION['horario'])))  ?  $_SESSION['horario'] : ''  ); ?>"> horas:minutos
+			<p> Duracion Estimada: <input type="time" id="duracion" name="duracion" class="mediano" value="<?php echo  (  (isset($_SESSION['duracion']) && (!empty($_SESSION['duracion'])))  ?  $_SESSION['duracion'] : ''  ); ?>"> horas:minutos </p>
+			</fieldset>	<p> </p>		
 			
-			<?php } 
-	}
-	//si tiene deudas pendientes
-	else {?>
-		<div style="text-align:center">
-		<p  style="font-size:25px"> Tenes viajes pendientes por pagar. </p>
-		<p style="font-size:25px"> Si no los pagas, no podras continuar utilizando el servicio</p>	
-		<a href="mispagos.php" style="font-size:25px"> Podes pagar tus viajes siguiendo este enlace</a> 
-		<div>
-	<?php } ?>
 			
+			<fieldset>
+			<p>Vehiculo: <select id="vehiculo" name="vehiculo">
+				<?php while($listarvehiculos = mysqli_fetch_array($vehiculos)){
+					if ((isset($_SESSION['vehiculo'])) && ($_SESSION['vehiculo'] == $listarvehiculos['id'])) { //si el vehiculo ya fue elegido, con esto lo elijo automaticamente
+						echo '<option selected="selected" value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
+					}
+					else {//en este caso el vehiculo no se eligio previamente asi que NO se preselecciona
+						echo '<option value="'.$listarvehiculos['id'].'">'.$listarvehiculos['marca'].' '.$listarvehiculos['modelo'].'  ('.$listarvehiculos['plazas'].' plazas)</option>';
+					}
+				} ?>
+			</select></p>
+			<p style="font-size:small"> *Los datos de tu vehiculo seleccionado seran compartidos con todo aquel que consulte los detalles del viaje</p>
+			<p> Si queres modificar los datos de tu vehiculo, hacelo desde  <a href="miperfil.php"> Mi Perfil </a> </p>
+			<p> Plazas disponibles para pasajeros: <input type="number" id="plazas" name="plazas" class="chiquito" value="<?php echo  (  (isset($_SESSION['plazas']) && (!empty($_SESSION['plazas'])))  ?  $_SESSION['plazas'] : ''  ); ?>">  </p> 	<!-- ????CARGAR EL VALOR POR PHP??? -->
+			<p style="font-size:small"> *De todas las plazas que posee el vehiculo, una de ellas sera ocupada por el conductor. Ingresa aqui la cantidad de plazas restantes que pueden ser ocupadas por pasajeros </p>
+			</fieldset>	<p> </p> 
+			
+			
+			<fieldset>
+			<!--se muestran los datos de contacto que van a ser visibles a los pasajeros (pero NO se pueden cambiar) -->
+			<p>Email de Contacto: <input type="text" id="email" name="email" value=<?php echo $datosUsuario['email'] ?> readonly > </p>
+			<p>Telefono de Contacto: <input type="text" id="telefono" name="telefono" value=<?php echo $datosUsuario['telefono'] ?> readonly> </p>
+			<input type="hidden" name="creador" value="<?php echo ''.$user['id'].'' ?>"> 
+			<p>Tus datos de contacto seran compartidos con los pasajeros con los que aceptes compartir el viaje. </p>
+			<p> Si queres modificar tus datos de contacto, hacelo desde  <a href="editarusuario.php"> Editar Perfil </a> </p>
+			</fieldset> <p> </p>
+			
+			<input type="hidden" id="flagRegistro" name="flagRegistro" value="1"> <!--permite saber si se hizo un intento de registro con chequear si $_POST['flagRegistro'] === 1 -->
+			
+			<input type="submit" class="botonregistro" style="margin-bottom: 20px;" value="Crear viaje">
+			<p id="error" style="color: red;"><?php echo $error?></p>
+			</fieldset> 
+		</form>
+		</div>
+		
+		<?php } ?>
 			
 		
 </body>

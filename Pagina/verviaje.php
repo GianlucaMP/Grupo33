@@ -10,11 +10,6 @@
 	
 	
 	
-		
-	//determino si el user tiene deudas pendientes, para ver si mostrar el link a la pagina de pagos
-	//??? SE DEBE TESTEAR QUE FUNCIONE COMO SE ESPERA???
-	require 'verificardeudas.php';
-	
 	
 	
 	
@@ -54,7 +49,7 @@
 	
 	
 	
-	//!IMPORANTE: los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R)   
+	//IMPORTANTE: los posibles estados de la postulacion de un user son: NO POSTULADO (N), POSTULADO (P), ACEPTADO (A), RECHAZADO (R)   
 	
 	//determino si el viaje tiene todas sus plazas ocupadas
 	$queryplazas = mysqli_query($coneccion, "SELECT * FROM postulaciones WHERE viajes_id={$datoviaje['id']}	AND estado='A' "); 
@@ -121,6 +116,14 @@
 				break;
 			case '5':
 				$mensaje = "Tu postulacion ya habia sido rechazada, no hay porque borrarla"; 
+				$colorMensaje = "red";
+				break;
+			case '6':
+				$mensaje = "Tenes deudas pendientes, pagalas para poder seguir usando completamente el servicio"; 
+				$colorMensaje = "red";
+				break;
+			case '7':
+				$mensaje = "Tenes calificaciones pendientes, primero califica, y despues postulate"; 
 				$colorMensaje = "red";
 				break;
 			default:
@@ -190,14 +193,13 @@
 	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px lightblue; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
 		<?php
 		if ($logeado) { ?>
-	<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="consultas.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Consultas </p> 	<?php	} ?>
-	
+			<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="consultas.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Consultas </p> 
+		<?php	} ?>
+		
 
-	<?php
-	//si el user no tiene deudas .. o si es su propio viaje.. o ya esta postulado/aceptado/rechazado --> muestro los detalles principales del viaje, y las opciones correspondientes
-	if (!$tieneDeudas || $idConductor == $user['id'] || $userEstado != NOPOSTULADO) {
+		<?php
 		if (!$plazasLlenas) { ?>
-		<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
+			<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
 		else { ?>
 			<p style="color:red; font-size:20px" align="right"> Las <?php echo $datoviaje['plazas'] ?> plazas estan ocupadas </p>
@@ -260,17 +262,7 @@
 		if ($datosUsuario['id'] == $idConductor) { ?>
 			<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
 		<?php }
-	}
-	//si tiene deudas pendientes
-	else { ?>
-		<div style="text-align:center">
-		<p  style="font-size:25px"> Tenes viajes pendientes por pagar. </p>
-		<p style="font-size:25px"> Si no los pagas, no podras continuar utilizando el servicio</p>	
-		<a href="mispagos.php" style="font-size:25px"> Podes pagar tus viajes siguiendo este enlace</a> 
-		<div>
-	<?php 
-	} ?>
-	
+		?>
 	</div>	
 	</div>
 	</div>

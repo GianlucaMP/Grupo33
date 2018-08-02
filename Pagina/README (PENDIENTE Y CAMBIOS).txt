@@ -1,15 +1,17 @@
 PEQUENOS FIXS DE CODIGO:
 
 
-1)verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
-		
+1)
 
-		
-		
-		2) bajaviaje.php (tras una postulacion, fallo con error 11)...
+a) verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
+
+b) verificar calificaciones: agregarle un tiempo de 1 mes antes de que te impida hacer todo!!!
 
 
-3) mis viajes pendintes.php: 
+2) bajaviaje.php (tras una postulacion, fallo con error 11)...
+
+
+3) mis viajes pendientes.php: 
 
 a) las querys que obtienen os viajes como conductor y como pasajero.... falla la parte de la fecha para que muestre solo los viajes pendientes y NO todos ???PUEDE QUE NO HAGA FALTA POR SER UNA HU YA APROBADA???
 
@@ -17,19 +19,11 @@ b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien
 
 
 
-	
-4) crear viaje:
+1) eliminacion de usuarios:
 
-a) AGREGARLE UNA SIMPLE AYUDA CONTEXTUAL!!! "Tene en cuenta que Aventon recaudara un 5% de cada pago asociado al viaje por los costos de servicio" al lado del campo precio
+a) chequear campo de borrado todos lados que haga falta
 
-a) agregar chequeo de calificaciones pendientes de hace mas de 30 dias!!!!!
-
-
-b) los botones + - no hacen nada
-
-	
-
-	
+b) hacer el primer testeo de que por lo menos en algun caso ande
 
 
 
@@ -52,21 +46,13 @@ CASOS DE LAYOUT ROTOS:
 
 OTRAS IMPLEMENTACIONES:
 
-
-1) eliminacion de usuarios:
-
-a) chequear campo de borrado todos lados que haga falta
-
-b) ver bien seguro algo le falta al codigo de bajausario.php
+1) viaje periodico
 
 
-2) viaje periodico
+2) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
 
 
-3) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
-
-
-4) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
+3) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
 
 
 
@@ -98,15 +84,6 @@ La otra pregunta, se necesita algo que periodicamente chequee por los viajes que
 
 
 
-
-
-
-
-OTRAS DUDAS A CONSULTAR Y PASAR EN PIVOTAL:
-
-1) en que consiste exactamete la HU verificar e-mail?
-
-3) como se recuperaria una contraseña?
 
 
 
@@ -176,6 +153,43 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+6.6.4:
+
+miperfil.php: se agrego enlace a opcion para eliminar usuario
+
+eliminarusuario.php: se creo o codifico la pagina
+
+
+6.6.3:
+
+
+crearviaje.php: 
+
+se agrego un aviso de que se cobra un 5% por costos de servicio al crear el viaje
+
+se agrego un include verificarcalificaiones.php para chequear calificaciones pendintes que impidan crear un viaje
+
+se codifico la interfaz para mostrar aviso de calificaiones pendeintes si las hay
+
+se elimino el testeo de deudas o calfiicaiones pendientes en esa apagina ahora se hacen en altaviaje.php 
+
+
+verificarcalfiifaciones.php:
+
+se creo el archivo para verificar si hay calificaiones pendientes que deban impedir el uso de la pagina
+
+
+verviaje.php: se elimino el testeo de deudas o calificaones en esa pagina para hacerse en altapostulacion.php
+
+
+altapostulacion.php:
+
+se agrego un include verificarcalificaiones.php para chequear calificaciones pendintes que impidan postularse
+
+se codifico la interfaz para mostrar aviso de calificaiones pendeintes si las hay
+
+
 
 6.6.2:
 
