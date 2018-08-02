@@ -47,7 +47,7 @@
 	}
 
 	
-	//Se verifica que llegue "por" a travez de get, esto define de que manera se van a listar las peliculas. Si llega, un case hace el resto, si no, por defecto se hara por momento en el que se agrego.
+	//Se verifica que llegue "por" a travez de get, esto define de que manera se van a listar los viajes. Si llega, un case hace el resto, si no, por defecto se hara por momento en el que se agrego.
 	if(isset($_GET['por'])){
 		if(isset($_GET['orden'])){
 			switch ($_GET['orden']) {
@@ -150,6 +150,12 @@
 				<p id="error" style="color: <?php echo $color; ?>;font-size:25px"><?php echo $result?></p><!-- //////////////////// -->
 			</p>
 		<div id="menuarriba">
+				<form action="buscarviaje.php" method="GET">
+					<input type="text" name="origen" placeholder="Origen...">
+					<input type="text" name="destino" placeholder="Destino...">
+					<input type="date" name="fecha">
+					<input type="submit" class="botonregistro" onclick="return busquedavacia()" value="Buscar!">
+				</form>
 				<p>Orden Agregados <a href="index.php?por=agreg&orden=ASC">&#8593;</a> <a href="index.php?por=agreg&orden=DESC">&#8595;</a> | Por fecha <a href="index.php?por=fecha&orden=ASC">&#8593;</a> <a href="index.php?por=fecha&orden=DESC">&#8595;</a> | Por precio <a href="index.php?por=precio&orden=ASC">&#8593;</a> <a href="index.php?por=precio&orden=DESC">&#8595;</a></p>
 		</div>
 	</div>
