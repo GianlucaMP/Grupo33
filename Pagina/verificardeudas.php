@@ -27,24 +27,15 @@ if ($logeado) {
 	
 	
 	
-	echo "semanaatras vale: $semanaatras <br>"; //DEBUG
-	//exit; //DEBUG
 	
 	
 	
-	//consulto por los pagos pendientes de hace mas de 1 semana				//???ESTA FALLANDO EL TEMA DE LA SEMANA...!!!???
-	$sqlpagos = mysqli_query($coneccion, "SELECT pagos.* FROM pagos INNER JOIN viajes ON pagos.viajes_id = viajes.id WHERE pagos.usuarios_id=$userid AND pago='F' AND viajes.fecha < $semanaatras");  
 	
+	//consulto por los pagos pendientes de hace mas de 1 semana
+	$sqlpagos = mysqli_query($coneccion, "SELECT * FROM pagos INNER JOIN viajes ON pagos.viajes_id = viajes.id WHERE pagos.usuarios_id=$userid AND pago='F' AND viajes.fecha < '$semanaatras' ");  
 	
-	echo "tenes "; //DEBUG
-	echo (mysqli_num_rows($sqlpagos)); //DEBUG
-	echo " deudas vencidas <br>"; //DEBUG
- 	
+		
 	
-	
-	//antes, cuando no daba 1 semana hacia:
-	//$sqlpagos = mysqli_query($coneccion, "SELECT * FROM pagos WHERE usuarios_id={$user['id']} AND pago='F' ");
-
 	if (!$sqlpagos){
 		header('Location: index.php?result=4');
 		exit;
@@ -57,8 +48,6 @@ if ($logeado) {
 
 }
 
-
-//$tieneDeudas = true; //DEBUG
 
 
 ?>

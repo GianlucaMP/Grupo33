@@ -25,26 +25,8 @@ if ($logeado) {
 	
 	
 	
-	echo "mesatras vale: $mesatras <br>"; //DEBUG
-	//exit; //DEBUG
-	
-	
-	
-	//consulto por las calificaciones pendientes de hace mas de 1 mes				//???ESTA FALLANDO EL TEMA DE lA FECHA!!!???
-	//$sqltoken = mysqli_query($coneccion, "SELECT calificaciones.* FROM calificaciones INNER JOIN viajes ON calificaciones.viaje_id = viajes.id WHERE calificador_id=$userid AND puntaje=-1 AND viajes.fecha < $mesatras");  
-	
-	
-	//sin considerar la fecha seria
-	$sqltoken = mysqli_query($coneccion, "SELECT calificaciones.* FROM calificaciones INNER JOIN viajes ON calificaciones.viaje_id = viajes.id WHERE calificador_id=$userid AND puntaje=-1");  
-	
-	
-	
-	echo "tenes "; //DEBUG
-	echo (mysqli_num_rows($sqltoken)); //DEBUG
-	echo " calificaciones pendientes atrasadas <br>"; //DEBUG
- 	
-	
-	
+	//consulto por las calificaciones pendientes de hace mas de 1 mes
+	$sqltoken = mysqli_query($coneccion, "SELECT * FROM calificaciones INNER JOIN viajes ON calificaciones.viaje_id = viajes.id WHERE calificador_id=$userid AND puntaje=-1 AND viajes.fecha < '$mesatras'");  
 	
 
 	if (!$sqltoken){

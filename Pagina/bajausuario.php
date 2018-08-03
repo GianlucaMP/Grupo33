@@ -1,9 +1,6 @@
 <?php
 
 
-	//???ESTA PAGINA ESTA HECHA MUY POR ARRIBA TIENE QUE SER BIEN CORREGIDA Y TESTEADA???
-
-
 	// Se crea la coneccion a la SQL y se coloca en $coneccion
 	require('dbc.php');
 	$coneccion = conectar();
@@ -21,47 +18,58 @@
 	}
 	
 	
-	// si no hay una ID seteada se vuelve a mi perfil
-	if(!isset($_GET['id'])){
-		header('Location: miperfil.php?result=20');
+	// si no hay una pass seteada se vuelve a mi perfil
+	if(!isset($_POST['pass'])){
+		header('Location: eliminarusuario.php?result=2');
 		exit;		
 	}
 	
 	
-	//se chequea que la cuanta a eliminar realmente pertenezca al user que la quiere borrar 
-	if ($_GET['id'] != user['id'] ) {
-		header('Location: miperfil.php?result=42');
-		exit;		
+	$passhash = md5($_POST['pass']);
+	
+	
+	
+	//se chequea que la contrasena coincida
+	$sqlpass = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$user['id']} AND password='$passhash' "); 
+	
+	if (!$sqlpass) {
+		header('Location: eliminarusuario.php?result=4');
+		exit;
 	}
 	
+	
+	if (mysqli_num_rows($sqlpass) == 0){
+		header('Location: eliminarusuario.php?result=3');
+		exit;
+	}
 	
 	
 	//???cuidado, la comparacion aca la estoy haciendo con strings, pero creo que por como esta ordenado el string casi seguro deberia funcionar igual???
-	
+		
 	//se chequea que el usuario no tenga viajes pendientes como conductor	
 	$fechaactual = Date("Y-m-d");
 	$sql5 =  mysqli_query($coneccion, "SELECT * FROM viajes WHERE usuarios_id={$user['id']}");
+	if (!sql5) {
+		header('Location: eliminarusuario.php?result=4');
+		exit;
+	}
+	
+	
 	while ($viajetemp = mysqli_fetch_array($sql5)) {
 		if ($viajetemp['fecha'] > $fechaactual) {
-			header('Location: miperfil.php?result=23');
+			header('Location: eliminarusuario.php?result=5');
 			exit;	
 		}
 	}
 
 
-	//se deberia chequear que el user no tenga viajes pendientes como pasajero
-	//???PENDIENTE???
-	
-	//se deberia chequear que el user NO tenga viajes pendientes como conductor
-	//???pendiente???
 	
 
 
 	//se marcan los enlaces entre este usuario y sus vehiculos como borrados
 	$sql =  mysqli_query($coneccion, "UPDATE enlace SET eliminado='S' WHERE usuarios_id={$user['id']}");
-	//Se verifica que la query haya sido exitosa
 	if(!$sql) {
-		header('Location: miperfil.php?result=22');
+		header('Location: eliminarusuario.php?result=4');
 		exit;
 	}	
 	
@@ -71,9 +79,9 @@
 	$logeado = $sesion->logout();
 		
 	//se elimina al usuario
-	$sql4 = mysqli_query($coneccion, "UPDATE usuarios SET eliminado='S' WHERE id=".$_GET['id']);
+	$sql4 = mysqli_query($coneccion, "UPDATE usuarios SET eliminado='S' WHERE id=".$user['id']);
 	if (!$sql4) {
-		header('Location: miperfil.php?result=22'); 
+		header('Location: eliminarusuario.php?result=4');
 		exit;
 	}
 	else { //baja exitosa

@@ -1,38 +1,11 @@
 PEQUENOS FIXS DE CODIGO:
 
 
-1)
-
-a) verificar deuda: agregarle a la deuda un tiempo de una semana para que no te deje hacer nada si aun esta pendiente!!!
-
-b) verificar calificaciones: agregarle un tiempo de 1 mes antes de que te impida hacer todo!!!
+1) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
 
 
+2) viaje periodico
 
-2) testear mas a fondo que peude que fallen:
-
-a) baja viaje
-
-b) baja usuario
-
-
-
-
-
-
-4) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
-
-
-
-OTRAS IMPLEMENTACIONES:
-
-1) viaje periodico
-
-
-2) (ESTE PUEDE QUE NO HAGA FALTA) el metodo regular que hace que se pase lo terminado de viajes a viajes_finalizados (esto tiene dependencia con el tema de los viajes que impiden eliminar un vehiculo ??y algo mas???)
-
-
-3) buscar viaje A ESTO DARLE UNA MUY BUENA PRIORIDAD, Y TESTEARLO BIEN. 
 
 
 
@@ -53,24 +26,9 @@ EN CUANTO A LAS PLAZAS: al registrar el vehiculo se dice cuantas plazas tiene in
 
 
 
-PREGUNTAS CON EL PROFE:
-
-1) pensamos en la DB a partir de ahora mantener 2 tablas, viajes y viajes finalizados. La idea es obvia, los viajes que ya se les paso la fecha, irlos mandando a la otra tabla
-Esto facilita las consultas en cuanto haya viajes con pagos, viajes cancelados, etc. 
-
-La otra pregunta, se necesita algo que periodicamente chequee por los viajes que finalizan y mandarlos a la tabla de finalizados, cual seria una buena manera de implementarlo?
-
-
-
-
-
-
-
-
-
-
-
 TESTEO PENDIENTE:
+
+0) PREGUNTAS Y REPSUESTAS!!!!
 
 
 1) sistema de pagos:
@@ -80,30 +38,25 @@ a) que un postulado aceptado se le cree un pago pendiente en la BD
 b) todo el sistema en general
 
 
-2) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
 
-3) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
+2) postulaciones:
 
+a)(todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
 
-4) misviajespendientes.php: que las consultas retornen los viajes que deben retornar, especialmente la 2da (viajes como pasajero/postulado aun proximos)
-
-
-5) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
-
-bajapostulacion (ya esta medianamente chequeado)
+b) bajapostulacion (ya esta medianamente chequeado)
 
 
-6) ver postulados (testear todo en general que seguro algo falla)
+3) ver postulados (testear todo en general que seguro algo falla)
 
 
-7) baja usuario: todo en general
-
-8)calificaciones (todo en genral)
-
-b) las querys para updtear una calificacion parecen funcionar siempre que NO halla una descripcion
+4) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
 
 
-9) verviaje:
+5)calificaciones (todo en genral)
+
+
+
+6) verviaje:
 
 a) mostrar plazas ocupadas
 
@@ -112,7 +65,6 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
-10)eliminacion de usuarios: testear mas a fondo (la unica eliminacion que tuve funciono bien)
 
 
 
@@ -134,7 +86,21 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 
+6.9:
 
+se corrigio el tema de las fechas en verificardeudas.php
+
+se corrigio el tema de las fechas en verificarcalificaciones.php
+
+mispagos.php habia quedado codigo comentado que deberia estar funcional, ya se lo agrego nuevamente
+
+6.8.2:
+
+se corriegieron algunos errores en lo que es preguntas/comentarios
+
+6.8.1:
+
+verperfil.php: Se agrego un aviso de que el user esta eliminado
 
 6.8:
 

@@ -32,6 +32,9 @@
 		$_SESSION['fecha'] = $_POST['fecha'];
 	}
 	
+	if(isset($_POST['codigo']) && (!empty($_POST['codigo']))) {
+		$_SESSION['codigo'] = $_POST['codigo'];
+	}
 	
 	
 	//se chequean que los campos no esten vacios
@@ -56,17 +59,33 @@
 		exit;
 	}
 	
-	if(false)  {  //NUMERO DE TARJETA NO VALIDA  ???SE PODRIA AGREGAR, PERO NO PREOCUPARSE
+	
+	//valido el numero de la tarjeta
+	if (!preg_match("#^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$#", $_POST['tarjeta']))  {  
 		header('Location: mispagos.php?result=9');			
 		exit;
 	}
 	
-	/*
-	if (!preg_match("/^(0[1-9]|1[0-2])\/[0-9]{4}$/", $_POST['fecha'])) { //FECHA NO VALIDA, SE PODRIA AGREGAR PERO NO ES MUY IMPORTANTE
+	
+	//verifico medianamente la fecha
+	if (!preg_match("#^(0[1-9]|1[0-2])/[0-9]{2}$#", $_POST['fecha'])) { 
 		header('Location: mispagos.php?result=10');			
 		exit;
 	}
-	*/
+	
+	
+	//valido que el codigo de seguridad sean 3 numeros
+	if (!preg_match("#^[0-9]{3}$#", $_POST['codigo'])) {
+		header('Location: mispagos.php?result=11');			
+		exit;
+	}
+	
+	
+	
+	
+	
+	
+
 	
 	
 	$sqlpago = mysqli_query($coneccion, "UPDATE pagos SET pago='T' WHERE id={$_POST['pago']} ");
@@ -78,6 +97,7 @@
 		unset($_SESSION['tarjeta']);
 		unset($_SESSION['titular']);
 		unset($_SESSION['fecha']);
+		unset($_SESSION['codigo']);
 		header('Location: mispagos.php?result=1');	
 		exit;
 	}

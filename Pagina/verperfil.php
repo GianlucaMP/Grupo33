@@ -68,8 +68,11 @@ $f2 = new DateTime("now");
 $edad =  ($f1->diff($f2))->format("%y");
 
 
-
-
+//asumo que el user NO elimino su cuenta
+$eliminado = false;
+if ($datosConductor['eliminado'] == 'S') {
+	$eliminado = true;
+}
 
 
 //simplifico el codigo
@@ -212,7 +215,11 @@ if (!$otrosql) {
 	</div>
 	<div id="datos">
 		<div style="padding: 2px 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px;">
-			<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
+			<h1> Informacion del usuario: <?php echo $datosConductor['nombre'];
+			if ($eliminado){ //si esta eliminada la cuenta, lo aviso por pantalla ?>
+				<span style="color:red; font-size:30px"> Cuenta Eliminada </span> <?php
+			}?>
+			</h1>
 			<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
 			<p> Reputacion: <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?> </span> <p> 
 			<p> Edad: <?php echo $edad ?> </p>

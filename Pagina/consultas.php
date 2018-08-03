@@ -34,14 +34,14 @@
   			case '1':
   				$error = 'Debe escribir un comentario';
   				break;
-          case '2':
-    				$error = 'No se pudo publicar el comentario';
-    				break;
-						case '3':
-	    				$error = 'No se pudo publicar la respuesta';
-	    				break;
-          default:
-    				$error = 'error desconocido';
+			case '2':
+    			$error = 'No se pudo publicar el comentario';
+    			break;
+			case '3':
+	    		$error = 'No se pudo publicar la respuesta';
+	    		break;
+			default:
+    			$error = 'error desconocido';
     		}
     }
 
@@ -128,7 +128,7 @@
         while ($listarcomentarios=mysqli_fetch_array($preguntas)) {
           $tienecomentarios = true; //no es muy lindo el codigo pero se entiende y sirve
           echo '<div class="viaje" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';?>
-          <p> Usuario: <?php echo $listarcomentarios['usuarios'] ?> </p>
+          <p> Usuario: <?php echo $listarcomentarios['usuarios_id'] ?> </p>
 					<p><?php echo $listarcomentarios['pregunta'] ?> </p><?php
 					if ($soyConductor && $listarcomentarios['tiene_respuesta']=='0' && $listarcomentarios['usuarios']<>"$miNombre") { ?>
 						<form method="post" action="responder.php">

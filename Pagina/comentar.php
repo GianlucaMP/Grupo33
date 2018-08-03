@@ -7,16 +7,24 @@ require('usuarioclass.php');
 $sesion = new sesion;
 $logeado = $sesion->logeado();
 
-$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$_SESSION['id']}");
-$datos = mysqli_fetch_array($sql);
-$nombreUsuario = $datos['nombreusuario'];
-
-
 
 if(!$logeado){
   header('Location: index.php');
   exit;
 }
+
+$sql = mysqli_query($coneccion, "SELECT * FROM usuarios WHERE id={$_SESSION['id']}");
+if (!$sql) {
+	header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=2");
+	exit;
+}
+
+$datos = mysqli_fetch_array($sql);
+$nombreUsuario = $datos['nombreusuario'];
+
+
+
+
 
 
 if(!isset($_POST['comentario'])|| empty($_POST['comentario'])) {
@@ -24,7 +32,7 @@ if(!isset($_POST['comentario'])|| empty($_POST['comentario'])) {
   exit;
 }
 
-$enviar= mysqli_query($coneccion,"INSERT INTO preguntas  (viajes_id,usuarios,pregunta) VALUES ('".$_POST['viaje']."','".$nombreUsuario."','".$_POST['comentario']."')");
+$enviar= mysqli_query($coneccion,"INSERT INTO preguntas  (viajes_id, usuarios_id, pregunta) VALUES ( {$_POST['viaje']}, '$nombreUsuario', '{$_POST['comentario']} ')");
 
 if(!$enviar) {
 header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=2");
@@ -32,6 +40,7 @@ header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}&error=
 }
 else {
   header("Location: consultas.php?id={$_POST['id']}&viaje={$_POST['viaje']}");
+  exit;
 }
 
 ?>

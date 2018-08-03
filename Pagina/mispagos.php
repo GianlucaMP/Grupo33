@@ -134,8 +134,7 @@
 		<p> <a href="index.php" style="text-decoration:none">INICIO</a></p>
 	</div>
 	<div id='datos'>
-		<!-- OCUTLO TEMPORALMENTE LO DE ARRIBA PARA QUE NO JODA CON EL LAYOUT
-		<div id="arriba" float="none">
+			<div id="arriba" float="none">
 			<p id="error" style="color: <?php echo $color; ?>;font-size:25px"><?php echo $mensaje?></p>
 			<?php if ($tieneDeudas) { ?>
 				<p style="font-size:25px"> Tenes viajes pendientes por pagar. </p>
@@ -145,9 +144,7 @@
 				<p style="font-size:25px"> No tenes ningun viaje pendiente por pagar</p>
 			
 			<?php } ?>	
-		</div>
-		-->
-		
+		</div>		
 		<div id="der" align="center" style="float:right;width:470px">		
 			<h2> Pagos Realizados </h2>
 			<?php if (!$tienePagosRealizados) { ?>

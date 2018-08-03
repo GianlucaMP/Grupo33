@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-08-2018 a las 18:40:18
+-- Tiempo de generación: 03-08-2018 a las 20:32:37
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -36,6 +36,16 @@ CREATE TABLE `calificaciones` (
   `descripcion` varchar(100) NOT NULL,
   `puntaje` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `calificaciones`
+--
+
+INSERT INTO `calificaciones` (`id`, `viaje_id`, `calificador_id`, `calificado_id`, `descripcion`, `puntaje`) VALUES
+(52, 75, 5, 9, '', -1),
+(53, 75, 9, 5, '', -1),
+(54, 77, 5, 9, '', -1),
+(55, 77, 9, 5, '', -1);
 
 -- --------------------------------------------------------
 
@@ -76,6 +86,17 @@ CREATE TABLE `pagos` (
   `pago` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id`, `usuarios_id`, `viajes_id`, `pago`) VALUES
+(47, 5, 75, 'T'),
+(48, 5, 76, 'F'),
+(49, 5, 77, 'F'),
+(50, 9, 75, 'F'),
+(51, 9, 77, 'F');
+
 -- --------------------------------------------------------
 
 --
@@ -89,6 +110,15 @@ CREATE TABLE `postulaciones` (
   `estado` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `postulaciones`
+--
+
+INSERT INTO `postulaciones` (`id`, `viajes_id`, `postulados_id`, `estado`) VALUES
+(32, 77, 9, 'A'),
+(33, 75, 9, 'A'),
+(34, 76, 9, 'P');
+
 -- --------------------------------------------------------
 
 --
@@ -97,9 +127,10 @@ CREATE TABLE `postulaciones` (
 
 CREATE TABLE `preguntas` (
   `viajes_id` int(11) NOT NULL,
-  `usuarios_id` int(11) NOT NULL,
+  `tiene_respuesta` int(11) NOT NULL,
+  `respuesta` varchar(255) NOT NULL,
+  `usuarios` varchar(255) NOT NULL,
   `pregunta` varchar(100) NOT NULL,
-  `numero_pregunta` int(11) NOT NULL,
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -136,7 +167,8 @@ INSERT INTO `usuarios` (`id`, `nombreusuario`, `email`, `password`, `nombre`, `f
 (9, 'Robertito', 'robertito@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Robertito', '1940-12-20', '124121', 'N'),
 (10, 'cachito', 'cachito@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'cachito', '1940-12-20', '1325135', 'N'),
 (11, 'Juancito', 'Juancito@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Juancho', '1930-12-20', '225135', 'N'),
-(12, 'Andrecito', 'Andrecito@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Andrez Gomez', '1940-12-20', '1251212', 'N');
+(12, 'Andrecito', 'Andrecito@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Andrez Gomez', '1940-12-20', '1251212', 'N'),
+(14, 'Juancho', 'Juancho@hotmail.com', 'c6f2b3d53f147238629b039187b5363e', 'Juan Domingo Peron', '1960-05-21', '2111511', 'N');
 
 -- --------------------------------------------------------
 
@@ -184,6 +216,15 @@ CREATE TABLE `viajes` (
   `vehiculos_id` int(11) NOT NULL,
   `usuarios_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `viajes`
+--
+
+INSERT INTO `viajes` (`id`, `preciototal`, `origen`, `destino`, `fecha`, `horario`, `fechayhora`, `duracion`, `plazas`, `vehiculos_id`, `usuarios_id`) VALUES
+(75, 1500, 'San Carlos', 'San Juan', '2025-02-20', '21:02:00', '2025-02-20 21:02:00', '02:02:00', 3, 43, 5),
+(76, 1900, 'Chascomus', 'Liniers', '2031-12-20', '21:51:00', '2031-12-20 21:51:00', '22:02:00', 2, 43, 5),
+(77, 1800, 'Lanus', 'Villa Elisa', '2021-12-22', '21:05:00', '2021-12-22 21:05:00', '22:01:00', 1, 43, 5);
 
 -- --------------------------------------------------------
 
@@ -272,7 +313,7 @@ ALTER TABLE `viajes_finalizados`
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `enlace`
@@ -284,25 +325,25 @@ ALTER TABLE `enlace`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `postulaciones`
 --
 ALTER TABLE `postulaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
@@ -314,13 +355,13 @@ ALTER TABLE `vehiculos`
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT de la tabla `viajes_finalizados`
 --
 ALTER TABLE `viajes_finalizados`
-  MODIFY `idnueva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idnueva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
