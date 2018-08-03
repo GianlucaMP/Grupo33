@@ -1,10 +1,28 @@
-PEQUENOS FIXS DE CODIGO:
+
+TESTEO PENDIENTE:
+
+1) postulaciones: ( por ahora esta testeado mas o menos y funciona) 
+
+a) todo en general 
+
+b) como se manejan las plazas ocupadas
+
+c) bajapostulacion 
 
 
-1) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
+
+2) calificaciones (todo en general, parece funcionar igual)
 
 
-2) viaje periodico
+
+3) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
+
+
+
+4) preguntas y repsuestas!!!!
+
+
+
 
 
 
@@ -25,54 +43,13 @@ EN CUANTO A LAS PLAZAS: al registrar el vehiculo se dice cuantas plazas tiene in
 
 
 
-
-TESTEO PENDIENTE:
-
-0) PREGUNTAS Y REPSUESTAS!!!!
-
-
-1) sistema de pagos:
-
-a) que un postulado aceptado se le cree un pago pendiente en la BD
-
-b) todo el sistema en general
-
-
-
-2) postulaciones:
-
-a)(todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
-
-b) bajapostulacion (ya esta medianamente chequeado)
-
-
-3) ver postulados (testear todo en general que seguro algo falla)
-
-
-4) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
-
-
-5)calificaciones (todo en genral)
-
-
-
-6) verviaje:
-
-a) mostrar plazas ocupadas
-
-b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postulaste.
-
-c) link a la pagina  con todos los datos de postulacion si sos el conductor
-
-
-
-
-
-
-
 MODIFICACIONES Y FIXES BAJA PRIORIDAD:
 
+
 1) el checkbox de periodico que queda haciendo las cosas al reves.
+
+
+2) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
 
 
 
