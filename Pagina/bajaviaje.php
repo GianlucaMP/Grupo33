@@ -23,7 +23,6 @@
 	
 	
 
-
 	//busco el viaje en la BD
 	$sqltoken = mysqli_query($conexion, "SELECT * FROM viajes WHERE id='".$_GET['id']."'");
 	if (!$sqltoken) {//si no lo puedo recibir, entonces existe o hubo un error en la operacion
@@ -54,7 +53,6 @@
 	
 	
 	//califico negativamente al usuario si acepto pasajeros
-	
 	$sqlpostulados = mysqli_query($conexion, "SELECT * FROM postulaciones WHERE viajes_id=$viajeid AND estado='A' ");
 	if (!$sqlpostulados){
 		header('Location: miperfil.php?result=30');
@@ -83,7 +81,10 @@
 
 	
 	//muevo el viaje a la tabla de viajes finalizados/cancelados
-	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (preciototal, origen, destino, fecha, duracion, horario, plazas,  vehiculos_id, usuarios_id) VALUES ('".$viaje['preciototal']."', '".$viaje['origen']."', '".$viaje['destino']."', '".$viaje['fecha']."','".$viaje['duracion']."','".$viaje['plazas']."','".$viaje['vehiculos_id']."','".$viaje['usuarios_id']."')");
+	$alta  = mysqli_query($conexion, "INSERT INTO viajes_finalizados (id, preciototal, origen, destino, fecha, fechayhora, duracion, horario, plazas,  vehiculos_id, usuarios_id) VALUES ($viajeid, {$viaje['preciototal']}, '{$viaje['origen']}', '{$viaje['destino']}', '{$viaje['fecha']}', '{$viaje['fechayhora']}', '{$viaje['duracion']}', '{$viaje['horario']}', {$viaje['plazas']}, {$viaje['vehiculos_id']}, {$viaje['usuarios_id']} )");
+	
+	
+	
 	
 	if(!$alta) {//si la transaccion fallo
 		header('Location: miperfil.php?result=11');

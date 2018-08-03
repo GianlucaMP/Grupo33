@@ -52,12 +52,38 @@ if(!empty($_GET['result'])){
 	$result = '&nbsp;';
 }
 
+	//asumo que el viaje NO esta finalizado
+	$finalizado = false;
+	
+
 	// se bajan los datos del viaje en $viaje, para despues volcarse en un array. 
     $sqlviaje = mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.id=".$_GET['id']);
 	if (!$sqlviaje) {
  		header('Location: miperfil.php?result=30');
 		exit;
  	}
+	
+
+	//no se encontro el viaje, lo busco en la tabla de finalizados
+	if (mysqli_num_rows($sqlviaje) == 0) {
+		
+		$sqlviaje = mysqli_query($coneccion, "SELECT * FROM viajes_finalizados WHERE id=".$_GET['id']);
+		if (!$sqlviaje) {
+			header('Location: miperfil.php?result=30');
+			exit;
+		}
+		if (mysqli_num_rows($sqlviaje) == 0) { //el viaje NO existe
+			header('Location: index.php');
+			exit;
+		}
+		else { //el viaje existe, y estaba en los finalizados
+			$finalizado = true;
+		}
+	
+	}
+	
+	
+
 	$viaje = mysqli_fetch_array($sqlviaje);
 	
 	
@@ -141,7 +167,11 @@ if(!empty($_GET['result'])){
 		<div id='datos'>
 			<h1>Lista de pasajeros y postulados al viaje: </h1>
 			<h2>Desde: <span class="dorado"> <?php echo $viaje['origen']; ?>  </span> hacia: <span class="dorado"> <?php echo $viaje['destino']; ?> </span> el dia: <span class="dorado"> <?php echo (Date("d-m-Y",strtotime($viaje['fecha']))); ?> </span> a las:  <span class="dorado"> <?php echo (Date("H:i",strtotime($viaje['fecha']))); ?> </span> </h2> 
-			<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p> 
+			<p id="error" style="color: <?php echo $color; ?>;"><?php echo $result?></p>  <?php
+			if ($finalizado) { //si el viaje esta finalizado (eliminado) aviso) ?>
+				<p style="color:red; font-size:27px; line-height:1.5"> Este viaje fue eliminado por su conductor. <br>
+				Debido a esto no podras participar en el mismo </p> <?php
+			}  ?>
 			<div style="clear:both">
 			<h2> Pasajeros (<?php echo $cantidadPasajeros ?> de <?php echo $viaje['plazas'] ?>): </h2>
 			<?php

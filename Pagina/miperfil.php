@@ -217,15 +217,11 @@
 			width: 79%;
 		}
 		
-		p{
-			line-height:0.6;			
-		}
-		
 	</style>
 </head>
 <body>
 	<div id='container'>
-	<h2>Mi perfil</h2>
+		<h2>Mi perfil</h2>
 		<div id='menucostado'>
 			<p> <a href="editarusuario.php" style="text-decoration:none">Editar Perfil</a></p>
 			<p> <a href="registrarvehiculo.php" style="text-decoration:none">Agregar vehiculo</a></p>
@@ -252,41 +248,37 @@
 				<?php
 				$tieneVehiculos = false;
 				while ($listarvehiculos=mysqli_fetch_array($vehiculos)) {
-					$tieneVehiculos = true; //no es muy lindo el codigo pero se entiende y sirve
-					echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">';
-					echo "Marca: ".$listarvehiculos['marca']."<br/>";
-					echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
-					echo "Color: ".$listarvehiculos['color']."<br/>";
-					echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
-					echo "Patente: ".$listarvehiculos['patente']."<br/>";
-					echo '<a href="editarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>';
-					echo '</div>';
+					$tieneVehiculos = true; //no es muy lindo el codigo pero se entiende y sirve ?>
+					<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;"> <?php
+						echo "Marca: ".$listarvehiculos['marca']."<br/>";
+						echo "Modelo: ".$listarvehiculos['modelo']."<br/>";
+						echo "Color: ".$listarvehiculos['color']."<br/>";
+						echo "Plazas: ".$listarvehiculos['plazas']."<br/>";
+						echo "Patente: ".$listarvehiculos['patente']."<br/>";
+						echo '<a href="editarvehiculo.php?id='.$listarvehiculos['id'].'">Modificar vehiculo</a> <a href="eliminarvehiculo.php?id='.$listarvehiculos['id'].'">Eliminar vehiculo</a>'; ?>
+					</div> <?php
 				}
-				if (!$tieneVehiculos){ 
-					?>  <div align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;"> 
-						<p style="font-size:25px	"> No tenes ningun vehiculo registrado :( </p>
+				if (!$tieneVehiculos){ ?>
+					<div align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;"> 
+						<p style="font-size:25px"> No tenes ningun vehiculo registrado :( </p>
 						<a href="registrarvehiculo.php" style="font-size:17px"> Registra tu vehiculo</a> para poder crear un viaje y compartirlo con otros usuarios </a>
-					</div><?php
+					</div> <?php
 				}
-				?>
-			
-			<h2> Calificaciones </h2>
-			<p style="font-size:20px"> El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?>  <span> </p>
-			
-			<?php while ($cali = mysqli_fetch_array($sqlcalificacion)) { ?>
-				<div class="calificacion" align="left" style="padding: 10px; color:white; font-size:20px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">
-				<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
-				<p style="align:right"> Puntaje:
-				<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
-				--><span style="color:black"><?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; }    ?>  </p>		
-				<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
-				<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
-			
-			<?php } ?>
-			
+				?>	
+				<h2> Calificaciones </h2>
+				<p style="font-size:20px">El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "><?php echo $reputacion ?><span></p> <?php	
+				while ($cali = mysqli_fetch_array($sqlcalificacion)) { ?>
+					<div class="calificacion" align="left" style="padding: 10px; color:white; font-size:20px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">
+						<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
+						<p style="align:right"> Puntaje:
+						<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
+						--><span style="color:black"><?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; }    ?>  </p>		
+						<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
+						<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
+					</div>
+				<?php } ?>
 			</div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
 

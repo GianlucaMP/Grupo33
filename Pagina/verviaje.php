@@ -21,12 +21,33 @@
     }
     // se bajan los datos de la viaje en $viaje, para despues volcarse en un array. 
     $viaje=mysqli_query($coneccion, "SELECT * FROM viajes WHERE viajes.id=".$idviaje);
-
 	
-	//si el viaje no existe informo el error
-	if (mysqli_num_rows($viaje) == 0 ) {
-		header('Location: index.php?result=3');
+	if (!$viaje) {
+		header('Location: index.php?result=4');
 		exit;
+	}
+		
+		
+	//asumo que el viaje NO esta finalizado ??POR EL MOMENTO EN LA TABLA DE FINALIDOS GUARDO LOS ELIMINADOS, asi que en realidad estoy hablando de si esta eliminado o no???
+	$finalizado = false;	
+	
+	//si el viaje no existe en la tabla viajes, lo busco en la tabla viajes_finalizados
+	if (mysqli_num_rows($viaje) == 0 ) {
+		$viaje=mysqli_query($coneccion, "SELECT * FROM viajes_finalizados WHERE id=".$idviaje);
+		
+		if (!$viaje) {
+			header('Location: index.php?result=4');
+			exit;
+		}
+		
+		//si el viaje no existe informo el error
+		if (mysqli_num_rows($viaje) == 0 ) {
+			header('Location: index.php?result=3');
+			exit;		
+		}
+		else {//el viaje estaba finalizado 
+			$finalizado = true;
+		}
 	}
 	
 	//defino las constantes usadas en el estado de una postulacion A (ACEPTADO) P (POSTULADO) N (NO POSTULADO) R (RECHAZADO)
@@ -186,10 +207,14 @@
 		<p><a href="index.php" style="text-decoration:none">INICIO</a></p>
 	</div>
 	<div class='datos' align="center">
-		<h1>AVENTON</h1> 
-		<p>Somos el servicio para compartir viajes mas completo del pais!!!<br/>
-		Animate a viajar</p>
-	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p>
+	<h1>AVENTON</h1> 
+	<p>Somos el servicio para compartir viajes mas completo del pais!!!<br/>
+	Animate a viajar</p>
+	<p style="color:<?php echo $colorMensaje; ?>; font-size:20px"> <?php echo $mensaje; ?> </p> <?php
+	if ($finalizado) { //si el viaje esta finalizado doy aviso ?> 
+		<h2 style="color:red">AVISO: Este viaje fue eliminado por su conductor. 	<br>
+		Por lo que no podras participar en el mismo <h2> <?php
+	} ?>
 	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px lightblue; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
 		<?php
 		if ($logeado) { ?>
@@ -197,7 +222,7 @@
 		<?php	} ?>
 		
 
-		<?php
+		<?php		
 		if (!$plazasLlenas) { ?>
 			<p style="color:lightblue; font-size:20px" align="right"> Plazas ocupadas: <?php echo " $plazasOcupadas de {$datoviaje['plazas']} " ?> </p> <!-- mostrar la cantidad de plazas ocupadas-->
 		<?php }
@@ -212,57 +237,61 @@
 		<p> Duracion Estimada: <?php echo (Date("H:i",strtotime($datoviaje['duracion']))); ?> (horas:minutos)</p>
 		<p> Precio: $<?php echo $datoviaje['preciototal'] ?></p>			
 		<p> Vehiculo: <?php echo "${datovehiculo['marca']}  ${datovehiculo['modelo']}" ?></p>
-		<?php //si el user es el conductor muestro un link para ver los postulados
-		if ($datosUsuario['id'] == $idConductor) { ?>
-			<form action="verpostulados.php">
-				<input type="hidden" name="id" value="<?php echo $idviaje ?>">
-				<input type="submit" value="Ver postulados" style="width:14em; height:3em; font-size:25px; color:white; border-color:white; background-color:lightblue;">
-			</form>
-		<?php }
-		else { //si no es el conductor, me fijo su estado de postulacion para ver que opciones mostrarle
-			switch ($userEstado) { 
-			case NOPOSTULADO:
-				if (!$plazasLlenas&&$logeado) { ?>
-				<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
-					<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:black; color:white; border: 2px solid darkgrey">
-					<input type="hidden" name="viaje_id" value="<?php echo $idviaje ?>">
-				</form> 
-				<?php 
-				}
-				if($plazasLlenas) { ?>
-						<p style="font-size:20px; color:red"> No podes postularte, todas las plazas de este viaje estan ocupadas</p>
-					
-				 <?php } if(!$logeado){ ?> <p style="font-size:20px; color:red"> Debes ser un usuario registrado e iniciar sesion para postularte</p>
-				<?php } 
-				break;
-			case POSTULADO: ?>
-				<p style="color:gold; font-size:20px; line-height:1"> Estas postulado a este viaje. <br>
-				Te vamos a avisar en esta misma pagina cuando el conductor responda a tu postulacion</p>
-				<p align="right"> <a href="bajapostulacion.php?viaje=<?php echo $idviaje ?>" style="text-decoration:none"  > Cancelar Postulacion </a> </p>
-				<?php
-				break;
-			case RECHAZADO: ?>
-				<p style="color:red; font-size:20px; line-height:1"> El conductor del viaje rechazo tu postulacion. <br>
-				No vas a poder participar en este viaje. </p>
-				<?php
-				break;
-			case ACEPTADO: ?>
-				<p style="color:gold; font-size:20px; line-height:1"> Has sido aceptado en el viaje!. <br>
-				Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo $idConductor ?>&viaje=<?php echo $idviaje ?>"> Ver Datos del Conductor <p>
-				<form action="bajapostulacion.php" align="right"  onsubmit="return confirm('Estas seguro que queres cancelar tu postulacion? (vas a recibir una calificacion negativa')">
-				<input type="submit" align="right" value="Cancelar Postulacion" style="width:12em; height:2em; font-size:16px; background-color:lightblue; color:black; border: 2px solid black">
-				<input type="hidden" name="viaje" value="<?php echo $idviaje ?>">
+		<?php 
+		if(!$finalizado) {
+			if ($datosUsuario['id'] == $idConductor){ //si el user es el conductor muestro un link para ver los postulados ?>
+				<form action="verpostulados.php">
+					<input type="hidden" name="id" value="<?php echo $idviaje ?>">
+					<input type="submit" value="Ver postulados" style="width:14em; height:3em; font-size:25px; color:white; border-color:white; background-color:lightblue;">
 				</form>
-				<?php
-				break;			
-			} 
-		} ?>
-		<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil)</p>
-		<?php //si el user es el conductor muestro un link para eliminar el viaje
-		if ($datosUsuario['id'] == $idConductor) { ?>
-			<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
-		<?php }
-		?>
+			<?php }
+			else { //si no es el conductor, me fijo su estado de postulacion para ver que opciones mostrarle
+				switch ($userEstado) { 
+				case NOPOSTULADO:
+					if (!$plazasLlenas&&$logeado) { ?>
+					<form action="altapostulacion.php" onsubmit="return confirm('Estas seguro que queres postularte?')" method="POST">
+						<input type="submit" value="Postulate!" style="width:12em; height:2em; font-size:30px; background-color:black; color:white; border: 2px solid darkgrey">
+						<input type="hidden" name="viaje_id" value="<?php echo $idviaje ?>">
+					</form> 
+					<?php 
+					}
+					if($plazasLlenas) { ?>
+							<p style="font-size:20px; color:red"> No podes postularte, todas las plazas de este viaje estan ocupadas</p>
+						
+					 <?php } if(!$logeado){ ?> <p style="font-size:20px; color:red"> Debes ser un usuario registrado e iniciar sesion para postularte</p>
+					<?php } 
+					break;
+				case POSTULADO: ?>
+					<p style="color:gold; font-size:20px; line-height:1"> Estas postulado a este viaje. <br>
+					Te vamos a avisar en esta misma pagina cuando el conductor responda a tu postulacion</p>
+					<p align="right"> <a href="bajapostulacion.php?viaje=<?php echo $idviaje ?>" style="text-decoration:none"  > Cancelar Postulacion </a> </p>
+					<?php
+					break;
+				case RECHAZADO: ?>
+					<p style="color:red; font-size:20px; line-height:1"> El conductor del viaje rechazo tu postulacion. <br>
+					No vas a poder participar en este viaje. </p>
+					<?php
+					break;
+				case ACEPTADO: ?>
+					<p style="color:gold; font-size:20px; line-height:1"> Has sido aceptado en el viaje!. <br>
+					Chequea los datos del conductor para ponerte en contacto con el: <br> <a href="verperfil.php?id=<?php echo $idConductor ?>&viaje=<?php echo $idviaje ?>"> Ver Datos del Conductor <p>
+					<form action="bajapostulacion.php" align="right"  onsubmit="return confirm('Estas seguro que queres cancelar tu postulacion? (vas a recibir una calificacion negativa')">
+					<input type="submit" align="right" value="Cancelar Postulacion" style="width:12em; height:2em; font-size:16px; background-color:lightblue; color:black; border: 2px solid black">
+					<input type="hidden" name="viaje" value="<?php echo $idviaje ?>">
+					</form>
+					<?php
+					break;			
+				} 
+			} ?>
+			<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil)</p>
+			<?php //si el user es el conductor muestro un link para eliminar el viaje
+			if ($datosUsuario['id'] == $idConductor && !$finalizado) { ?>
+				<p style="font-size:20px;float:right"><span style="float:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $datoviaje['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
+			<?php }
+		}	
+		else {//si esta eliminado muestro igual el link al perfil del conductor ?>
+			<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="verperfil.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Conductor: <?php echo $nombreConductor ?> (ver perfil)</p> <?php
+		}?>
 	</div>	
 	</div>
 	</div>

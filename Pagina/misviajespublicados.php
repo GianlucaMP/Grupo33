@@ -20,6 +20,13 @@
 		exit;
 	}
 	
+	$viajesFinalizados = mysqli_query($coneccion, "SELECT * FROM viajes_finalizados WHERE usuarios_id=".$user['id']);
+	if(!$viajesFinalizados) {
+		header('Location: miperfil.php?result=30');
+		exit;
+	}
+	
+	
 	
 ?>
 <!DOCTYPE html>
@@ -69,7 +76,7 @@
 			
 			
 		<!-- si no tiene viajes publicados-->
-		<?php if(mysqli_num_rows($viajes) == 0) { ?> 
+		<?php if(mysqli_num_rows($viajes) == 0 && mysqli_num_rows($viajesFinalizados) == 0 ) { ?> 
 		
 			<p class="grande" style="color:gold;"> Todavia no publicaste ningun viaje. </p> <p> </p>
 			<p class="grande"> <a href="crearviaje.php"> Animate </a> </p>
@@ -77,21 +84,35 @@
 		<?php 
 		}
 		else { 		
-			while ($listarviajes=mysqli_fetch_array($viajes)) {  ?>
-				
-					<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
-					<div>
-					<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
-					<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
-					<p> Fecha: <?php echo (Date("d-m-Y",strtotime($listarviajes['fecha']))); ?> </p>
-					</div>
-					<div>
-					<a style="color:white; font-size:22px" href="verviaje.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Detalles </a>
-					<p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
-					</div>
-					</div>
+			while ($listarviajes=mysqli_fetch_array($viajes)) {  ?>	
+				<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
+				<div>
+				<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
+				<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
+				<p> Fecha: <?php echo (Date("d-m-Y",strtotime($listarviajes['fecha']))); ?> </p>
+				</div>
+				<div>
+				<a style="color:white; font-size:22px" href="verviaje.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Detalles </a>
+				<p style="text-align:right;"> <a style="color: white; text-decoration:none;" href="bajaviaje.php?id=<?php echo $listarviajes['id']?>" onclick="return confirm('Estas seguro? si tenes pasajeros ya aceptados vas a recibir automaticamente una calificacion negativa')"> Eliminar Viaje </a> </p>
+				</div>
+				</div>
 				
 	<?php	}
+	
+			while ($listarviajes=mysqli_fetch_array($viajesFinalizados)) {  ?>	
+				<div class="viaje" align="center" style="padding: 10px; font-size:18px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 600px; margin-bottom:15px; float: left">
+				<div>
+				<p> Origen: <?php echo $listarviajes['origen'] ?> </p>
+				<p> Destino: <?php echo $listarviajes['destino'] ?> </p>
+				<p> Fecha: <?php echo (Date("d-m-Y",strtotime($listarviajes['fecha']))); ?> </p>
+				<p style="color:red"> Viaje Eliminado </p>
+				</div>
+				<div>
+				<a style="color:white; font-size:22px" href="verviaje.php?id=<?php echo "${listarviajes['id']}" ?>"> Ver Detalles </a>
+				</div>
+				</div>			
+	<?php	}
+	
 		}	?>
 			
 		</div>

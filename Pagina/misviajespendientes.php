@@ -80,13 +80,10 @@
 		}
 		
 		p{
-			line-height:0.6;
+			line-height:0.8;
 			
 		}
-		
-		
-		<!-- HAY QUE FORMATEAR EL LAYOUT DE LA PAGINA PARA QUE NO SE SUPERPONGA CUANDO HAY VIAJES COMO CONDUCTOR Y PASAJERO-->
-		
+				
 	</style>
 </head>
 <body>

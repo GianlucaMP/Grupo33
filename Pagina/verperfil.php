@@ -179,8 +179,8 @@ if (!$otrosql) {
 	}
 	
 	p, span{
-		font-size:25px;
-		line-height:0.8;
+		font-size:20px;
+		line-height:1;
 	}
 	
 	.alerta{
@@ -203,42 +203,41 @@ if (!$otrosql) {
 
 <div id="container">
 	<h2> Ver Perfil: <?php echo $datosConductor['nombre']; ?> </h2>
-	<div id='menucostado' style="font-size:22px">
-	
-	<!-- si se llego aca por un link de una pagina de un viaje. muestro el boton volver al viaje-->
-	<?php if(isset($_GET['viaje'])) { ?>
-		<p> <a href="verviaje.php<?php echo ( isset($_GET['viaje']) ? "?id=${_GET['viaje']}" : "" ) ?>" style="text-decoration:none">Volver al Viaje</a></p>
-	<?php } ?>
-	<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
+	<div id='menucostado' style="font-size:22px">	
+		<!-- si se llego aca por un link de una pagina de un viaje. muestro el boton volver al viaje-->
+		<?php if(isset($_GET['viaje'])) { ?>
+			<p> <a href="verviaje.php<?php echo ( isset($_GET['viaje']) ? "?id=${_GET['viaje']}" : "" ) ?>" style="text-decoration:none">Volver al Viaje</a></p>
+		<?php } ?>
+		<p> <a href="index.php" style="text-decoration:none">Volver al inicio</a></p>
 	</div>
 	<div id="datos">
-		<div style="padding: 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px;">
-		<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
-		<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
-		<p> Reputacion: <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?> </span> <p> 
-		<p> Edad: <?php echo $edad ?> </p>
-		<p> Email: <?php  echo ($mostrarDatosContacto ? $datosConductor['email'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>'  ) ?> </p>
-		<p> Telefono: <?php echo ($mostrarDatosContacto ? $datosConductor['telefono'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>' ) ?> </p>
+		<div style="padding: 2px 10px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px;">
+			<h1> Informacion del usuario: <?php echo $datosConductor['nombre']; ?> </h1>
+			<p> Nombre: <?php echo $datosConductor['nombre'] ?> </p>
+			<p> Reputacion: <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?> </span> <p> 
+			<p> Edad: <?php echo $edad ?> </p>
+			<p> Email: <?php  echo ($mostrarDatosContacto ? $datosConductor['email'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>'  ) ?> </p>
+			<p> Telefono: <?php echo ($mostrarDatosContacto ? $datosConductor['telefono'] : '<span class="alerta"> Debe ser pasajero de algun viaje de este usuario para poder ver sus datos de contacto </span>' ) ?> </p>
 		</div>
-		
-		<p> </p>
+		<p> <br/> </p>
 		<h2> Calificaciones </h2>
-		<p style="font-size:20px"> El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?>  <span> </p>
+		<p style="font-size:20px"> El usuario tiene <?php echo $cantidadvotos ?> calificacion/es que promedian una reputacion <span style="color:<?php echo $colorReputacion ?> "> <?php echo $reputacion ?> <span></p>
 		
 		<?php while ($cali = mysqli_fetch_array($sqlcalificacion)) { ?>
 			<div class="calificacion" align="left" style="padding: 10px; color:white; font-size:20px; box-shadow: 0px 0px 5px 5px lightblue; width: 700px; margin-bottom:15px;">
-			<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
-			<p style="align:right"> Puntaje:
-			<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
-		 --><span style="color:black"> <?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; }    ?>  </p>	
-			<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
-			<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
-		
+				<p style="font-size:22px; margin:0px"  > <?php echo $cali['nombre'] ?>: </p> 
+				<p style="align:right"> Puntaje:
+				<span style="color:gold"> <?php for ($i=1; $i <= $cali['puntaje']; $i++) { echo "★"; } ?></span><!--
+			 --><span style="color:black"><?php for ($i=1; $i <= (5 - $cali['puntaje']) ; $i++) { echo "★"; } ?>  </p>	
+				<?php if(empty($cali['descripcion'])) { $cali['descripcion'] = "-------"; } ?>
+				<p> Comentarios: <?php echo $cali['descripcion'] ?> </p>	
+			</div>
 		<?php } ?>
 		
 		
-	</div>
+	
 	<div style="clear: both;"></div>
+	</div>
 </div>
 </body>
 </html>

@@ -8,39 +8,19 @@ a) verificar deuda: agregarle a la deuda un tiempo de una semana para que no te 
 b) verificar calificaciones: agregarle un tiempo de 1 mes antes de que te impida hacer todo!!!
 
 
-2) bajaviaje.php (tras una postulacion, fallo con error 11)...
 
+2) testear mas a fondo que peude que fallen:
 
-3) mis viajes pendientes.php: 
+a) baja viaje
 
-a) las querys que obtienen os viajes como conductor y como pasajero.... falla la parte de la fecha para que muestre solo los viajes pendientes y NO todos ???PUEDE QUE NO HAGA FALTA POR SER UNA HU YA APROBADA???
-
-b) asegurarse que la 2da consulta que obtiene los viajes como pasajero este bien (parece que si, pero es complicada asi que testearla bien) ???PUEDE QUE NO HAGA FALTA POR SER UNA HU YA APROBADA???
-
-
-
-1) eliminacion de usuarios:
-
-a) chequear campo de borrado todos lados que haga falta
-
-b) hacer el primer testeo de que por lo menos en algun caso ande
+b) baja usuario
 
 
 
 
 
 
-CASOS DE LAYOUT ROTOS:
-
-1) mispagos.php:  cuando hay pagos de los 2 tipos se superponen
-
-2) calificar.php: se rompe si hay mas de un viaje por calificar
-
-3) en verperfil.php y seguramente en miperfil.php si hay mas de una calificacion el layout se rompe
-
-4) misviajespendientes.php darle formato a la pagina para que no se superpongan los viajes, cuando hay viajes tanto como condcutor como pasajero ???ESTE ES DE UNA HU YA APROBADA, ASI QUE NO HACE FALTA???
-
-
+4) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
 
 
 
@@ -132,7 +112,7 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
-
+10)eliminacion de usuarios: testear mas a fondo (la unica eliminacion que tuve funciono bien)
 
 
 
@@ -154,11 +134,66 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 
+
+
+6.8:
+
+SE REINICIO LA BD PARA DARLE CONSISTENCIA. TESTEAR QUE SE MANTENGA ASI!!!!
+
+se agregaron los cambios de piriz en buscarviaje.php y index.php (tambien la etiqueta que faltaba cerrar en verviaje.php)
+
+verviaje.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+misviajespublicados.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+verpostualdos.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+
+baja viaje.php:
+
+ahora los viajes se pasan a viajes finalizados con su id de siempre
+
+se corrigio un bug a la hora de hacer un alta en viajes_finalizados
+ 
+ 
+se modifico la tabla viajes_finalizados, cambiando la clave principal por idnueva, y se agrego otro campo id , el cual tiene la id vieja, de la otra tabla, la cual va a ser utilizada para identificar los viajes. y el resto de los campos de la tabla pasaron a ser identicos a los de la tabla viajes
+
+6.7.2:
+
+Se corrigieron problemas de layout en: verperfil.php, mispagos.php, calificar.php y miperfil.php
+
+6.7.1:
+
+Se completo la pagina de ayuda
+
+6.7:
+
+misviajespendientes.php: se tomo el fix de piriz (ahora efectivamente muestra los viajes pendientes y NO todos, y se corrigio el layout)
+
+comentar, consultas y responder (se actualizaron por camila)
+
+se agrego lo que hizo piriz con respecto a las busquedas (buscarviaje.php) y una ligera modificacion de index.php)
+
+bajausuario.php:
+
+se agrego el chequeo de contrasena
+
+se corrigieron bugs
+
+altapago.php:
+
+se agregaron validaciones simples al realizar pagos con sus mensajes de error
+
+eliminarusuario.php: se termino la pagina 
+
+ayuda.php: se agrego un script para ocultar los textos y mostrar solo una lista de temas de ayuda (que se muestran al clickear)
+
+
 6.6.4:
 
 miperfil.php: se agrego enlace a opcion para eliminar usuario
 
-eliminarusuario.php: se creo o codifico la pagina
+eliminarusuario.php: se creo y codifico parte de la pagina
 
 
 6.6.3:
