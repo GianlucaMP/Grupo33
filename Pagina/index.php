@@ -167,9 +167,10 @@
 			if ($fechaactual <= $fechaevento) {
 				echo '<div class="viaje" align="center" style="padding: 10px; color:white; box-shadow: 0px 0px 5px 5px lightblue; width: 800px; margin-bottom:15px;">';
 				echo '<div>';
-				echo "Origen: ".$listarviajes['origen']."<br/>";
+				echo "Origen: ".$listarviajes['origen']."&nbsp &nbsp";
 				echo "Destino: ".$listarviajes['destino']."<br/>";
-				echo "Fecha: ".$listarviajes['fecha']."<br/>";
+				echo "Fecha: ".$listarviajes['fecha']."&nbsp &nbsp";
+				echo "Precio: ".$listarviajes['preciototal']."<br/>";
 				echo'</div>';
 				echo '<div>';
 				echo '...<a style="color: white;" href="verviaje.php?id='.$listarviajes['id'].'">Ver Mas</a>';
