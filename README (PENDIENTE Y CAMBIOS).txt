@@ -8,21 +8,15 @@ a) verificar deuda: agregarle a la deuda un tiempo de una semana para que no te 
 b) verificar calificaciones: agregarle un tiempo de 1 mes antes de que te impida hacer todo!!!
 
 
-2) bajaviaje.php (tras una postulacion, fallo con error 11)...
+
+2) testear mas a fondo baja usuario
 
 
 
 
-CASOS DE LAYOUT ROTOS:
-
-1) mispagos.php:  cuando hay pagos de los 2 tipos se superponen
-
-2) calificar.php: se rompe si hay mas de un viaje por calificar
-
-3) en verperfil.php y seguramente en miperfil.php si hay mas de una calificacion el layout se rompe
 
 
-
+4) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
 
 
 
@@ -74,6 +68,8 @@ La otra pregunta, se necesita algo que periodicamente chequee por los viajes que
 
 TESTEO PENDIENTE:
 
+0) PREGUNTAS Y REPSUESTAS!!!!
+
 
 1) sistema de pagos:
 
@@ -82,27 +78,27 @@ a) que un postulado aceptado se le cree un pago pendiente en la BD
 b) todo el sistema en general
 
 
-2) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
 
-3) ver perfil: que la determinacion de si mostrar o no los datos de contacto se haga bien. (sobre todo la query que se usa para esto) ES UNA CONSULTA DIFICIL ASI QUE CHEUQEARLA BIEN!!!
+2) postulaciones:
 
+a)(todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
 
-4) misviajespendientes.php: que las consultas retornen los viajes que deben retornar, especialmente la 2da (viajes como pasajero/postulado aun proximos)
-
-
-5) postulaciones (todo en general, por ahora esta testeado mas o menos y funciona, pero revisar a fondo) especialmente el como se manejan las plazas ocupadas
-
-bajapostulacion (ya esta medianamente chequeado)
+b) bajapostulacion (ya esta medianamente chequeado)
 
 
-6) ver postulados (testear todo en general que seguro algo falla)
+3) ver postulados (testear todo en general que seguro algo falla)
+
+
+4) altaviaje (lo del vehiculo que no este ocupado, es un codigo complicado, testear a fondo, aunque parece funcionar)!!!!
+
+
 
 
 7) baja usuario: todo en general
 
+
 8)calificaciones (todo en genral)
 
-b) las querys para updtear una calificacion parecen funcionar siempre que NO halla una descripcion
 
 
 9) verviaje:
@@ -114,7 +110,6 @@ b) mostrar aviso de que ya estas postulado (y si aceptado o no) si ya te postula
 c) link a la pagina  con todos los datos de postulacion si sos el conductor
 
 
-10)eliminacion de usuarios: testear mas a fondo (la unica eliminacion que tuve funciono bien)
 
 
 
@@ -135,6 +130,40 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+6.8.1:
+
+verperfil.php: Se agrego un aviso de que el user esta eliminado
+
+6.8:
+
+SE REINICIO LA BD PARA DARLE CONSISTENCIA. TESTEAR QUE SE MANTENGA ASI!!!!
+
+se agregaron los cambios de piriz en buscarviaje.php y index.php (tambien la etiqueta que faltaba cerrar en verviaje.php)
+
+verviaje.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+misviajespublicados.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+verpostualdos.php: se agrego un chequeo para mostrar tambien viajes eliminados (y que avisa claramente que esta eliminado)
+
+
+baja viaje.php:
+
+ahora los viajes se pasan a viajes finalizados con su id de siempre
+
+se corrigio un bug a la hora de hacer un alta en viajes_finalizados
+ 
+ 
+se modifico la tabla viajes_finalizados, cambiando la clave principal por idnueva, y se agrego otro campo id , el cual tiene la id vieja, de la otra tabla, la cual va a ser utilizada para identificar los viajes. y el resto de los campos de la tabla pasaron a ser identicos a los de la tabla viajes
+
+6.7.2:
+
+Se corrigieron problemas de layout en: verperfil.php, mispagos.php, calificar.php y miperfil.php
+
+6.7.1:
+
+Se completo la pagina de ayuda
 
 6.7:
 
