@@ -9,14 +9,13 @@ b) verificar calificaciones: agregarle un tiempo de 1 mes antes de que te impida
 
 
 
-2) testear mas a fondo baja usuario
 
 
 
 
 
 
-4) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
+3) se podria agregar al hacer alta de calificaciones un chequeo de que si ya hay una calificacion con ese viaje_id, y de ese user_id que se cancele el alta ???aunque no deberia ser necesario???
 
 
 
@@ -130,6 +129,10 @@ LISTA DE CAMBIOS:
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------
+
+6.8.2:
+
+se corriegieron algunos errores en lo que es preguntas/comentarios
 
 6.8.1:
 
