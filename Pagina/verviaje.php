@@ -193,7 +193,7 @@
 	<div align="center" style="padding: 10px 10px 45px 10px; box-shadow: 0px 0px 5px 5px lightblue; background-color:rgb(100, 00, 200); width: 800px; margin-bottom:15px; line-height:0.8;">
 		<?php
 		if ($logeado) { ?>
-			<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="consultas.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Consultas </p> 
+			<p style="font-size:20px;float:left"> <a style="text-decoration:none" href="consultas.php?id=<?php echo "${idConductor}&viaje=${idviaje}" ?>" > Consultas </a> </p> 
 		<?php	} ?>
 		
 
